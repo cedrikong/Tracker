@@ -1,0 +1,54 @@
+body{
+  background: url(ab.jpg);
+  background-size: cover;
+  background-repeat:no-repeat;
+}
+nav{
+  font-size: 13px;
+}
+.dashboard{
+  height:40px;
+  font-size: 10px;
+  padding-top: 2px;
+  display: flex;
+  justify-content:left; /* Horizontal centering */
+}
+svg{
+margin-bottom:5px;
+}
+.boxicon{
+  width:130px;
+  padding:7px;
+  background:#f9fafc;
+  position:unset;
+  margin-left:5px;
+  margin-top:4px;
+  border-radius:5px;
+}
+.boxicon:hover
+{
+  background-color: #dff4f9;
+}
+table{
+  font-size: 14px;
+  background-color: rgb(0, 0, 0, 0.23);
+  padding:10px;
+  border-radius: 5px;
+  color:white;
+  
+}
+input{
+
+}
+
+.update{
+  padding:20px;
+  border:1px solid black;
+  width:200px;
+}
+a{
+
+}
+td th{
+  color:white;
+}

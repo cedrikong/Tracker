@@ -1,0 +1,254 @@
+body{
+  background:url(wp.jpg);
+  background-size: cover;
+  background-repeat:no-repeat;
+}
+.red-option {
+  color: red; 
+}
+.green-option {
+  color: green; 
+}
+nav{
+  font-size: 13px;
+}
+.dashboard{
+  margin-left:12.5%;
+  height:40px;
+  font-size: 10px;
+  padding-top: 2px;
+  display: flex;
+  justify-content:left; /* Horizontal centering */
+}
+svg{
+margin-bottom:5px;
+}
+select{
+
+  color:color-mix(in srgb-linear, color percentage, color percentage);
+}
+.boxicon{
+  width:130px;
+  padding:7px;
+  background:#f9fafc;
+  position:unset;
+  margin-left:5px;
+  margin-top:4px;
+  border-radius:5px;
+}
+.boxicon:hover
+{
+  background-color: #dff4f9;
+}
+table{
+  font-size: 13px;
+  background-color: rgb(0, 0, 0, 0.23);
+  padding:10px;
+  border-radius: 5px;
+  color:white;
+
+}
+input{
+
+}
+
+.update{
+  padding:20px;
+  border:1px solid black;
+  width:200px;
+}
+a{
+
+}
+.card{
+
+  width:500px;
+}
+button{
+  color:red;
+}
+tr:nth-child(even) {
+  background-color: rgb(0,0,0,0.30);
+}
+
+/* Hover effect for interactivity */
+
+/* Individual cell borders within the row */
+td, th tr{
+}
+
+th{
+text-align: center;
+color:white;
+}
+tr:hover{
+  color:black;
+ 
+  background-color: white;
+}
+.card{
+  margin-left:20%;
+}
+.mb-3{
+  color:white;
+  width:300px;
+    margin:auto;
+  position:relative;
+}
+.chats{
+  background:rgb(0, 0, 0, 0.45);
+  width: 50%;
+  margin:auto;
+  position: relative;
+  border-radius: 5px;
+  height:auto;
+  color:white;
+  box-shadow: beige;
+ 
+  height:100px;
+}
+#chats{
+
+  height: 400px;
+   overflow: auto;
+}
+      
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    background: rgba(0,0,0,0.25);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+}
+
+/* underline hover */
+nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 0%;
+    height: 2px;
+    background: #00eaff;
+    transition: 0.3s;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* ===== PARALLAX ===== */
+.section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.parallax {
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+}
+
+/* images */
+.bg1 {
+    background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470');
+}
+
+.bg2 {
+    background-image: url('https://images.unsplash.com/photo-1491553895911-0055eca6402d');
+}
+
+.bg3 {
+    background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e');
+}
+
+/* ===== CONTENT BOX ===== */
+.content {
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(14px);
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 700px;
+    transform: translateY(40px);
+    opacity: 0;
+    transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* reveal animation */
+.content.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: 1.1rem;
+    opacity: 0.85;
+}
+
+/* ===== DIVIDER SECTION ===== */
+.divider {
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #0b0f1a, #111827);
+    text-align: center;
+}
+
+.divider h2 {
+    font-size: 2rem;
+    opacity: 0.8;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #00eaff, #764ba2);
+    border-radius: 10px;
+}
+
+/* ===== FOOTER ===== */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #0b0f1a;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .content {
+        padding: 25px;
+    }
+}
