@@ -30,6 +30,81 @@ nav {
     backdrop-filter: blur(14px);
     z-index: 1000;
 }
+/* LOGIN PAGE */
+.login-page{
+    position:fixed;
+    inset:0;
+    background:#0b1020;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:999999;
+}
+
+.login-card{
+    width:350px;
+    background:rgba(17,25,40,0.95);
+    border:1px solid rgba(139,233,253,0.2);
+    border-radius:20px;
+    padding:40px;
+    text-align:center;
+    backdrop-filter:blur(14px);
+    box-shadow:0 0 40px rgba(0,0,0,0.4);
+}
+.logout-btn{
+    padding:6px 12px;
+    border:none;
+    border-radius:8px;
+    background:#ff5555;
+    color:white;
+    font-size:12px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.logout-btn:hover{
+    opacity:0.85;
+}
+.login-card h1{
+    color:#8be9fd;
+    margin-bottom:10px;
+}
+
+.login-card p{
+    color:#b8c1ec;
+    margin-bottom:25px;
+}
+
+.login-card input{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    outline:none;
+    background:#151c2f;
+    color:white;
+    font-size:15px;
+    margin-bottom:20px;
+}
+
+.login-card button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:#8be9fd;
+    color:#000;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.login-card button:hover{
+    transform:scale(1.03);
+}
+option{
+  background-color:black;
+}
 .meeting-widget{
   position: fixed;
 
@@ -69,7 +144,30 @@ nav {
     justify-content: space-between;
   }
 }
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
+.nav-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.nav-center {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+.nav-right{
+  float: right;
+  background-color: red;
+  height: 50px;
+position:static;
+}
 .meeting-widget button{
   background:#8be9fd;
   border:none;
