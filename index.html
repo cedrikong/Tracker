@@ -11,6 +11,29 @@
 </head>
 <div id="particles-js"></div>
 <body>
+  <!-- LOGIN SCREEN -->
+<div id="loginPage" class="login-page">
+
+  <div class="login-card">
+
+    <h1>Chargeblast Tracker</h1>
+    <p>Enter your name to continue</p>
+
+    <input 
+  type="text" 
+  id="loginName"
+  placeholder="Enter your name"
+  maxlength="20"
+  onkeypress="if(event.key==='Enter') enterDashboard()"
+>
+
+    <button onclick="enterDashboard()">
+      Login
+    </button>
+
+  </div>
+
+</div>
     <div id="meetingWidget" class="meeting-widget">
 
   <div>
@@ -22,14 +45,50 @@
 
 </div>
 
-<nav>
+
+<nav class="nav-bar">
+
+  <!-- LEFT (empty spacer) -->
+  <div class="nav-side"></div>
+
+  <!-- CENTER (your nav links) -->
+  <div class="nav-center">
     <a href="#Home"><i class="fa-solid fa-house"></i> Home</a>
-        <a href="#Notes"><i class="fa-solid fa-note-sticky"></i> Notes</a>
+    <a href="#Notes"><i class="fa-solid fa-note-sticky"></i> Notes</a>
     <a href="#Tracker"><i class="fa-solid fa-chart-line"></i> Tracker</a>
     <a href="#Stats"><i class="fa-solid fa-flag-checkered"></i> Stats</a>
     <a href="#Meeting"><i class="fa-solid fa-video"></i> Meeting</a>
+  </div>
+
+  <!-- RIGHT (login) -->
+<div class="nav-side" style="justify-content:flex-end; gap:10px;">
+
+  <span id="loggedUser" style="font-size:12px; color:#8be9fd;"></span>
+
+  <button class="logout-btn" onclick="logoutUser()">
+    Logout
+  </button>
+
+</div>
 
 </nav>
+<script>
+  function logoutUser(){
+
+  localStorage.removeItem("loggedUser");
+
+  document.getElementById("loginPage").style.display = "flex";
+
+  document.getElementById("loginName").value = "";
+
+  document.getElementById("loggedUser").innerText = "";
+}
+function getUserName() {
+  return localStorage.getItem("loggedUser") || "Support";
+}
+</script>
+
+
 
 <section id="Home" class="section bg1">
 
@@ -98,8 +157,9 @@
 
         <div class="big-box"><div class="alert-grid">
 
-    <button onclick="copySpiel('Hi! Thank you for contacting support. This is Aries. How can I assist you today?')">
-Opening Spiel</button>
+<button onclick="copySpiel(`Hi! Thank you for contacting support. This is ${getUserName()}. How can I assist you today?`)">
+Opening Spiel
+</button>
 <button onclick="copySpiel('Please give me a few minutes to check this for you.')">
 Investigate</button>
 <button onclick="copySpiel('As we have not received a response for some time, we will go ahead and close this conversation for now. If you need further assistance, please do not hesitate to start a new live chat or reach out to us at support@chargeblast.com. We would also be grateful if you could take a few moments to share your feedback through a brief survey following this chat.')">
@@ -1688,6 +1748,43 @@ noteTagV4.addEventListener("change", autoSaveV4);
     <button onclick="closeAlert()" class="alert-btn">OK</button>
   </div>
 </div>
+<script>
+function getUserName() {
+  return localStorage.getItem("loggedUser") || "Support";
+}
+
+function enterDashboard() {
+
+  const name = document.getElementById("loginName").value.trim();
+
+  if (!name) {
+    alert("Please enter your name");
+    return;
+  }
+
+  localStorage.setItem("loggedUser", name);
+
+  document.getElementById("loggedUser").innerText = "👤 " + name;
+
+  document.getElementById("loginPage").style.display = "none";
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+
+  const savedUser = localStorage.getItem("loggedUser");
+
+  if (savedUser) {
+
+    document.getElementById("loggedUser").innerText = "👤 " + savedUser;
+
+    document.getElementById("loginPage").style.display = "none";
+
+  } else {
+
+    document.getElementById("loginPage").style.display = "flex";
+  }
+});
+</script>
 </body>
 
 <script>
