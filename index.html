@@ -34,16 +34,6 @@
   </div>
 
 </div>
-    <div id="meetingWidget" class="meeting-widget">
-
-  <div>
-    <b>📅 Meeting</b>
-    <div id="widgetCountdown">--</div>
-  </div>
-
-  <button onclick="openMeetingLink()">Join</button>
-
-</div>
 
 
 <nav class="nav-bar">
@@ -57,17 +47,120 @@
     <a href="#Notes"><i class="fa-solid fa-note-sticky"></i> Notes</a>
     <a href="#Tracker"><i class="fa-solid fa-chart-line"></i> Tracker</a>
     <a href="#Stats"><i class="fa-solid fa-flag-checkered"></i> Stats</a>
-    <a href="#Meeting"><i class="fa-solid fa-video"></i> Meeting</a>
+    <a href="#Meeting">
+  <i class="fa-solid fa-calendar-days"></i>
+  Calendar
+</a>
   </div>
+        <div class="global-search">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input
+    type="text"
+    id="globalSearch"
+    placeholder="Search updates, notes, tracker..."
+    oninput="runGlobalSearch(this.value)"
+  >
+</div>
+  <script>
+  function runGlobalSearch(query) {
+  query = query.toLowerCase().trim();
+
+  // =========================
+  // 1. COMPANY UPDATES
+  // =========================
+  document.querySelectorAll(".update-item").forEach(item => {
+    const match = item.innerText.toLowerCase().includes(query);
+    item.style.display = match || query === "" ? "flex" : "none";
+  });
+
+  // =========================
+  // 2. NOTES
+  // =========================
+  document.querySelectorAll(".note-item-v4").forEach(item => {
+    const match = item.innerText.toLowerCase().includes(query);
+    item.style.display = match || query === "" ? "block" : "none";
+  });
+
+  // =========================
+  // 3. TRACKER TABLE
+  // =========================
+  document.querySelectorAll("#table tr").forEach((row, i) => {
+    if (i === 0) return; // skip header
+
+    const match = row.innerText.toLowerCase().includes(query);
+    row.style.display = match || query === "" ? "" : "none";
+  });
+
+  // =========================
+  // 4. INFO PANEL (IMPORTANT)
+  // =========================
+  document.querySelectorAll(".info-panel .panel-section").forEach(section => {
+    const match = section.innerText.toLowerCase().includes(query);
+    section.style.display = match || query === "" ? "block" : "none";
+  });
+}
+</script>
+  <script>
+    function toggleSettingsMenu(){
+
+  const menu =
+    document.getElementById("settingsMenu");
+
+  menu.style.display =
+    menu.style.display === "block"
+    ? "none"
+    : "block";
+
+}
+
+document.addEventListener("click", e => {
+
+  if(!e.target.closest(".settings-wrapper")){
+
+    const menu =
+      document.getElementById("settingsMenu");
+
+    if(menu){
+      menu.style.display = "none";
+    }
+
+  }
+
+});
+  </script>
 
   <!-- RIGHT (login) -->
-<div class="nav-side" style="justify-content:flex-end; gap:10px;">
+<div class="nav-side nav-user-area">
 
-  <span id="loggedUser" style="font-size:12px; color:#8be9fd;"></span>
+  <span id="loggedUser"></span>
 
-  <button class="logout-btn" onclick="logoutUser()">
-    Logout
-  </button>
+  <div class="settings-wrapper">
+
+    <button
+      class="settings-btn"
+      onclick="toggleSettingsMenu()"
+    >
+      <i class="fa-solid fa-gear"></i>
+    </button>
+
+    <div
+      class="settings-menu"
+      id="settingsMenu"
+    >
+
+      <button class="logout-btn" onclick="openSpielEditor()">
+        ✏️ Edit Spiels
+      </button>
+
+      <button onclick="logoutUser()">
+        🚪 Logout
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 
 </div>
 
@@ -155,7 +248,7 @@ function getUserName() {
 </div></div>
         </div>
 
-        <div class="big-box"><div class="alert-grid">
+        <div class="big-box"><div class="alert-grid" id="spielContainer">
 
 <button onclick="copySpiel(`Hi! Thank you for contacting support. This is ${getUserName()}. How can I assist you today?`)">
 Opening Spiel
@@ -181,22 +274,204 @@ Unfindable</button>
     <button onclick="alert('N/A')">N/A</button>
     <button onclick="alert('N/A')">N/A</button>
 
-    <script>function copySpiel(text) {
-    navigator.clipboard.writeText(text);
+    <script>
+const defaultSpiels = [
+  {
+    title: "Opening Spiel",
+    locked: true,
+    text: `Hi! Thank you for contacting support. This is ${getUserName()}. How can I assist you today?`
+  },
+  {
+    title: "Investigate",
+    text: "Please give me a few minutes to check this for you."
+  },
+  {
+    title: "Unresponsive",
+    text: "As we have not received a response for some time, we will go ahead and close this conversation for now. If you need further assistance, please do not hesitate to start a new live chat or reach out to us at support@chargeblast.com. We would also be grateful if you could take a few moments to share your feedback through a brief survey following this chat."
+  },
+  {
+    title: "Closing Spiel",
+    text: "Thank you so much for your time. We truly appreciate it. Have a great day! We would also be grateful if you could take a few moments to share your feedback through a brief survey following this chat."
+  },
+  {
+    title: "Anything Else",
+    text: "I hope I was able to address your inquiry today. Is there anything else I can assist you with?"
+  },
+  {
+    title: "More Time",
+    text: "Thank you for your patience as I work on addressing your concerns. I appreciate your understanding as I take a bit more time to ensure I provide you with the best assistance possible."
+  },
+  {
+    title: "No Response",
+    text: "Since this chat has been inactive, I will be closing it for now. If you have any further questions, please feel free to reach out to us anytime."
+  },
+  {
+    title: "Alert Found",
+    text: "The order ID for alert al_blxmSTY1C6UiQ3QnhWk69V is #544019."
+  },
+  {
+    title: "Unfindable",
+    text: "Thank you for patiently waiting. Upon checking, this alert is UNFINDABLE. Kindly please decline the alert and submit a credit request."
+  }
+];
 
-    let toast = document.createElement("div");
-    toast.innerText = "Copied to clipboard!";
-    toast.style.position = "fixed";
-    toast.style.bottom = "20px";
-    toast.style.right = "20px";
-    toast.style.background = "#8be9fd";
-    toast.style.color = "#000";
-    toast.style.padding = "10px 15px";
-    toast.style.borderRadius = "8px";
-    document.body.appendChild(toast);
+let spiels =
+JSON.parse(localStorage.getItem("customSpiels"))
+|| defaultSpiels;
 
-    setTimeout(() => toast.remove(), 1500);
-}</script>
+/* ===== COPY ===== */
+function copySpiel(text){
+
+  navigator.clipboard.writeText(text);
+
+  let toast = document.createElement("div");
+
+  toast.innerText = "Copied to clipboard!";
+
+  toast.style.position = "fixed";
+  toast.style.bottom = "20px";
+  toast.style.right = "20px";
+  toast.style.background = "#8be9fd";
+  toast.style.color = "#000";
+  toast.style.padding = "10px 15px";
+  toast.style.borderRadius = "8px";
+  toast.style.zIndex = "99999";
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.remove(), 1500);
+}
+
+/* ===== RENDER ===== */
+function renderSpiels(){
+
+  const container =
+    document.getElementById("spielContainer");
+
+  container.innerHTML = "";
+
+  spiels.forEach((spiel, i) => {
+
+    const btn = document.createElement("button");
+
+    btn.innerText = spiel.title;
+
+    btn.onclick = () => {
+
+      if(spiel.locked){
+
+        copySpiel(
+          `Hi! Thank you for contacting support. This is ${getUserName()}. How can I assist you today?`
+        );
+
+      } else {
+
+        copySpiel(spiel.text);
+
+      }
+
+    };
+
+    container.appendChild(btn);
+
+  });
+
+}
+
+/* ===== SETTINGS MODAL ===== */
+function openSpielEditor(){
+
+  let html = `
+    <div id="spielModal" class="spiel-modal">
+      <div class="spiel-modal-box">
+
+        <h2>Edit Spiels</h2>
+  `;
+
+  spiels.forEach((spiel, i) => {
+
+    if(spiel.locked) return;
+
+    html += `
+      <div class="spiel-edit-item">
+
+        <label>${spiel.title}</label>
+
+        <textarea
+          id="spiel-${i}"
+        >${spiel.text}</textarea>
+
+      </div>
+    `;
+
+  });
+
+  html += `
+        <div class="spiel-actions">
+
+          <button onclick="saveSpiels()">
+            Save Changes
+          </button>
+
+          <button onclick="closeSpielEditor()">
+            Cancel
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML(
+    "beforeend",
+    html
+  );
+
+}
+
+/* ===== CLOSE ===== */
+function closeSpielEditor(){
+
+  const modal =
+    document.getElementById("spielModal");
+
+  if(modal) modal.remove();
+}
+
+/* ===== SAVE ===== */
+function saveSpiels(){
+
+  spiels.forEach((spiel, i) => {
+
+    if(spiel.locked) return;
+
+    const textarea =
+      document.getElementById(`spiel-${i}`);
+
+    if(textarea){
+
+      spiel.text = textarea.value;
+
+    }
+
+  });
+
+  localStorage.setItem(
+    "customSpiels",
+    JSON.stringify(spiels)
+  );
+
+  closeSpielEditor();
+
+  renderSpiels();
+
+  alert("Spiels updated successfully!");
+}
+
+/* ===== INIT ===== */
+renderSpiels();
+</script>
 
 </div></div>
         <div class="big-box">
@@ -565,7 +840,12 @@ Ethoca and CDRN together provides up to 70% coverage for the alerts market. By k
 <li>Recepient name/Email</li>
             </ul>
         </div>
-
+                  <div class="panel-section">
+            <h3>Amex Enrollment</h3>
+            <ul>
+<li>To proceed, you will need a dedicated AMEX MID which may be obtained by reaching out to AMEX by either calling this number: 866-847-0890 or complete this form at your convenience. Once, the AMEX MID is provided, please let us know so that our team can proceed with enrolling AMEX.</li>
+            </ul>
+        </div>
     </div>
 
 </div>
@@ -869,84 +1149,56 @@ Ethoca and CDRN together provides up to 70% coverage for the alerts market. By k
         </div>
 
     </div>
-
-</div>
-
-</section>
-
+</div></section>
 
 <section id="Meeting" class="section meeting-bg">
 
-  <div class="meeting-center-wrapper">
+  <div class="calendar-wrapper">
 
-    <!-- MEETING (TOP) -->
-    <div class="meeting-card primary-card">
+    <div class="calendar-card">
 
-      <div class="meeting-header">
-        <h2>📅 Weekly Meeting</h2>
-        <span class="badge live" id="meetingBadge">Scheduled</span>
-      </div>
+      <div class="calendar-header">
+        <h2>📅 Calendar & Alarm</h2>
 
-      <p class="meeting-sub">Every Thursday • 8:00 PM</p>
-
-      <div class="meeting-grid">
-        <div class="meeting-box">
-          <span>Status</span>
-          <h3 id="meetingStatus">Loading...</h3>
-        </div>
-
-        <div class="meeting-box">
-          <span>Starts In</span>
-          <h3 id="meetingCountdown">--</h3>
-        </div>
-      </div>
-
-      <div class="meeting-actions">
-        <button onclick="openMeetingLink()" class="meeting-btn primary">
-          ▶ Join Meeting
-        </button>
-
-        <button onclick="downloadICS()" class="meeting-btn secondary">
-          📅 Add to Calendar
+        <button class="add-event-btn" onclick="addCalendarEvent()">
+          + Add Event
         </button>
       </div>
 
+      <div class="calendar-inputs">
+
+        <input type="text" id="eventTitle" placeholder="Event title">
+
+        <input type="datetime-local" id="eventTime">
+
+          <input
+    type="text"
+    id="eventLink"
+    placeholder="Meeting link (optional)"
+  >
+
+        <select id="eventRepeat">
+
+  <option value="none">No Repeat</option>
+
+  <option value="daily">Daily</option>
+
+  <option value="weekly">Weekly</option>
+
+</select>
+
+      </div>
+
+      <div id="calendarEvents" class="calendar-events"></div>
+
     </div>
 
-
-    <!-- SHIFT (BOTTOM) -->
-    <div class="meeting-card shift-card">
-
-      <div class="meeting-header">
-        <h2>💼 Shift Schedule</h2>
-        <span class="badge shift">Daily</span>
-      </div>
-
-      <p class="meeting-sub">Every day • 8:00 PM</p>
-
-      <div class="meeting-grid">
-
-        <div class="meeting-box">
-          <span>Status</span>
-          <h3 id="shiftStatus">Waiting...</h3>
-        </div>
-
-        <div class="meeting-box">
-          <span>Alert</span>
-          <h3 id="shiftCountdown">--</h3>
-        </div>
-
-      </div>
-
-      <div class="shift-note">
-        ⚠ SHIFT alert triggers 10 minutes before 8:00 PM
-      </div>
-
-    </div>
+    
 
   </div>
 
 </section>
+
 <footer>
     Designed by AriesPogi
 </footer>
@@ -1464,38 +1716,6 @@ function getNextMeeting(){
 }
 
 // ===== Countdown =====
-function updateMeetingUI(){
-
-  const now = new Date();
-  const meeting = getNextMeeting();
-
-  const diff = meeting - now;
-
-  const statusEl = document.getElementById("meetingStatus");
-  const countdownEl = document.getElementById("meetingCountdown");
-
-  // LIVE STATE
-  const isToday = meeting.toDateString() === now.toDateString();
-  const isLive = isToday && now.getHours() === 20;
-
-  if(isLive){
-    statusEl.innerText = "🔴 LIVE NOW";
-    countdownEl.innerText = "Happening now";
-
-    triggerMeetingAlert();
-    return;
-  }
-
-  statusEl.innerText = "🟢 Scheduled";
-
-  // countdown
-  const days = Math.floor(diff / (1000*60*60*24));
-  const hours = Math.floor((diff / (1000*60*60)) % 24);
-  const mins = Math.floor((diff / (1000*60)) % 60);
-
-  countdownEl.innerText = `${days}d ${hours}h ${mins}m`;
-}
-
 // ===== Notification (once per session) =====
 let meetingAlertSent = false;
 
@@ -1547,38 +1767,7 @@ END:VCALENDAR`;
   a.click();
 }
 
-// ===== Run loop =====
-updateMeetingUI();
-let reminderTriggered = false;
 
-// ===== 10 MIN REMINDER LOGIC =====
-function checkReminder(meetingTime){
-
-  const now = new Date();
-  const diff = meetingTime - now;
-
-  const tenMin = 10 * 60 * 1000;
-
-  if(diff <= tenMin && diff > (tenMin - 60000)){
-
-    if(!reminderTriggered){
-
-      reminderTriggered = true;
-
-      if(Notification.permission === "granted"){
-        new Notification("Meeting Reminder ⏰", {
-          body: "Your meeting starts in 10 minutes"
-        });
-      }
-
-      alertSound.play().catch(()=>{});
-
-      showPopup("⏰ Meeting starts in 10 minutes!");
-    }
-  }
-}
-
-// ===== POPUP =====
 function showPopup(msg){
   const popup = document.createElement("div");
   popup.innerText = msg;
@@ -1785,6 +1974,305 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 </script>
+<script>
+window.addEventListener("click", () => {
+
+  if (
+    "Notification" in window &&
+    Notification.permission !== "granted"
+  ) {
+
+    Notification.requestPermission();
+
+  }
+
+}, { once:true });
+let calendarEvents =
+JSON.parse(localStorage.getItem("calendarEvents")) || [];
+
+/* ===== SAVE ===== */
+function saveCalendar(){
+  localStorage.setItem(
+    "calendarEvents",
+    JSON.stringify(calendarEvents)
+  );
+}
+
+/* ===== ADD EVENT ===== */
+let editingEventId = null;
+function addCalendarEvent(){
+
+  const title =
+    document.getElementById("eventTitle").value;
+
+  const time =
+    document.getElementById("eventTime").value;
+
+  const repeat =
+    document.getElementById("eventRepeat").value;
+
+  const link =
+    document.getElementById("eventLink").value;
+
+  if(!title || !time){
+    alert("Please complete event details.");
+    return;
+  }
+
+if(editingEventId){
+
+  const existing =
+    calendarEvents.find(
+      e => e.id === editingEventId
+    );
+
+  if(existing){
+
+    existing.title = title;
+    existing.time = time;
+    existing.repeat = repeat;
+    existing.link = link;
+
+  }
+
+  editingEventId = null;
+
+}else{
+
+  calendarEvents.push({
+    id: crypto.randomUUID(),
+    title,
+    time,
+    repeat,
+    link,
+    alerted:false
+  });
+
+}
+
+  saveCalendar();
+  renderCalendar();
+
+  document.getElementById("eventTitle").value = "";
+  document.getElementById("eventTime").value = "";
+  document.getElementById("eventLink").value = "";
+  document.getElementById("eventRepeat").value = "none";
+}
+/* ===== DELETE ===== */
+function deleteEvent(id){
+
+  calendarEvents =
+    calendarEvents.filter(e => e.id !== id);
+
+  saveCalendar();
+  renderCalendar();
+}
+function editEvent(id){
+
+  const event =
+    calendarEvents.find(e => e.id === id);
+
+  if(!event) return;
+
+  editingEventId = id;
+
+  document.getElementById("eventTitle").value =
+    event.title;
+
+  document.getElementById("eventTime").value =
+    event.time;
+
+  document.getElementById("eventLink").value =
+    event.link || "";
+
+  document.getElementById("eventRepeat").value =
+    event.repeat || "none";
+
+}
+/* ===== RENDER ===== */
+function renderCalendar(){
+
+  const container =
+    document.getElementById("calendarEvents");
+
+  if(!container) return;
+
+  container.innerHTML = "";
+
+  if(calendarEvents.length === 0){
+
+    container.innerHTML = `
+      <div class="empty-calendar">
+        No events scheduled
+      </div>
+    `;
+
+    return;
+  }
+
+  calendarEvents.sort((a,b)=>
+    new Date(a.time) - new Date(b.time)
+  );
+
+  calendarEvents.forEach(event => {
+
+    const div = document.createElement("div");
+
+    div.className = "calendar-event";
+
+    const eventDate =
+      new Date(event.time);
+
+div.innerHTML = `
+
+<div class="calendar-event-info">
+
+  <h3>${event.title}</h3>
+
+  <p>${eventDate.toLocaleString()}</p>
+
+  ${
+    event.link
+    ? `
+      <button
+        class="join-btn"
+        onclick="window.open('${event.link}','_blank')"
+      >
+        ▶ Join Meeting
+      </button>
+    `
+    : ""
+  }
+
+</div>
+
+<div class="calendar-actions">
+
+  <button
+    class="edit-event-btn"
+    onclick="editEvent('${event.id}')"
+  >
+    <i class="fa-solid fa-pen"></i>
+  </button>
+
+  <button
+    class="delete-event-btn"
+    onclick="deleteEvent('${event.id}')"
+  >
+    <i class="fa-solid fa-trash"></i>
+  </button>
+
+</div>
+
+`;
+
+    container.appendChild(div);
+  });
+}
+
+/* ===== ALARM CHECK ===== */
+function checkCalendarAlerts(){
+
+  const now = Date.now();
+
+  calendarEvents.forEach(event => {
+
+    const eventTime =
+      new Date(event.time).getTime();
+
+    const diff = eventTime - now;
+
+    // ===== 5 MIN ALERT =====
+    if(
+      diff <= 300000 &&
+      diff > 0 &&
+      !event.alerted
+    ){
+
+      event.alerted = true;
+
+      saveCalendar();
+
+      console.log(
+        "ALERT TRIGGERED:",
+        event.title
+      );
+
+      // ===== BROWSER NOTIFICATION =====
+      if(
+        "Notification" in window &&
+        Notification.permission === "granted"
+      ){
+
+        new Notification(
+          "📅 Event Reminder",
+          {
+            body:
+              `${event.title} starts in 5 minutes`
+          }
+        );
+
+      }
+
+      // ===== SOUND =====
+      alertSound.currentTime = 0;
+
+      alertSound.play().catch(err => {
+        console.log("Sound blocked:", err);
+      });
+
+      // ===== POPUP =====
+      showPopup(
+        `📅 ${event.title} starts in 5 minutes`
+      );
+
+      // ===== AUTO OPEN LINK =====
+      if(event.link){
+        window.open(event.link, "_blank");
+      }
+
+    }
+
+    // ===== REPEAT =====
+    if(diff <= 0){
+
+      if(event.repeat === "daily"){
+
+        let next = new Date(event.time);
+
+        next.setDate(next.getDate() + 1);
+
+        event.time =
+          next.toISOString().slice(0,16);
+
+        event.alerted = false;
+      }
+
+      else if(event.repeat === "weekly"){
+
+        let next = new Date(event.time);
+
+        next.setDate(next.getDate() + 7);
+
+        event.time =
+          next.toISOString().slice(0,16);
+
+        event.alerted = false;
+      }
+
+      saveCalendar();
+      renderCalendar();
+    }
+
+  });
+
+}
+/* ===== INIT ===== */
+renderCalendar();
+
+setInterval(checkCalendarAlerts, 1000);
+
+</script>
 </body>
 
 <script>
@@ -1846,135 +2334,4 @@ Date: ${item.date}
 
   alert("Tracker saved to Notes!");
 }</script>
-<script>
-// ===== START LIVE LOOP =====
-setInterval(() => {
-
-  updateMeetingUI();
-  updateShiftUI();
-checkShiftAlert();
-
-  const nextMeeting = getNextMeeting();
-
-  checkReminder(nextMeeting);
-
-  // widget countdown
-  const now = new Date();
-  const diff = nextMeeting - now;
-
-  const days = Math.floor(diff / (1000*60*60*24));
-  const hours = Math.floor((diff / (1000*60*60)) % 24);
-  const mins = Math.floor((diff / (1000*60)) % 60);
-
-  const widget = document.getElementById("widgetCountdown");
-
-  if(widget){
-    widget.innerText = `${days}d ${hours}h ${mins}m`;
-  }
-
-}, 1000);
-
-// initial run
-updateMeetingUI();
-</script>
-<script>
-// ===== DAILY SHIFT REMINDER =====
-function getNextShift(){
-  const now = new Date();
-  const shift = new Date();
-
-  shift.setHours(20,0,0,0); // 8:00 PM today
-
-  // if already passed 8PM → tomorrow
-  if(now > shift){
-    shift.setDate(shift.getDate() + 1);
-  }
-
-  return shift;
-}
-
-function updateShiftUI(){
-  const now = new Date();
-  const shift = getNextShift();
-
-  const diff = shift - now;
-
-  const statusEl = document.getElementById("shiftStatus");
-  const countdownEl = document.getElementById("shiftCountdown");
-
-  const isLive = diff <= 0 && diff > -60 * 60 * 1000; // within 1 hour after start
-
-  if(isLive){
-    statusEl.innerText = "🔴 LIVE";
-    countdownEl.innerText = "In progress";
-    return;
-  }
-
-  statusEl.innerText = "🟢 Scheduled";
-
-  const days = Math.floor(diff / (1000*60*60*24));
-  const hours = Math.floor((diff / (1000*60*60)) % 24);
-  const mins = Math.floor((diff / (1000*60)) % 60);
-
-  countdownEl.innerText = `${days}d ${hours}h ${mins}m`;
-}
-function checkShiftAlert(){
-  const now = new Date();
-
-  const shiftTime = new Date();
-  shiftTime.setHours(20,0,0,0); // 8PM today
-
-  const diff = shiftTime - now;
-  const tenMin = 10 * 60 * 1000;
-
-  if(diff <= tenMin && diff > tenMin - 60000){
-
-    if(Notification.permission === "granted"){
-      new Notification("SHIFT ALERT", {
-        body: "Shift starts in 10 minutes (8:00 PM)"
-      });
-    }
-
-    showPopup("💼 SHIFT starts in 10 minutes!");
-  }
-}
-
-let shiftReminderTriggered = false;
-
-function checkShiftReminder() {
-
-  const now = new Date();
-
-  const hours = now.getHours();
-  const mins = now.getMinutes();
-
-  // reset after 8PM passes
-  if(hours !== 19){
-    shiftReminderTriggered = false;
-  }
-
-  // trigger at 7:50 PM
-  if(hours === 19 && mins === 50 && !shiftReminderTriggered){
-
-    shiftReminderTriggered = true;
-
-    // Browser notification
-    if(Notification.permission === "granted"){
-      new Notification("⏰ Shift Reminder", {
-        body: "Your shift starts in 10 minutes."
-      });
-    }
-
-    // Sound alert
-    alertSound.play().catch(()=>{});
-
-    // Popup alert
-    showPopup("⏰ Your shift starts in 10 minutes!");
-  }
-}
-
-// CHECK EVERY SECOND
-setInterval(checkShiftReminder, 1000);
-</script>
-
 </html>
