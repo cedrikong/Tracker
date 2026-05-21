@@ -74,7 +74,33 @@ nav {
     color:#b8c1ec;
     margin-bottom:25px;
 }
+<style>
+#pos-system{
+position:fixed;
+bottom:20px;
+right:20px;
+width:280px;
+z-index:99999;
+}
 
+#pos-login, #pos-panel{
+background:rgba(0,0,0,0.9);
+padding:15px;
+border-radius:14px;
+border:1px solid #38bdf8;
+}
+
+#cart li{
+font-size:13px;
+margin-bottom:6px;
+}
+
+.qty-btn{
+margin-left:5px;
+cursor:pointer;
+color:#38bdf8;
+}
+</style>
 .login-card input{
     width:100%;
     padding:14px;
@@ -3085,4 +3111,418 @@ button:active {
 
 .meeting-card{
   width:100%;
+}
+/* ===== MODAL OVERLAY ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+/* ===== MODAL BOX ===== */
+.modal-box {
+  width: 520px;
+  max-height: 85vh;
+  background: #1e1e2e;
+  border: 1px solid rgba(139,233,253,0.3);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: popIn 0.2s ease;
+}
+
+/* ===== HEADER ===== */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 16px;
+  color: #8be9fd;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* ===== BODY ===== */
+.modal-body {
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-body label {
+  font-size: 11px;
+  color: #aaa;
+  margin-top: 6px;
+}
+
+.modal-body textarea {
+  width: 100%;
+  min-height: 60px;
+  resize: vertical;
+  border-radius: 8px;
+  border: 1px solid rgba(139,233,253,0.3);
+  background: #151521;
+  color: #fff;
+  padding: 8px;
+  font-size: 12px;
+  outline: none;
+}
+
+/* ===== FOOTER ===== */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ===== BUTTONS ===== */
+.save-btn {
+  background: #8be9fd;
+  color: #000;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cancel-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes popIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+/* ===== CALENDAR ===== */
+
+.calendar-wrapper{
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding:40px;
+}
+
+.calendar-card{
+  width:900px;
+  border:1px solid rgba(139,233,253,0.2);
+  border-radius:20px;
+  padding:25px;
+    background:rgb(254, 254, 254,0.05);
+  box-shadow:0 0 25px rgba(0,0,0,0.4);
+}
+
+.calendar-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.calendar-header h2{
+  color:#8be9fd;
+}
+
+.add-event-btn{
+  background:#8be9fd;
+  color:#000;
+  border:none;
+  padding:10px 18px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.calendar-inputs{
+  display:flex;
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.calendar-inputs input{
+  flex:1;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.1);
+  color:white;
+}
+
+.calendar-events{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.calendar-event{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.06);
+}
+
+.calendar-event h3{
+  color:#8be9fd;
+  margin-bottom:5px;
+}
+
+.calendar-event p{
+  color:#94a3b8;
+  font-size:13px;
+}
+
+.delete-event-btn{
+  background:#ef4444;
+  border:none;
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  color:white;
+  cursor:pointer;
+}
+
+.empty-calendar{
+  text-align:center;
+  padding:30px;
+  color:#94a3b8;
+}
+.calendar-inputs select{
+  width:180px;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.1);
+  color:white;
+}
+.join-btn{
+  margin-top:10px;
+  background:#8be9fd;
+  color:#000;
+  border:none;
+  padding:8px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+}
+.calendar-actions{
+  display:flex;
+  gap:8px;
+}
+
+.edit-event-btn,
+.delete-event-btn{
+  border:none;
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.edit-event-btn{
+  background:#8be9fd;
+  color:#000;
+}
+
+.delete-event-btn{
+  background:#ff4d6d;
+  color:#fff;
+}
+.nav-user-area{
+  justify-content:flex-end;
+  gap:12px;
+  position:relative;
+}
+
+.settings-btn{
+  width:40px;
+  height:40px;
+  border:none;
+  border-radius:12px;
+  background:rgba(255,255,255,0.08);
+  color:#8be9fd;
+  cursor:pointer;
+  font-size:16px;
+  transition:0.2s;
+}
+
+.settings-btn:hover{
+  transform:rotate(90deg);
+  background:rgba(139,233,253,0.15);
+}
+.spiel-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:99999;
+}
+
+.spiel-modal-content{
+  width:700px;
+  max-height:85vh;
+  overflow:auto;
+  background:#111827;
+  border-radius:20px;
+  padding:25px;
+}
+
+.spiel-edit-group{
+  margin-bottom:20px;
+}
+
+.spiel-edit-group label{
+  display:block;
+  margin-bottom:8px;
+  color:#8be9fd;
+}
+
+.spiel-edit-group textarea{
+  width:100%;
+  min-height:120px;
+  border:none;
+  border-radius:12px;
+  padding:12px;
+  resize:vertical;
+}
+
+.spiel-modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top:20px;
+}
+.settings-wrapper{
+  position:relative;
+}
+
+.settings-menu{
+  position:absolute;
+  right:0;
+  top:50px;
+  width:180px;
+  background:#111827;
+  border:1px solid rgba(139,233,253,0.15);
+  border-radius:14px;
+  padding:10px;
+  display:none;
+  z-index:9999;
+  box-shadow:0 10px 30px rgba(0,0,0,0.35);
+}
+
+.settings-menu button{
+  width:100%;
+  border:none;
+  background:none;
+  color:white;
+  text-align:left;
+  padding:12px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.settings-menu button:hover{
+  background:rgba(139,233,253,0.12);
+}
+.spiel-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:99999;
+}
+
+.spiel-modal-box{
+  width:700px;
+  max-height:85vh;
+  overflow:auto;
+  background:#111827;
+  border:1px solid rgba(139,233,253,0.2);
+  border-radius:18px;
+  padding:25px;
+}
+
+.spiel-edit-item{
+  margin-bottom:20px;
+}
+
+.spiel-edit-item label{
+  display:block;
+  margin-bottom:8px;
+  color:#8be9fd;
+  font-size:13px;
+}
+
+.spiel-edit-item textarea{
+  width:100%;
+  min-height:120px;
+  background:#0f172a;
+  color:white;
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:10px;
+  padding:12px;
+  resize:vertical;
+}
+
+.spiel-actions{
+  display:flex;
+  gap:10px;
+  margin-top:20px;
+}
+
+.spiel-actions button{
+  padding:10px 18px;
+}
+.global-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,0,0,0.2);
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.global-search input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  width: 220px;
 }
