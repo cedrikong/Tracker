@@ -65,13 +65,23 @@
   function runGlobalSearch(query) {
   query = query.toLowerCase().trim();
 
-  // =========================
-  // 1. COMPANY UPDATES
-  // =========================
-  document.querySelectorAll(".update-item").forEach(item => {
-    const match = item.innerText.toLowerCase().includes(query);
-    item.style.display = match || query === "" ? "flex" : "none";
-  });
+// =========================
+// 1. COMPANY UPDATES (FIXED SEARCH)
+// =========================
+document.querySelectorAll(".update-item").forEach(item => {
+
+  const titleInput = item.querySelector("input");
+  const textArea = item.querySelector("textarea");
+
+  const titleText = titleInput ? titleInput.value.toLowerCase() : "";
+  const bodyText = textArea ? textArea.value.toLowerCase() : "";
+
+  const combined = titleText + " " + bodyText;
+
+  const match = combined.includes(query);
+
+  item.style.display = (match || query === "") ? "flex" : "none";
+});
 
   // =========================
   // 2. NOTES
@@ -127,6 +137,33 @@ document.addEventListener("click", e => {
   }
 
 });
+function toggleEdit(i){
+  const title = document.getElementById(`title-${i}`);
+  const text = document.getElementById(`text-${i}`);
+  const btn = document.getElementById(`edit-${i}`);
+
+  if(!title || !text) return;
+
+  const editing = title.disabled;
+
+  if(editing){
+    title.disabled = false;
+    text.disabled = false;
+    btn.innerHTML = "💾";
+    title.focus();
+  } else {
+    title.disabled = true;
+    text.disabled = true;
+
+    updates[i].title = title.value;
+    updates[i].text = text.value;
+
+    saveUpdates();
+
+    btn.innerHTML = "✏️";
+  }
+}
+
   </script>
 
   <!-- RIGHT (login) -->
@@ -270,10 +307,10 @@ Alert Found</button>
 
     <button onclick="copySpiel('Thank you for patiently waiting. Upon checking, this alert is UNFINDABLE. Kindly please decline the alert and submit a credit request, and we will escalate this to our credit analyst team for review and approval. Once approved, this credit will reflect in your next billing invoice.')">
 Unfindable</button>
-    <button onclick="alert('N/A')">N/A</button>
-    <button onclick="alert('N/A')">N/A</button>
-    <button onclick="alert('N/A')">N/A</button>
 
+    <button onclick="copySpiel('N/A')">N/A</button>
+    <button onclick="copySpiel('N/A')">N/A</button>
+    <button onclick="copySpiel('N/A')">N/A</button>
     <script>
 const defaultSpiels = [
   {
@@ -312,7 +349,19 @@ const defaultSpiels = [
   {
     title: "Unfindable",
     text: "Thank you for patiently waiting. Upon checking, this alert is UNFINDABLE. Kindly please decline the alert and submit a credit request."
-  }
+  },
+  {
+    title: "N/A",
+    text: "",
+  },
+    {
+    title: "N/A",
+    text: "a"
+  },
+    {
+    title: "N/A",
+    text: ""
+  },
 ];
 
 let spiels =
@@ -384,7 +433,6 @@ function openSpielEditor(){
   let html = `
     <div id="spielModal" class="spiel-modal">
       <div class="spiel-modal-box">
-
         <h2>Edit Spiels</h2>
   `;
 
@@ -395,39 +443,28 @@ function openSpielEditor(){
     html += `
       <div class="spiel-edit-item">
 
-        <label>${spiel.title}</label>
+        <input id="title-${i}" value="${spiel.title}" disabled class="update-title">
 
-        <textarea
-          id="spiel-${i}"
-        >${spiel.text}</textarea>
+        <textarea id="text-${i}" disabled class="update-text">${spiel.text}</textarea>
+
+        <button onclick="toggleEdit(${i})">
+          <i class="fa-solid fa-pen"></i>
+        </button>
 
       </div>
     `;
-
   });
 
   html += `
-        <div class="spiel-actions">
-
-          <button onclick="saveSpiels()">
-            Save Changes
-          </button>
-
-          <button onclick="closeSpielEditor()">
-            Cancel
-          </button>
-
+        <div style="margin-top:15px; text-align:right;">
+          <button onclick="saveSpiels()">💾 Save</button>
+          <button onclick="closeSpielEditor()">❌ Cancel</button>
         </div>
-
       </div>
     </div>
   `;
 
-  document.body.insertAdjacentHTML(
-    "beforeend",
-    html
-  );
-
+  document.body.insertAdjacentHTML("beforeend", html);
 }
 
 /* ===== CLOSE ===== */
@@ -446,13 +483,13 @@ function saveSpiels(){
 
     if(spiel.locked) return;
 
-    const textarea =
-      document.getElementById(`spiel-${i}`);
+    const textarea = document.getElementById(`text-${i}`);
+    const titleInput = document.getElementById(`title-${i}`);
 
-    if(textarea){
-
+    if(textarea && titleInput){
       spiel.text = textarea.value;
-
+      spiel.title = titleInput.value; // ✅ NEW
+      spiel.title = titleInput.value.trim() || "Untitled";
     }
 
   });
@@ -463,7 +500,6 @@ function saveSpiels(){
   );
 
   closeSpielEditor();
-
   renderSpiels();
 
   alert("Spiels updated successfully!");
@@ -568,12 +604,16 @@ renderSpiels();
 
         <div class="big-box updates-box" style="text-align: left;">
 
-    <div class="updates-header">
-        <i class="fa-solid fa-bell"></i>
-        <span>Company Updates</span>
-    </div>
+<div class="updates-header">
+  <span>Company Updates</span>  &nbsp;  <button onclick="addUpdate()">Add Update</button>
+</div>
+<div class="updates-feed">
+  
+  <div id="updatesContainer"></div>
+  <div class="add-card-wrap">
 
-    <div class="updates-feed">
+  </div>
+
 
         <div class="update-item">
             <i class="fa-solid fa-circle-info"></i>
@@ -846,12 +886,13 @@ Ethoca and CDRN together provides up to 70% coverage for the alerts market. By k
 <li>To proceed, you will need a dedicated AMEX MID which may be obtained by reaching out to AMEX by either calling this number: 866-847-0890 or complete this form at your convenience. Once, the AMEX MID is provided, please let us know so that our team can proceed with enrolling AMEX.</li>
             </ul>
         </div>
+        
     </div>
 
 </div>
 
     </div>
-    
+
 
 </div>
 </section>
@@ -2334,4 +2375,84 @@ Date: ${item.date}
 
   alert("Tracker saved to Notes!");
 }</script>
+
+<script>
+let updates = JSON.parse(localStorage.getItem("updates")) || [];
+
+function saveUpdates(){
+  localStorage.setItem("updates", JSON.stringify(updates));
+}
+
+function renderUpdates(){
+  const container = document.getElementById("updatesContainer");
+  container.innerHTML = "";
+
+  updates.forEach((u, i) => {
+    const card = document.createElement("div");
+    card.className = "update-item";
+
+    card.innerHTML = `
+      <i class="fa-solid ${u.icon}"></i>
+
+      <div style="flex:1;">
+        <input id="title-${i}" value="${u.title}" disabled class="update-title">
+
+        <textarea id="text-${i}" disabled class="update-text">${u.text}</textarea>
+
+        <span>${u.time}</span>
+
+        <div class="update-actions">
+          <button onclick="toggleEdit(${i})" id="edit-${i}">✏️</button>
+          <button onclick="deleteUpdate(${i})">🗑</button>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+function addUpdate(){
+  const icons = ["fa-bolt","fa-rocket","fa-circle-info","fa-check","fa-triangle-exclamation"];
+
+  updates.push({
+    title: "New Update",
+    text: "Write Something",
+    icon: icons[Math.floor(Math.random()*icons.length)],
+    time: "Just now"
+  });
+
+  saveUpdates();
+  renderUpdates();
+}
+
+function toggleEdit(i){
+  const title = document.getElementById(`title-${i}`);
+  const text = document.getElementById(`text-${i}`);
+
+  if(!title || !text) return;
+
+  const isDisabled = title.disabled;
+
+  title.disabled = !isDisabled;
+  text.disabled = !isDisabled;
+
+  if(!isDisabled){
+    title.blur();
+    text.blur();
+  } else {
+    title.focus();
+  }
+}
+
+function deleteUpdate(i){
+  updates.splice(i,1);
+  saveUpdates();
+  renderUpdates();
+}
+
+// INIT
+renderUpdates();
+</script>
+
 </html>
