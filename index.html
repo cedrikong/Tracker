@@ -2427,21 +2427,35 @@ function addUpdate(){
 }
 
 function toggleEdit(i){
+
   const title = document.getElementById(`title-${i}`);
   const text = document.getElementById(`text-${i}`);
+  const editBtn = document.getElementById(`edit-${i}`);
 
   if(!title || !text) return;
 
-  const isDisabled = title.disabled;
+  // IF CURRENTLY EDITING → SAVE
+  if(!title.disabled){
 
-  title.disabled = !isDisabled;
-  text.disabled = !isDisabled;
+    updates[i].title = title.value;
+    updates[i].text = text.value;
 
-  if(!isDisabled){
-    title.blur();
-    text.blur();
+    saveUpdates();
+
+    title.disabled = true;
+    text.disabled = true;
+
+    editBtn.innerHTML = "✏️";
+
   } else {
+
+    // ENABLE EDIT MODE
+    title.disabled = false;
+    text.disabled = false;
+
     title.focus();
+
+    editBtn.innerHTML = "💾";
   }
 }
 
