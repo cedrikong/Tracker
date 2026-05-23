@@ -1036,6 +1036,31 @@ Ethoca and CDRN together provides up to 70% coverage for the alerts market. By k
             <span>Completed</span>
             <b id="doneCount">0</b>
         </div>
+        <!-- ALERT MATCH INTERNAL TOOL -->
+<div class="alert-tool-box">
+
+  <div class="alert-tool-header">
+    <i class="fa-solid fa-bell"></i>
+    <span>Alert Match</span>
+  </div>
+
+  <div class="alert-tool-body">
+
+    <input id="alertIdInput" type="text" placeholder="Enter Alert ID">
+
+    <input id="orderIdInput" type="text" placeholder="Enter Order Number">
+
+    <button onclick="generateAlertMatch()">Match</button>
+
+    <div class="alert-output" id="alertOutput"></div>
+
+    <button onclick="copyAlertMatch()" class="copy-mini-btn">
+      <i class="fa-solid fa-copy"></i> Copy Result
+    </button>
+
+  </div>
+
+</div>
     </div>
 
     <div class="tracker-container">
@@ -1056,6 +1081,7 @@ Ethoca and CDRN together provides up to 70% coverage for the alerts market. By k
         <th>Action</th>
     </tr>
 </table>
+
 
 <button class="add-btn" onclick="addRow()" style='margin-top:10px;'>+ Add Row</button>
 <button onclick="saveTrackerToNotes()">
@@ -1080,6 +1106,53 @@ Ethoca and CDRN together provides up to 70% coverage for the alerts market. By k
 
 </section>
 
+<script>
+function generateAlertMatch() {
+
+  const alertId = document.getElementById("alertIdInput").value.trim();
+  const orderId = document.getElementById("orderIdInput").value.trim();
+
+  const output = document.getElementById("alertOutput");
+
+  if (!alertId || !orderId) {
+    output.innerHTML = "Please enter both Alert ID and Order Number.";
+    return;
+  }
+
+  output.innerHTML =
+    `The matching order for alert: <b>${alertId}</b> is <b>#${orderId}</b>.`;
+
+}
+
+function copyAlertMatch() {
+
+  const text = document.getElementById("alertOutput").innerText;
+
+  navigator.clipboard.writeText(text);
+
+}
+</script>
+<script>
+function copyAlert() {
+  const html = `
+    <strong>Alert ID al_blxmSTY1C6UiQ3QnhWk69V</strong>
+    corresponds to
+    <strong>Order #544019</strong>
+  `;
+
+  const plain = "Alert ID al_blxmSTY1C6UiQ3QnhWk69V corresponds to Order #544019";
+
+  const blobHTML = new Blob([html], { type: "text/html" });
+  const blobText = new Blob([plain], { type: "text/plain" });
+
+  navigator.clipboard.write([
+    new ClipboardItem({
+      "text/html": blobHTML,
+      "text/plain": blobText
+    })
+  ]);
+}
+</script>
 <section id="Stats" class="section bg3">
     
 
