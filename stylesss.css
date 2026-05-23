@@ -1200,7 +1200,6 @@ img {
 .update-item:hover {
     background: rgba(139,233,253,0.12);
     border-color: rgba(139,233,253,0.4);
-    transform: translateY(-2px);
     box-shadow: 0 0 10px rgba(139,233,253,0.2);
 }
 /* ===================== INFO PANEL ===================== */
@@ -3601,18 +3600,16 @@ button:active {
 .update-actions button:hover {
   color: #8be9fd;
 }
-.update-title,
-.update-text {
-  background-color:rgb(254,254,254,0.20);
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-
+.update-text{
   width: 100%;
-  padding: 0;
-  margin: 0;
+  border: none;
+  background: transparent;
+  resize: none;
+  overflow: hidden;
+  min-height: 40px;
+  line-height: 1.4;
 
-  color: #e6f7ff;
+  height: auto; /* important */
 }
 .update-title {
   font-size: 13px;
