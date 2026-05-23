@@ -3561,6 +3561,8 @@ button:active {
 
   align-items: flex-start;
   background: transparent !important;
+  margin-bottom:5px;
+
 }
 
 .update-item > div {
@@ -3650,6 +3652,14 @@ button:active {
   font-weight: 600;
   font-size: 14px;
   color: #8be9fd;
+}
+#updatesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* 👈 controls spacing */
+}
+.update-item {
+  margin-bottom: 8px;
 }
 
 .update-item textarea {
