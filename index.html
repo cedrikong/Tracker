@@ -2387,12 +2387,20 @@ function renderUpdates(){
   const container = document.getElementById("updatesContainer");
   container.innerHTML = "";
 
+  setTimeout(() => {
+  document.querySelectorAll(".update-text").forEach(t => {
+    autoResize(t);
+  });
+}, 0);
+
   updates.forEach((u, i) => {
     const card = document.createElement("div");
     card.className = "update-item";
 
     card.innerHTML = `
       <i class="fa-solid ${u.icon}"></i>
+
+      
 
       <div style="flex:1;">
         <input id="title-${i}" value="${u.title}" disabled class="update-title">
@@ -2468,5 +2476,10 @@ function deleteUpdate(i){
 // INIT
 renderUpdates();
 </script>
-
+<script>
+  function autoResize(el){
+  el.style.height = "auto";
+  el.style.height = el.scrollHeight + "px";
+}
+</script>
 </html>
