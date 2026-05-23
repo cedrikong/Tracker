@@ -440,10 +440,19 @@ function renderSpiels(){
 /* ===== SETTINGS MODAL ===== */
 function openSpielEditor(){
 
+  const existing = document.getElementById("spielModal");
+  if(existing) existing.remove();
+
   let html = `
     <div id="spielModal" class="spiel-modal">
       <div class="spiel-modal-box">
-        <h2>Edit Spiels</h2>
+
+        <div class="spiel-header">
+          <h2>Edit Spiels</h2>
+
+
+
+        </div>
   `;
 
   spiels.forEach((spiel, i) => {
@@ -453,41 +462,70 @@ function openSpielEditor(){
     html += `
       <div class="spiel-edit-item">
 
-        <input id="title-${i}" value="${spiel.title}" disabled class="update-title">
+        <input 
+          id="title-${i}" 
+          value="${spiel.title}" 
+          disabled
+        >
 
-        <textarea id="text-${i}" disabled class="update-text">${spiel.text}</textarea>
-
-        <button onclick="toggleEdit(${i})">
-          <i class="fa-solid fa-pen"></i>
-        </button>
+        <textarea 
+          id="text-${i}" 
+          disabled
+        >${spiel.text}</textarea>
 
       </div>
     `;
   });
 
   html += `
-        <div style="margin-top:15px; text-align:right;">
-          <button onclick="saveSpiels()">💾 Save</button>
-          <button onclick="closeSpielEditor()">❌ Cancel</button>
+        <div class="spiel-footer">
+          <button onclick="enableSpielEdit()" id="editAllBtn" class="spiel-btn edit">
+  ✏️ Edit
+</button>
+<button onclick="saveSpiels()" class="spiel-btn save">
+  💾 Save
+</button>
+
+<button onclick="closeSpielEditor()" class="spiel-btn close">
+  ❌ Close
+</button>
         </div>
+
       </div>
     </div>
   `;
 
   document.body.insertAdjacentHTML("beforeend", html);
 }
+/* ===== INIT ===== */
+renderSpiels();
+</script>
+<script>function enableSpielEdit(){
 
-/* ===== CLOSE ===== */
-function closeSpielEditor(){
+  isEditingSpiels = true;
 
-  const modal =
-    document.getElementById("spielModal");
+  spiels.forEach((spiel, i) => {
 
-  if(modal) modal.remove();
-}
+    if(spiel.locked) return;
 
-/* ===== SAVE ===== */
+    const title = document.getElementById(`title-${i}`);
+    const text = document.getElementById(`text-${i}`);
+
+    if(title) title.disabled = false;
+    if(text) text.disabled = false;
+  });
+
+  // Optional: change button text
+  const btn = document.getElementById("editAllBtn");
+  if(btn) btn.innerText = "Editing...";
+}</script>
+<script>
 function saveSpiels(){
+
+  if(!isEditingSpiels){
+    alert("Click Edit first!");
+    return;
+  }
 
   spiels.forEach((spiel, i) => {
 
@@ -498,7 +536,6 @@ function saveSpiels(){
 
     if(textarea && titleInput){
       spiel.text = textarea.value;
-      spiel.title = titleInput.value; // ✅ NEW
       spiel.title = titleInput.value.trim() || "Untitled";
     }
 
@@ -509,14 +546,26 @@ function saveSpiels(){
     JSON.stringify(spiels)
   );
 
+  isEditingSpiels = false;
+
   closeSpielEditor();
   renderSpiels();
 
   alert("Spiels updated successfully!");
 }
+</script>
+<script>
+  function closeSpielEditor(){
 
-/* ===== INIT ===== */
-renderSpiels();
+  const modal = document.getElementById("spielModal");
+
+  if(modal){
+    modal.remove();
+  }
+
+  // reset edit mode
+  isEditingSpiels = false;
+}
 </script>
 
 </div></div>
@@ -2323,6 +2372,9 @@ renderCalendar();
 
 setInterval(checkCalendarAlerts, 1000);
 
+</script>
+<script>
+  let isEditingSpiels = false;
 </script>
 </body>
 
