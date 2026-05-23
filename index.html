@@ -73,8 +73,18 @@ document.querySelectorAll(".update-item").forEach(item => {
   const titleInput = item.querySelector("input");
   const textArea = item.querySelector("textarea");
 
-  const titleText = titleInput ? titleInput.value.toLowerCase() : "";
-  const bodyText = textArea ? textArea.value.toLowerCase() : "";
+  let titleText = "";
+  let bodyText = "";
+
+  // NEW updates (editable)
+  if (titleInput && textArea) {
+    titleText = titleInput.value.toLowerCase();
+    bodyText = textArea.value.toLowerCase();
+  } 
+  // OLD static updates
+  else {
+    bodyText = item.innerText.toLowerCase();
+  }
 
   const combined = titleText + " " + bodyText;
 
