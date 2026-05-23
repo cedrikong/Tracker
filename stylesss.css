@@ -2717,7 +2717,7 @@ button:active {
   border-radius: 12px;
   border: 1px solid rgba(139,233,253,0.25);
 
-  background: rgba(255,255,255,0.05);
+  background: rgba(0,0,0,0.55);
   color: #8be9fd;
 
   font-size: 12px;
@@ -3656,4 +3656,118 @@ button:active {
   font-size: 13px;
   color: #ddd;
   line-height: 1.5;
+}
+.spiel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background: #8be9fd;
+  cursor: pointer;
+  font-size: 13px;
+}
+.spiel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.edit-btn {
+  background: transparent;
+  color: #8be9fd;
+  border: 1px solid #8be9fd;
+}
+.spiel-modal-box {
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  padding-bottom: 70px; /* space for sticky bar */
+}
+
+/* STICKY BUTTON BAR */
+.spiel-actions {
+  position: sticky;
+  bottom: 0;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  z-index: 10;
+}
+
+/* buttons style */
+.spiel-actions button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+/* optional colors */
+.spiel-actions button:nth-child(1) {
+  background: transparent;
+  border: 1px solid #8be9fd;
+  color: #8be9fd;
+}
+
+.spiel-actions button:nth-child(2) {
+  background: #50fa7b;
+}
+
+.spiel-actions {
+  position: sticky;
+  top: 0;
+}
+.spiel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.spiel-header button {
+  background: transparent;
+  border: 1px solid #8be9fd;
+  color: #8be9fd;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* scroll area */
+.spiel-modal-box {
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* clean inputs */
+.spiel-edit-item {
+  margin-bottom: 12px;
+}
+
+.spiel-edit-item input,
+.spiel-edit-item textarea {
+  width: 100%;
+  border: 1px solid #333;
+  color: white;
+  border-radius: 6px;
+  padding: 6px;
+}
+
+/* sticky footer */
+.spiel-footer {
+  position: sticky;
+  bottom: 0;
+  padding-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 }
