@@ -3781,3 +3781,58 @@ button:active {
   justify-content: flex-end;
   gap: 10px;
 }
+.alert-tool-box{
+  margin-top:20px;
+  padding:15px;
+  border-radius:12px;
+  background:transparent;
+
+}
+
+.alert-tool-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:14px;
+  font-weight:600;
+  color:#8be9fd;
+  margin-bottom:10px;
+}
+
+.alert-tool-body{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.alert-tool-body input{
+  padding:10px;
+  border-radius:8px;
+  border:1px solid rgba(139,233,253,0.3);
+  background:rgb(254,254,254,0.05);
+  color:white;
+  outline:none;
+}
+
+.alert-tool-body button{
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:#8be9fd;
+  color:#000;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.alert-output{
+  padding:10px;
+  border-radius:8px;
+  color:white;
+  min-height:20px;
+}
+
+.copy-mini-btn{
+  background:transparent;
+  border:1px solid rgba(139,233,253,0.4);
+  color:#8be9fd;
+}
