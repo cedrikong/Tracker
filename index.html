@@ -520,15 +520,53 @@ renderSpiels();
   if(btn) btn.innerText = "Editing...";
 }</script>
 <script>
+
+function showEditRequiredPopup(title, message){
+
+  const existing = document.getElementById("editRequiredPopup");
+  if(existing) existing.remove();
+
+  const popup = document.createElement("div");
+  popup.id = "editRequiredPopup";
+
+  popup.innerHTML = `
+    <div class="edit-popup-box">
+
+      <div class="edit-icon">
+        <i class="fa-solid fa-pen"></i>
+      </div>
+
+      <div class="edit-content">
+        <h3>${title}</h3>
+        <p>${message}</p>
+      </div>
+
+    </div>
+  `;
+
+  document.body.appendChild(popup);
+
+  setTimeout(() => popup.classList.add("show"), 10);
+
+  setTimeout(() => {
+    popup.classList.remove("show");
+    setTimeout(() => popup.remove(), 300);
+  }, 2500);
+}
+
+</script>
+<script>
 function saveSpiels(){
 
-  if(!isEditingSpiels){
-   showWarningPopup(
-  "Edit Mode Required",
-  "Please click the Edit button before saving your spiels."
-);
-    return;
-  }
+if(!isEditingSpiels){
+  showEditRequiredPopup(
+    "Edit Required",
+    "Please click the Edit button before saving your spiels.",
+    "fa-pen",
+    "warning"
+  );
+  return;
+}
 
   spiels.forEach((spiel, i) => {
 
@@ -624,9 +662,8 @@ function closeWarningPopup(){
 }
 </script>
 <script>
-  function showSuccessPopup(title, message){
+  function showSuccessPopup(title, message, icon = "fa-circle-check"){
 
-  // remove existing popup
   const existing =
     document.getElementById("successPopup");
 
@@ -638,19 +675,18 @@ function closeWarningPopup(){
 
   popup.innerHTML = `
   
-    <div class="success-popup-box">
+<div class="success-popup-box">
 
-      <div class="success-icon">
-        <i class="fa-solid fa-circle-check"></i>
-      </div>
+  <div class="success-icon">
+    <i class="fa-solid ${icon}"></i>
+  </div>
 
-      <h3>${title}</h3>
+  <div>
+    <h3>${title}</h3>
+    <p>${message}</p>
+  </div>
 
-      <p>${message}</p>
-
-      <div class="success-bar"></div>
-
-    </div>
+</div>
 
   `;
 
@@ -661,13 +697,8 @@ function closeWarningPopup(){
   }, 10);
 
   setTimeout(() => {
-
     popup.classList.remove("show");
-
-    setTimeout(() => {
-      popup.remove();
-    }, 300);
-
+    setTimeout(() => popup.remove(), 300);
   }, 2600);
 }
 </script>
