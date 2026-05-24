@@ -1202,9 +1202,20 @@ Ethoca and CDRN together provides up to 70% coverage for the alerts market. By k
 
     <div class="alert-output" id="alertOutput"></div>
 
-    <button onclick="copyAlertMatch()" class="copy-mini-btn">
-      <i class="fa-solid fa-copy"></i> Copy Result
-    </button>
+<div class="alert-actions">
+  
+  <!-- COPY (text + icon) -->
+  <button onclick="copyAlertMatch()" class="copy-btn">
+    Copy Result 
+    <i class="fa-solid fa-copy"></i>
+  </button>
+
+  <!-- REFRESH (icon only) -->
+  <button onclick="refreshAlerts()" class="icon-btn">
+    <i class="fa-solid fa-rotate-right"></i>
+  </button>
+
+</div>
 
   </div>
 
@@ -1301,6 +1312,21 @@ function copyAlert() {
   ]);
 }
 </script>
+<script>
+function refreshAlerts(){
+
+  // clear inputs
+  document.getElementById("alertIdInput").value = "";
+  document.getElementById("orderIdInput").value = "";
+
+  // clear result
+  const output = document.getElementById("alertOutput");
+  output.innerHTML = "";
+
+  showSuccessPopup("Cleared", "Alert match reset.");
+}
+</script>
+
 <section id="Stats" class="section bg3">
     
 
