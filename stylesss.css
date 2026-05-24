@@ -3790,6 +3790,25 @@ button:active {
   margin: 2px 0 0;
   opacity: 0.85;
 }
+.refresh-btn {
+  background: red;
+  color: #fff;
+
+  border: none;
+  padding: 8px 25px;
+  border-radius: 8px;
+
+  cursor: pointer;
+  font-size: 13px;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.refresh-btn:hover {
+  background: #2a2a3d;
+}
 
 /* PROGRESS BAR (match warning style) */
 #successPopup .success-bar {
