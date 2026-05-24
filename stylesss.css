@@ -61,6 +61,155 @@ nav {
     cursor:pointer;
     transition:0.3s;
 }
+/* SHARED POPUP BOX */
+.warning-popup-box,
+.success-popup-box {
+  display: flex;
+  align-items: center;   /* aligns icon + text */
+  gap: 10px;
+
+  padding: 12px 14px;
+  border-radius: 10px;
+
+  min-width: 260px;
+  max-width: 320px;
+
+  font-size: 13px;
+}
+
+/* ICON (SMALL + ALIGNED) */
+.warning-icon,
+.success-icon {
+  width: 26px;
+  height: 26px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 6px;
+  font-size: 14px;  /* smaller icon */
+  flex-shrink: 0;
+}
+.warning-icon {
+  background: rgba(255, 140, 0, 0.2); /* soft orange bg */
+  color: #ff8c00; /* strong orange icon */
+}
+.warning-content h3 {
+  color: #ffb86c;
+}
+/* TEXT FIX */
+.warning-content h3,
+.success-popup-box h3 {
+  font-size: 13px;
+  margin: 0;
+}
+
+.warning-content p,
+.success-popup-box p {
+  font-size: 12px;
+  margin: 2px 0 0;
+  opacity: 0.85;
+}
+/* ORANGE EDIT REQUIRED POPUP */
+#editRequiredPopup {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99999;
+}
+
+.edit-popup-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  background: #1e1e2f;
+  color: #fff;
+
+  padding: 12px 14px;
+  border-radius: 10px;
+
+  min-width: 260px;
+  max-width: 320px;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+#editRequiredPopup {
+  position: fixed;
+  top: 20px;      /* 👈 change from bottom to top */
+  right: 20px;
+  z-index: 99999;
+}
+.edit-popup-box {
+  transform: translateY(-20px); /* start above */
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+#editRequiredPopup.show .edit-popup-box {
+  transform: translateY(0); /* slide down */
+  opacity: 1;
+}
+/* SHOW */
+#editRequiredPopup.show .edit-popup-box {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ICON */
+.edit-icon {
+  width: 26px;
+  height: 26px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 6px;
+  font-size: 14px;
+
+  background: rgba(255, 140, 0, 0.2);
+  color: #ff8c00;
+}
+
+/* TEXT */
+.edit-content h3 {
+  font-size: 13px;
+  margin: 0;
+  color: #ffb86c;
+}
+
+.edit-content p {
+  font-size: 12px;
+  margin: 2px 0 0;
+  opacity: 0.85;
+}
+/* COLORS (cleaner look) */
+/* SUCCESS (default - keep your current) */
+.success-popup-box.success .success-icon {
+  background: rgba(80, 250, 123, 0.15);
+  color: #50fa7b;
+}
+
+/* 🔥 WARNING VERSION (NEW) */
+.success-popup-box.warning .success-icon {
+  background: rgba(255, 140, 0, 0.15);
+  color: #ff8c00;
+}
+
+.success-popup-box.warning .success-bar {
+  background: #ff8c00;
+}
+
+.success-icon {
+  background: rgba(80, 250, 123, 0.2);
+  color: #50fa7b;
+}
 
 .logout-btn:hover{
     opacity:0.85;
@@ -588,7 +737,7 @@ html { scroll-behavior: smooth; }
 /* ================= FOOTER ================= */
 footer {
     width: 100%;
-    padding: 12px;
+    padding: 16px;
     text-align: center;
     background: rgba(0,0,0,0.9);
     border-top: 1px solid rgba(255,255,255,0.1);
@@ -3593,7 +3742,73 @@ button:active {
 
   transition: .3s ease;
 }
+/* TARGET SUCCESS POPUP */
+#successPopup .success-popup-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 
+  padding: 12px 14px;
+  border-radius: 10px;
+
+  background: #1e1e2f;
+  color: #fff;
+
+  min-width: 260px;
+  max-width: 320px;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* ICON (same structure as edit required, just green) */
+#successPopup .success-icon {
+  width: 26px;
+  height: 26px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 6px;
+  font-size: 14px;
+
+  background: rgba(80, 250, 123, 0.15);
+  color: #50fa7b;
+}
+
+/* TEXT */
+#successPopup h3 {
+  font-size: 13px;
+  margin: 0;
+}
+
+#successPopup p {
+  font-size: 12px;
+  margin: 2px 0 0;
+  opacity: 0.85;
+}
+
+/* PROGRESS BAR (match warning style) */
+#successPopup .success-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  height: 3px;
+  width: 100%;
+
+  background: #50fa7b;
+
+  animation: successShrink 2.6s linear forwards;
+}
+
+@keyframes successShrink {
+  from { width: 100%; }
+  to { width: 0%; }
+}
 #successPopup.show{
   opacity: 1;
   transform: translateY(0) scale(1);
