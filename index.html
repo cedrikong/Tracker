@@ -523,7 +523,10 @@ renderSpiels();
 function saveSpiels(){
 
   if(!isEditingSpiels){
-    alert("Click Edit first!");
+   showWarningPopup(
+  "Edit Mode Required",
+  "Please click the Edit button before saving your spiels."
+);
     return;
   }
 
@@ -551,7 +554,121 @@ function saveSpiels(){
   closeSpielEditor();
   renderSpiels();
 
-  alert("Spiels updated successfully!");
+showSuccessPopup(
+  "Spiels Updated",
+  "All spiels were saved successfully."
+);
+}
+</script>
+<script>
+  function showWarningPopup(title, message){
+
+  const existing =
+    document.getElementById("warningPopup");
+
+  if(existing) existing.remove();
+
+  const popup = document.createElement("div");
+
+  popup.id = "warningPopup";
+
+  popup.innerHTML = `
+
+    <div class="warning-popup-box">
+
+      <div class="warning-icon">
+        <i class="fa-solid fa-pen"></i>
+      </div>
+
+      <div class="warning-content">
+        <h3>${title}</h3>
+        <p>${message}</p>
+      </div>
+
+      <button
+        class="warning-close"
+        onclick="closeWarningPopup()"
+      >
+        ✕
+      </button>
+
+      <div class="warning-bar"></div>
+
+    </div>
+
+  `;
+
+  document.body.appendChild(popup);
+
+  setTimeout(() => {
+    popup.classList.add("show");
+  }, 10);
+
+  setTimeout(() => {
+    closeWarningPopup();
+  }, 2800);
+}
+
+function closeWarningPopup(){
+
+  const popup =
+    document.getElementById("warningPopup");
+
+  if(!popup) return;
+
+  popup.classList.remove("show");
+
+  setTimeout(() => {
+    popup.remove();
+  }, 300);
+}
+</script>
+<script>
+  function showSuccessPopup(title, message){
+
+  // remove existing popup
+  const existing =
+    document.getElementById("successPopup");
+
+  if(existing) existing.remove();
+
+  const popup = document.createElement("div");
+
+  popup.id = "successPopup";
+
+  popup.innerHTML = `
+  
+    <div class="success-popup-box">
+
+      <div class="success-icon">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+
+      <h3>${title}</h3>
+
+      <p>${message}</p>
+
+      <div class="success-bar"></div>
+
+    </div>
+
+  `;
+
+  document.body.appendChild(popup);
+
+  setTimeout(() => {
+    popup.classList.add("show");
+  }, 10);
+
+  setTimeout(() => {
+
+    popup.classList.remove("show");
+
+    setTimeout(() => {
+      popup.remove();
+    }, 300);
+
+  }, 2600);
 }
 </script>
 <script>
@@ -2540,7 +2657,12 @@ function renderUpdates(){
       <div style="flex:1;">
         <input id="title-${i}" value="${u.title}" disabled class="update-title">
 
-        <textarea id="text-${i}" disabled class="update-text">${u.text}</textarea>
+        <textarea 
+  id="text-${i}" 
+  disabled 
+  class="update-text"
+  oninput="autoResize(this)"
+>${u.text}</textarea>
 
         <span>${u.time}</span>
 
