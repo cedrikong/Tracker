@@ -3670,6 +3670,35 @@ button:active {
   flex-direction:column;
   gap:15px;
 }
+.edit-event-btn,
+.delete-event-btn {
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #1e293b;
+  color: white !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Force icon color */
+.edit-event-btn i,
+.delete-event-btn i {
+  color: white !important;
+}
+
+/* Edit */
+.edit-event-btn {
+  background: linear-gradient(135deg, #4f8cff, #2563eb);
+}
+
+/* Delete */
+.delete-event-btn {
+  background: linear-gradient(135deg, #ff5f6d, #d90429);
+}
 
 .calendar-event{
   display:flex;
@@ -3715,7 +3744,7 @@ button:active {
 }
 .join-btn{
   margin-top:10px;
-  background:#8be9fd;
+  background:var(--bg);
   color:#000;
   border:none;
   padding:8px 14px;
@@ -3727,7 +3756,9 @@ button:active {
   display:flex;
   gap:8px;
 }
-
+body.black .edit-event-btn .delete-event-btn{
+background:var(--primary)!important;
+}
 .edit-event-btn,
 .delete-event-btn{
   border:none;
@@ -3735,11 +3766,12 @@ button:active {
   height:38px;
   border-radius:10px;
   cursor:pointer;
+
 }
 
 .edit-event-btn{
   background:#8be9fd;
-  color:#000;
+  color:#000!important;
 }
 
 .delete-event-btn{
