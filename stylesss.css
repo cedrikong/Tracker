@@ -16,7 +16,10 @@ body {
 html, body {
   height: 100%;
   margin: 0;
-background: radial-gradient(circle at top, #1a1f2a 0%, #0b0d10 70%) !important;
+  background:
+    radial-gradient(circle at top left, #7c3aed33, transparent 30%),
+    radial-gradient(circle at bottom right, #06b6d433, transparent 30%),
+    linear-gradient(135deg, #0f172a, #111827, #1e293b) !important;
 }
 .section {
   background: transparent;
