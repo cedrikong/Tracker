@@ -6,16 +6,45 @@
         text-shadow: none !important;
     box-shadow: none;
 }
+body {
+  font-family: 'Inter', sans-serif;
+  color: white!important;
+  transition: 0.3s ease;
+  overflow: hidden;
+}
 
+html, body {
+  height: 100%;
+  margin: 0;
+background: radial-gradient(circle at top, #1a1f2a 0%, #0b0d10 70%) !important;
+}
+.section {
+  background: transparent;
+}
+.table-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#table {
+  width: 90%;
+  max-width: 1100px;
+}
+
+/* IMPORTANT: remove section blocking */
+.section {
+  background: transparent !important;
+}
+
+/* also kill bg overrides */
+.bg1, .bg2, .bg3 {
+  background: transparent !important;
+}
 
 /* LIGHT MODE */
 
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  transition: 0.3s ease;
-}
 button {
   background: var(--primary);
   color: #000;
@@ -27,17 +56,7 @@ button {
   position: relative;
 }
 
-:root {
-  --bg: #0a0f1c;
-  --section1: linear-gradient(135deg, #0f172a, #020617);
-  --section2: linear-gradient(135deg, #111827, #020617);
-  --section3: linear-gradient(135deg, #0b1220, #020617);
-  --section4: linear-gradient(135deg, #0b1220, #020617);
-  --section5: linear-gradient(135deg, #0b1220, #020617);
 
-  --text: #e5e7eb;
-  --primary: #4f46e5;
-}
 body.blue {
   --bg: #0b1220;
 
@@ -99,10 +118,10 @@ body.pink {
   --card: rgba(255,255,255,0.04);
   --card-hover: rgba(255,255,255,0.06);
 
-  --text: #ecfdf5;
+  --text: white;
   --muted: #94a3b8;
 
-  --primary: rgb(255, 192, 227);
+  --primary: #d63384;
   --border: rgba(255,255,255,0.06);
 
   background:
@@ -133,39 +152,35 @@ body.sunset {
    ========================= */
 
 body.black button {
-  background: rgba(26, 31, 43, 0.6);
+  background:#2596be;
   color: #e6e6e6;
   border: 1px solid rgba(37, 150, 190, 0.25);
   border-radius: 10px;
   backdrop-filter: blur(6px);
   transition: all 0.2s ease;
 }
+.update-item p,
+.update-item textarea,
+.update-item input{
+  background:transparent;
+  border-radius: 6px;
+  padding: 4px 6px;
+}
+#updatesContainer .update-item input{
 
+  color: var(--primary);
+  border-radius: 8px;
+  padding: 6px;
+}
+.settings-btn i{
+  color: #ffffff !important;
+}
+.settings-btn:hover i{
+  transform: rotate(20deg);
+  transition: 0.2s ease;
+}
 /* hover effect */
-body.black button:hover {
-  background: rgba(37, 150, 190, 0.15);
-  border: 1px solid rgba(37, 150, 190, 0.6);
-  box-shadow: 0 0 12px rgba(37, 150, 190, 0.25);
-  color: #ffffff;
-}
 
-/* active / click */
-body.black button:active {
-  transform: scale(0.98);
-}
-
-/* special primary buttons */
-body.black .add-btn,
-body.black .add-event-btn {
-  background: rgba(37, 150, 190, 0.2);
-  border: 1px solid rgba(37, 150, 190, 0.5);
-  color: #ffffff;
-}
-
-body.black .add-btn:hover,
-body.black .add-event-btn:hover {
-  background: rgba(37, 150, 190, 0.35);
-}
 /* =========================
    NAV TEXT FIX (BLACK THEME)
    ========================= */
@@ -244,11 +259,6 @@ body.black h4, a {
 }
 
 /* BUTTONS */
-body.black button:hover {
-  background: #2596be;
-  color: #fff;
-}
-
 .theme-menu {
   position: absolute;
   right: 0;
@@ -319,32 +329,7 @@ body.black button:hover {
 .t.light { background: #e5e7eb; }
 
 /* active */
-.theme-picker .t:hover {
-  transform: scale(1.1);
-  border: 2px solid white;
-}
-#Home {
-  background: var(--section1);
-}
 
-#Notes {
-  background: var(--section2);
-}
-
-#Tracker {
-  background: var(--section3);
-}
-
-#Stats {
-  background: var(--section5);
-}
-
-#Meeting {
-  background: var(--section4);
-}
-.section {
-  padding: 24px 28px;
-}
 .icon-btn,
 .copy-btn {
   background: transparent;
@@ -425,15 +410,14 @@ p, span {
 
 .alert-tool-box,
 .eq,
-.notes-list-v4,
-.update-item textarea {
+.notes-list-v4{
   background: var(--card-2);
 }
 /* NEON */
 body.neon {
   --bg: #020617;
   --card: #0f172a;
-  --card-2: #020617;
+  --card-2:red;
   --text: #00f7ff;
   --primary: #00f7ff;
   --glow: #00f7ff;
@@ -501,13 +485,7 @@ html {
   scroll-behavior: auto; /* remove built-in slow scroll */
 }
 
-body {
-  font-family: 'Inter', sans-serif;
-  background: var(--bg);
-  color: white!important;
-  transition: 0.3s ease;
-  overflow: hidden;
-}
+
 
 /* ================= NAV ================= */
 nav {
@@ -838,27 +816,12 @@ nav a:hover {
     padding: 120px 20px 60px;
     overflow: hidden; /* ✅ prevents weird overlay issues */
 }
-.card {
-  background: #121a2a;
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 14px;
-  padding: 16px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  backdrop-filter: blur(8px);
-  transition: 0.2s ease;
-}
+
 .card:hover {
   transform: translateY(-3px);
   border-color: rgba(139,233,253,0.3);
 }
 
-.section::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(5, 8, 15, 0.4); /* ✅ stronger but clean */
-    z-index: 1;
-}
 
 .section > * {
     position: relative;
@@ -960,6 +923,17 @@ h1, h2, h3 {
   border: 1px solid var(--border);
   box-shadow: 0 4px 20px rgba(0,0,0,0.25);
 }
+.tracker-filters {
+  width: 100%;
+  max-width: 900px;       /* match your table width */
+  margin: 0 auto 10px;    /* keeps it aligned with table */
+  
+  display: flex;
+  justify-content: flex-start;  /* 👈 move to left */
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 
 .big-box:hover {
   transform: translateY(-3px);
@@ -968,17 +942,25 @@ h1, h2, h3 {
 }
 /* ================= TRACKER ================= */
 .tracker-container {
-    background: transparent;   /* ❌ remove layer */
-    border: none;              /* optional */
-    box-shadow: none;          /* optional */
-        padding: 30px;
-    margin-top: 40px; /* ⬅️ pushes away from top */
+  width: 100%;
 
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0;
 }
+.side-panel {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+    width: 260px;
+  flex-shrink: 0;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
-
+    background: var(--card);
     backdrop-filter: blur(14px);
 
     border-radius: 14px;
@@ -986,7 +968,7 @@ table {
 
 }
 tr,th,td{
-  color: var(--primary)!important;
+  color: var(--text)!important;
 }
 /* Page 3 / Stats buttons */
 #Stats button,
@@ -1418,15 +1400,13 @@ img {
     color: white!important;
 }
 .tracker-layout {
-    display: grid;
-    grid-template-columns: 200px 1fr 220px; /* side | table | side */
-    gap: 20px;
-
-    width: 100%;
-    max-width: 1400px;
-
-    margin: 40px auto; /* ✅ centers horizontally + spacing from top */
-    align-items: start;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 /* SIDE PANELS */
@@ -1434,7 +1414,7 @@ img {
     padding: 16px;
     border-radius: 12px;
     border: 1px solid rgba(255,255,255,0.08);
-
+     background: rgba(255,255,255,0.03);
     display: flex;
     flex-direction: column;
     gap: 12px; /* ✅ spacing between items */
@@ -1598,12 +1578,12 @@ img {
     padding: 10px;
 
     border-radius: 10px;
-    background: rgba(255,255,255,0.05);
+
     border: 1px solid rgba(255,255,255,0.08);
 
     transition: 0.2s;
 }
-
+.update-item:textarea 
 /* ICON */
 .update-item i {
     color: var(--primary);
@@ -3831,23 +3811,43 @@ button:active {
 .settings-wrapper{
   position:relative;
 }
+.tracker-actions {
+  width: 100%;
+  max-width: 900px;   /* same as your table */
+  margin: 15px auto 0; /* center container but content left */
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+}
 
-.settings-menu{
-  position:absolute;
-  right:0;
-    gap: 10px; 
-  top:50px;
+.tracker-actions button {
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: 0.2s ease;
+  backdrop-filter: blur(6px);
+}
 
-  width:180px;
-  background:#111827;
-  border:1px solid rgba(139,233,253,0.15);
-  border-radius:14px;
-  padding:12px;
-  display:flex;
-  z-index:9999;
-  flex-direction: column;
-  box-shadow:0 10px 30px rgba(0,0,0,0.35);
-  min-width: 180px;
+/* Hover effect using your theme color */
+.tracker-actions button:hover {
+  background: rgba(37,150,190,0.2);
+  border-color: #2596be;
+}
+.settings-menu {
+  width: 120px;
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 45px;
+  z-index: 999;
+  background:var(--bg);
+}
+
+.settings-menu.active {
+  display: block;
 }
 .settings-menu hr {
   display: none;
@@ -3920,7 +3920,9 @@ button:active {
   gap:10px;
   margin-top:20px;
 }
-
+.global-search input::placeholder{
+  color: var(--text);
+}
 .spiel-actions button{
   padding:10px 18px;
 }
@@ -4453,4 +4455,26 @@ background: var(--bg);
 * {
   box-shadow: none !important;
   text-shadow: none !important;
+}
+.nav-bar .nav-center a {
+  color: #ffffff !important;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ICONS FOLLOW THEME COLOR */
+
+/* HOVER (optional but clean SaaS feel) */
+.nav-bar .nav-center a:hover {
+  color: #ffffff !important;
+  opacity: 0.85;
+}
+:root {
+  --accent: #2596be;
+}
+
+/* ONLY NAV ICONS */
+.nav-bar i {
+  color: var(--primary);
 }
