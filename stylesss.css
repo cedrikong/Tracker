@@ -27,16 +27,14 @@ button {
   position: relative;
 }
 
-:root {
-  --bg: #0a0f1c;
-  --section1: linear-gradient(135deg, #0f172a, #020617);
-  --section2: linear-gradient(135deg, #111827, #020617);
-  --section3: linear-gradient(135deg, #0b1220, #020617);
-  --section4: linear-gradient(135deg, #0b1220, #020617);
-  --section5: linear-gradient(135deg, #0b1220, #020617);
-
-  --text: #e5e7eb;
-  --primary: #4f46e5;
+:root{
+  --bg: #0b0f14;
+  --panel: rgba(255,255,255,0.04);
+  --panel-2: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.08);
+  --text: #e6edf3;
+  --muted: rgba(230,237,243,0.65);
+  --accent: #2596be;
 }
 body.blue {
   --bg: #0b1220;
@@ -128,6 +126,29 @@ body.sunset {
     radial-gradient(circle at 80% 90%, rgba(244,63,94,0.05), transparent 40%),
     var(--bg);
 }
+/* =========================
+   NAV TEXT FIX (BLACK THEME)
+   ========================= */
+
+body.black .nav-bar a {
+  color: #e6e6e6 !important;
+  font-weight: 500;
+}
+
+/* icons inside nav */
+body.black .nav-bar a i {
+  color: #2596be !important;
+}
+
+/* hover state */
+body.black .nav-bar a:hover {
+  color: #2596be !important;
+}
+
+/* center nav container (optional clarity boost) */
+body.black .nav-center a {
+  color: #e6e6e6 !important;
+}
 body.light {
   --bg: #aaa19e;
 
@@ -143,7 +164,61 @@ body.light {
 background: #ffffff;
 }
 /* ☀️ LIGHT */
+body.black {
+  --bg:rgba(10,10,20,0.55);
 
+  --card: rgba(255,255,255,0.04);
+  --card-hover: rgba(255,255,255,0.06);
+
+  --text: white;
+  --muted: #cbd5f5;
+  --font: #2596be;
+
+  --primary: rgb(0,0,0,0.25);
+  --border: var(--border);
+
+background: rgb(0,0,0,0.23);
+}
+/* DARK THEME */
+body.black {
+  background: #0f1115;
+  color: #e6e6e6;
+}
+
+/* NAV */
+body.black .nav-bar {
+  background: #141821;
+  border-bottom: 1px solid #1f2430;
+}
+
+/* ICON ACCENT */
+body.black i {
+  color: #2596be;
+}
+
+/* HEADERS */
+body.black h1,
+body.black h2,
+body.black h3,
+body.black h4, a {
+  color: #2596be;
+}
+
+/* BUTTONS */
+
+body.black button {
+  background: rgba(26, 31, 43, 0.6);
+  color: #e6e6e6;
+  border: 1px solid rgba(37, 150, 190, 0.25);
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+  transition: all 0.2s ease;
+}
+
+body.black button:hover {
+  background: #2596be;
+  color: #fff;
+}
 
 .theme-menu {
   position: absolute;
@@ -184,9 +259,9 @@ background: #ffffff;
 .theme-option.purple { background: #8b5cf6; }
 .theme-option.green { background: #10b981; }
 .theme-option.sunset { background: #f97316; }
-.theme-option.pink { background: black; }
 .theme-option.light {background: linear-gradient(135deg, #ffffff, #dbeafe);}
 .theme-option.pink {background: linear-gradient(135deg, #ff6fa5, #ffcce0);}
+.theme-option.black { background: black; }
 
 /* hover */
 .theme-option:hover {
@@ -3808,6 +3883,7 @@ button:active {
   resize:vertical;
   margin-top:5px;
 }
+
 
 .spiel-actions{
   display:flex;
