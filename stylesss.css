@@ -943,7 +943,6 @@ h1, h2, h3 {
 /* ================= TRACKER ================= */
 .tracker-container {
   width: 100%;
-
   border: none !important;
   box-shadow: none !important;
   padding: 0;
@@ -1350,7 +1349,11 @@ img {
     padding: 20px;
     box-sizing: border-box;
 }
-
+body.black .eq {
+  background:  #2596be;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #fff !important;
+}
 /* ===================== EQ BAR ===================== */
 .eq {
     flex: 1;
