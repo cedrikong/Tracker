@@ -27,14 +27,16 @@ button {
   position: relative;
 }
 
-:root{
-  --bg: #0b0f14;
-  --panel: rgba(255,255,255,0.04);
-  --panel-2: rgba(255,255,255,0.06);
-  --border: rgba(255,255,255,0.08);
-  --text: #e6edf3;
-  --muted: rgba(230,237,243,0.65);
-  --accent: #2596be;
+:root {
+  --bg: #0a0f1c;
+  --section1: linear-gradient(135deg, #0f172a, #020617);
+  --section2: linear-gradient(135deg, #111827, #020617);
+  --section3: linear-gradient(135deg, #0b1220, #020617);
+  --section4: linear-gradient(135deg, #0b1220, #020617);
+  --section5: linear-gradient(135deg, #0b1220, #020617);
+
+  --text: #e5e7eb;
+  --primary: #4f46e5;
 }
 body.blue {
   --bg: #0b1220;
@@ -127,6 +129,44 @@ body.sunset {
     var(--bg);
 }
 /* =========================
+   🌑 TRANSLUCENT BUTTONS (BLACK THEME)
+   ========================= */
+
+body.black button {
+  background: rgba(26, 31, 43, 0.6);
+  color: #e6e6e6;
+  border: 1px solid rgba(37, 150, 190, 0.25);
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+  transition: all 0.2s ease;
+}
+
+/* hover effect */
+body.black button:hover {
+  background: rgba(37, 150, 190, 0.15);
+  border: 1px solid rgba(37, 150, 190, 0.6);
+  box-shadow: 0 0 12px rgba(37, 150, 190, 0.25);
+  color: #ffffff;
+}
+
+/* active / click */
+body.black button:active {
+  transform: scale(0.98);
+}
+
+/* special primary buttons */
+body.black .add-btn,
+body.black .add-event-btn {
+  background: rgba(37, 150, 190, 0.2);
+  border: 1px solid rgba(37, 150, 190, 0.5);
+  color: #ffffff;
+}
+
+body.black .add-btn:hover,
+body.black .add-event-btn:hover {
+  background: rgba(37, 150, 190, 0.35);
+}
+/* =========================
    NAV TEXT FIX (BLACK THEME)
    ========================= */
 
@@ -172,7 +212,6 @@ body.black {
 
   --text: white;
   --muted: #cbd5f5;
-  --font: #2596be;
 
   --primary: rgb(0,0,0,0.25);
   --border: var(--border);
@@ -205,16 +244,6 @@ body.black h4, a {
 }
 
 /* BUTTONS */
-
-body.black button {
-  background: rgba(26, 31, 43, 0.6);
-  color: #e6e6e6;
-  border: 1px solid rgba(37, 150, 190, 0.25);
-  border-radius: 10px;
-  backdrop-filter: blur(6px);
-  transition: all 0.2s ease;
-}
-
 body.black button:hover {
   background: #2596be;
   color: #fff;
@@ -475,8 +504,9 @@ html {
 body {
   font-family: 'Inter', sans-serif;
   background: var(--bg);
-  color: white;!important;
+  color: white!important;
   transition: 0.3s ease;
+  overflow: hidden;
 }
 
 /* ================= NAV ================= */
