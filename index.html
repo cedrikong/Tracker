@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="stylesss.css" type="text/css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<div id="particles-js"></div>
 <body>
   <!-- LOGIN SCREEN -->
 <div id="loginPage" class="login-page">
@@ -121,57 +120,28 @@ document.querySelectorAll(".update-item").forEach(item => {
 }
 </script>
   <script>
-    function toggleSettingsMenu(){
+function toggleSettingsMenu(event){
+  event.stopPropagation();
 
-  const menu =
-    document.getElementById("settingsMenu");
+  const menu = document.getElementById("settingsMenu");
 
-  menu.style.display =
-    menu.style.display === "block"
-    ? "none"
-    : "block";
-
-}
-
-document.addEventListener("click", e => {
-
-  if(!e.target.closest(".settings-wrapper")){
-
-    const settingsMenu = document.getElementById("settingsMenu");
-    const themeMenu = document.getElementById("themeMenu");
-
-    if(settingsMenu) settingsMenu.style.display = "none";
-    if(themeMenu) themeMenu.style.display = "none";
-  }
-
-});
-function toggleEdit(i){
-  const title = document.getElementById(`title-${i}`);
-  const text = document.getElementById(`text-${i}`);
-  const btn = document.getElementById(`edit-${i}`);
-
-  if(!title || !text) return;
-
-  const editing = title.disabled;
-
-  if(editing){
-    title.disabled = false;
-    text.disabled = false;
-    btn.innerHTML = "💾";
-    title.focus();
+  if(menu.classList.contains("active")){
+    menu.classList.remove("active");
   } else {
-    title.disabled = true;
-    text.disabled = true;
-
-    updates[i].title = title.value;
-    updates[i].text = text.value;
-
-    saveUpdates();
-
-    btn.innerHTML = "✏️";
+    menu.classList.add("active");
   }
 }
 
+document.addEventListener("click", function(e){
+  const wrapper = document.querySelector(".settings-wrapper");
+
+  if(!wrapper.contains(e.target)){
+    const menu = document.getElementById("settingsMenu");
+    if(menu){
+      menu.classList.remove("active");
+    }
+  }
+});
   </script>
 
   <!-- RIGHT (login) -->
@@ -181,12 +151,9 @@ function toggleEdit(i){
 
   <div class="settings-wrapper">
 
-    <button
-      class="settings-btn"
-      onclick="toggleSettingsMenu()"
-    >
-      <i class="fa-solid fa-gear"></i>
-    </button>
+<button class="settings-btn" onclick="toggleSettingsMenu(event)">
+  <i class="fa-solid fa-gear"></i>
+</button>
 
 <div class="settings-menu" id="settingsMenu">
 
@@ -1272,7 +1239,7 @@ Ethoca and CDRN together provides up to 70% coverage for the alerts market. By k
     </div>
 
     <div class="tracker-container">
-        <div class="tracker-container">
+      <div class="tracker-filters">
 <button onclick="filterStatus('all')">All</button>
 <button onclick="filterStatus('pending')">Pending</button>
 <button onclick="filterStatus('complete')">Complete</button>
@@ -1290,11 +1257,13 @@ Ethoca and CDRN together provides up to 70% coverage for the alerts market. By k
     </tr>
 </table>
 
-
-<button class="add-btn" onclick="addRow()" style='margin-top:10px;'>+ Add Row</button>
-<button onclick="saveTrackerToNotes()">
-📥 Save Tracker to Notes
-</button>
+</div>
+<div class="tracker-actions">
+  <button class="add-btn" onclick="addRow()">+ Add Row</button>
+  <button class="save-btn" onclick="saveTrackerToNotes()">
+    📥 Save Tracker to Notes
+  </button>
+</div>
 
 </div>
     </div>
