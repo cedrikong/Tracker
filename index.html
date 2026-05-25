@@ -137,13 +137,11 @@ document.addEventListener("click", e => {
 
   if(!e.target.closest(".settings-wrapper")){
 
-    const menu =
-      document.getElementById("settingsMenu");
+    const settingsMenu = document.getElementById("settingsMenu");
+    const themeMenu = document.getElementById("themeMenu");
 
-    if(menu){
-      menu.style.display = "none";
-    }
-
+    if(settingsMenu) settingsMenu.style.display = "none";
+    if(themeMenu) themeMenu.style.display = "none";
   }
 
 });
@@ -190,20 +188,31 @@ function toggleEdit(i){
       <i class="fa-solid fa-gear"></i>
     </button>
 
-    <div
-      class="settings-menu"
-      id="settingsMenu"
-    >
+<div class="settings-menu" id="settingsMenu">
 
-      <button class="logout-btn" onclick="openSpielEditor()">
-        ✏️ Edit Spiels
-      </button>
+<button onclick="toggleThemeMenu()">
+  🎨 Theme
+</button>
 
-      <button onclick="logoutUser()">
-        🚪 Logout
-      </button>
+<div id="themeMenu" class="theme-menu">
+  <button onclick="setTheme('blue')" class="theme-option blue"></button>
+  <button onclick="setTheme('purple')" class="theme-option purple"></button>
+  <button onclick="setTheme('green')" class="theme-option green"></button>
+  <button onclick="setTheme('sunset')" class="theme-option sunset"></button>
+  <button onclick="setTheme('pink')" class="theme-option pink"></button>
+</div>
 
-    </div>
+  <hr>
+
+  <button class="logout-btn" onclick="openSpielEditor()">
+    ✏️ Edit Spiels
+  </button>
+
+  <button onclick="logoutUser()">
+    🚪 Logout
+  </button>
+
+</div>
 
   </div>
 
@@ -212,6 +221,37 @@ function toggleEdit(i){
 </div>
 
 </nav>
+<script>
+  function toggleThemeMenu() {
+  const menu = document.getElementById("themeMenu");
+
+  menu.style.display =
+    menu.style.display === "flex" ? "none" : "flex";
+}
+</script>
+<script>
+  function setTheme(theme) {
+  document.body.className = theme;
+  localStorage.setItem("theme", theme);
+}
+
+window.onload = () => {
+  const saved = localStorage.getItem("theme") || "blue";
+  document.body.className = saved;
+};
+</script>
+<script>
+  function setTheme(theme) {
+  document.body.className = theme;
+  localStorage.setItem("theme", theme);
+}
+
+// LOAD SAVED THEME
+window.addEventListener("load", () => {
+  const saved = localStorage.getItem("theme");
+  if (saved) document.body.className = saved;
+});
+</script>
 <script>
   function logoutUser(){
 
@@ -1138,7 +1178,7 @@ Ethoca and CDRN together provides up to 70% coverage for the alerts market. By k
     <!-- EDITOR -->
     <div class="notes-editor-v4">
 
-      <input id="noteTitleV4" placeholder="Note title..." style="border: 1px solid rgba(139,233,253,0.6)">
+      <input id="noteTitleV4" placeholder="Note title...">
 
       <div class="tag-row">
         <select id="noteTagV4">
