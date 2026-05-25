@@ -159,6 +159,12 @@ body.black button {
   backdrop-filter: blur(6px);
   transition: all 0.2s ease;
 }
+body.light #updatesContainer .update-item input{
+  color:white;
+}
+body.black #updatesContainer .update-item input{
+  color:white;
+}
 .update-item p,
 .update-item textarea,
 .update-item input{
