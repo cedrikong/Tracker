@@ -84,7 +84,7 @@ body.purple {
 
   --card: rgba(255,255,255,0.04);
   --card-hover: rgba(255,255,255,0.06);
-  --eq:linear-gradient(135deg, #2d0066, #6a0dad, #3b0a45);
+  --eq: linear-gradient(135deg, #8b5cf6, #4c1d95);;
   --text: #f1f5f9;
   --muted: #a1a1aa;
 
@@ -109,7 +109,7 @@ body.green {
 
   --primary: #10b981;
   --border: rgba(255,255,255,0.06);
-  --eq:linear-gradient(135deg, #0f2027, #2c5364, #1e3c2f);
+  --eq:linear-gradient(135deg, #10b981, #065f46);
   background:
     radial-gradient(circle at 20% 10%, rgba(16,185,129,0.06), transparent 40%),
     radial-gradient(circle at 80% 90%, rgba(34,197,94,0.05), transparent 40%),
@@ -117,7 +117,7 @@ body.green {
 }
 body.pink {
   --bg:rgba(255, 182, 193, 0.4);
-  --eq: linear-gradient(135deg, #ff6a88, #ff99ac);
+  --eq: linear-gradient(135deg, #d63384, #ff6b9d);
   --card: rgba(255,255,255,0.04);
   --card-hover: rgba(255,255,255,0.06);
   
@@ -138,7 +138,7 @@ body.sunset {
 
   --card: rgba(255,255,255,0.04);
   --card-hover: rgba(255,255,255,0.06);
-  --eq:linear-gradient(135deg, #f7971e, #ffd200);
+  --eq:linear-gradient(135deg, #f97316, #c2410c);
   --text: #f8fafc;
   --muted: #cbd5f5;
 
@@ -154,9 +154,9 @@ body.sunset {
    🌑 TRANSLUCENT BUTTONS (BLACK THEME)
    ========================= */
 body.black #spielContainer button{
-  background:#2596be;
+  background:rgb(254,254,254,0.12);
   color: #e6e6e6;
-  border: 1px solid rgba(37, 150, 190, 0.25);
+
   border-radius: 10px;
   backdrop-filter: blur(6px);
   transition: all 0.2s ease;
@@ -174,18 +174,18 @@ body.light #updatesContainer .update-item input{
 body.black #updatesContainer .update-item input{
   color:white;
 }
-.update-item p,
+.update-item p, ol, li, ul,
 .update-item textarea,
 .update-item input{
   background:transparent;
   border-radius: 6px;
   padding: 4px 6px;
+  color:var(--text)!important;
 }
 #updatesContainer .update-item input{
-
-  color: var(--primary);
   border-radius: 8px;
   padding: 6px;
+  background:transparent!important;
 }
 .settings-btn i{
   color: #ffffff !important;
@@ -193,6 +193,13 @@ body.black #updatesContainer .update-item input{
 .settings-btn:hover i{
   transform: rotate(20deg);
   transition: 0.2s ease;
+}
+body.black .section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0,0.55)!important; /* ✅ stronger but clean */
+    z-index: 1;
 }
 /* hover effect */
 
@@ -245,8 +252,22 @@ body.black {
 
   --primary: rgb(0,0,0,0.25);
   --border: var(--border);
+}
 
-background: rgb(0,0,0,0.23);
+body.black .bg1{
+  background-image: url(https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=1920&auto=format&fit=crop)!important;
+}
+body.black .bg2{
+  background-image: url(https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1920&auto=format&fit=crop)!important;
+}
+body.black .bg3{
+  background-image: url("https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1920&q=80")!important;
+}
+body.black .bg4{
+  background-image: url(https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1920&q=80)!important;
+}
+body.black .bg5{
+  background-image: url(https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1920&auto=format&fit=crop)!important;
 }
 /* DARK THEME */
 body.black {
@@ -1631,6 +1652,7 @@ body.black .eq {
     align-items: flex-start;
     padding: 20px;
     gap: 15px;
+    color:var(--text)!important;
 }
 
 /* HEADER */
@@ -1642,6 +1664,7 @@ body.black .eq {
     font-size: 16px;
     font-weight: 600;
     color: var(--primary);
+    background: transparent!important;
 }
 
 .panel-header i, h1, h2, h3, p  {
@@ -1665,9 +1688,8 @@ body.black .eq {
 .panel-section {
     padding: 12px;
     border-radius: 12px;
-  will-change: transform;
     border: 1px solid rgba(255,255,255,0.08);
-  transform: translateZ(0);
+
     transition: 0.2s;
 }
 
@@ -2925,7 +2947,7 @@ select {
   background: transparent;
   border: none;
   outline: none;
-  background-color: var(--card);
+  background-color: var(--ca);
   color: #fff;
 }
 /* TEXTAREA BIG */
@@ -4290,6 +4312,7 @@ body.black .update-actions button {
   border: none;
   outline: none;
   width: 100%;
+  
 }
 .new-card input::placeholder,
 .new-card textarea::placeholder {
@@ -4298,6 +4321,7 @@ body.black .update-actions button {
 .new-card textarea,
 .update-item textarea {
   min-height: 60px;
+  
 }
 .update-item div {
   flex: 1;
@@ -4312,7 +4336,7 @@ body.black .update-actions button {
   font-size: 14px;
   color: #8be9fd;
 }
-#updatesContainer {
+#updatesContainer{
   display: flex;
   flex-direction: column;
   gap: 8px; /* 👈 controls spacing */
@@ -4322,8 +4346,8 @@ body.black .update-actions button {
 }
 
 .update-item textarea {
-  font-size: 13px;
-  color: #ddd;
+  font-size: 12px;
+  color: var(--text);
   line-height: 1.5;
 }
 .spiel-header {
