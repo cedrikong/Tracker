@@ -192,23 +192,7 @@ document.addEventListener("click", function(e){
 </div>
 
 </nav>
-<script>function setTheme(theme) {
-  document.body.classList.remove("black-theme");
 
-  if (theme === "black") {
-    document.body.classList.add("black-theme");
-  }
-
-  localStorage.setItem("theme", theme);
-}
-
-/* LOAD SAVED THEME */
-(function () {
-  const saved = localStorage.getItem("theme");
-  if (saved === "black") {
-    document.body.classList.add("black-theme");
-  }
-})();</script>
 <script>
   function toggleThemeMenu() {
   const menu = document.getElementById("themeMenu");
@@ -217,16 +201,39 @@ document.addEventListener("click", function(e){
     menu.style.display === "flex" ? "none" : "flex";
 }
 </script>
-<script>
-  function setTheme(theme) {
-  document.body.className = theme;
-  localStorage.setItem("theme", theme);
-}
 
-window.onload = () => {
-  const saved = localStorage.getItem("theme") || "blue";
-  document.body.className = saved;
-};
+<script>
+function setTheme(theme){
+
+  // CHANGE THEME
+  document.body.className = theme;
+
+  // SAVE THEME
+  localStorage.setItem("theme", theme);
+
+  // CLOSE THEME MENU
+  document.getElementById("themeMenu").style.display = "none";
+
+  // CLOSE SETTINGS MENU
+  document.getElementById("settingsMenu").classList.remove("active");
+}
+</script>
+
+<script>
+  window.onload = function(){
+
+  const savedTheme = localStorage.getItem("theme");
+
+  if(savedTheme){
+    document.body.className = savedTheme;
+  } else {
+
+    // DEFAULT THEME
+    document.body.className = "blue";
+
+    localStorage.setItem("theme", "blue");
+  }
+}
 </script>
 <script>
   function logoutUser(){
@@ -366,7 +373,7 @@ const defaultSpiels = [
   },
   {
     title: "No Response",
-    text: "Since this chat has been inactive, I will be closing it for now. If you have any further questions, please feel free to reach out to us anytime."
+    text: "Since this chat has been inactive, I will be closing it for now. If you have any further questions, please feel free to reach out to us anytime.  We would also be grateful if you could take a few moments to share your feedback through a brief survey following this chat."
   },
   {
     title: "Alert Found",
@@ -749,7 +756,7 @@ function closeWarningPopup(){
         <a href="https://alerts.ethocaweb.com/portal/actionhandler?heracles_operation=AUTHORIZATION&heracles_result_code=11001&referral_path=%2Fportal%2Fen%2Findex.html&heracles_correlation_id=0.6eaf6a7c.1762007034.124870c2" target="_blank" class="eq b11"><span>ETHOCA PORTAL</span></a>
         <a href="https://dev.shopify.com/dashboard/129019726/stores/collaborations/new" target="_blank" class="eq b12"><span>SHOPIFY PARTNERS</span></a>
         <a href="https://docs.google.com/spreadsheets/d/1T1ZZNIwS_qY92P-272jS_mAqe-70bSb4ifcXLrdfTR8/edit?gid=794498043#gid=794498043" target="_blank" class="eq b13"><span>MANAGED ACCOUNTS</span></a></a>
-        <a href="https://example.com" target="_blank" class="eq b14"></a>
+        <a href="https://app.hubspot.com/reports-list/40137453/105616714/?filterSearch=conve" target="_blank" class="eq b14"><span>Response Time</span></a>
         <a href="https://example.com" target="_blank" class="eq b15"></a>
 
         <a href="https://example.com" target="_blank" class="eq b16"></a>
