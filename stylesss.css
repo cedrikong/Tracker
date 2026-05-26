@@ -236,7 +236,7 @@ background: #ffffff;
 /* ☀️ LIGHT */
 body.black {
   --bg:rgba(10,10,20,0.55);
-  --eq: linear-gradient(135deg, #1de9b6, #1dc4e9);;
+  --eq: linear-gradient(135deg, #8be9fd, #06b6d4, #3b82f6);
   --card: rgba(255,255,255,0.04);
   --card-hover: rgba(255,255,255,0.06);
 
@@ -3893,7 +3893,7 @@ background:var(--primary)!important;
   right: 0;
   top: 45px;
   z-index: 999;
-  background:var(--bg);
+  background:transparent;
 }
 
 .settings-menu.active {
@@ -3907,7 +3907,7 @@ background:var(--primary)!important;
     margin:1px;
   width:100%;
   border:none;
-  background:none;
+  background:var(--bg);
   color:white;
   text-align:left;
   padding:12px;
