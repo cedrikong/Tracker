@@ -1250,8 +1250,8 @@ footer {
 .eq:nth-child(6)  { height: 140px; }
 .eq:nth-child(7)  { height: 160px; }
 .eq:nth-child(8)  { height: 120px; }
-.eq:nth-child(9)  { height: 130px; }
-.eq:nth-child(10) { height: 100px; }
+.eq:nth-child(9)  { height: 180px; }
+.eq:nth-child(10) { height: 140px; }
 .eq:nth-child(11) { height: 160px; }
 .eq:nth-child(12) { height: 145px; }
 .eq:nth-child(13) { height: 145px; }
@@ -1687,9 +1687,27 @@ body.black .eq {
      background: rgba(255,255,255,0.03);
     display: flex;
     flex-direction: column;
-    gap: 12px; /* ✅ spacing between items */
+    gap: 5px; /* ✅ spacing between items */
 }
-
+.side-panel{
+  margin-top:70px;  
+    width:260px;
+    min-width:240px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:20px;
+    padding:20px;
+    backdrop-filter:blur(12px);
+}
+.tracker-container{
+    flex:1;
+    min-width:0;
+    margin-top:70px;
+    border-radius:22px;
+    padding:22px;
+    overflow:hidden;
+    margin-left: 6%;
+}
 .side-panel:hover {
     opacity: 1;
 }
@@ -1727,20 +1745,20 @@ body.black .eq {
 }
 
 /* ===================== HEIGHT VARIATION ===================== */
-.eq:nth-child(1)  { height: 100px; }
+.eq:nth-child(1)  { height: 90px; }
 .eq:nth-child(2)  { height: 140px; }
 .eq:nth-child(3)  { height: 120px; }
 .eq:nth-child(4)  { height: 160px; }
-.eq:nth-child(5)  { height: 110px; }
+.eq:nth-child(5)  { height: 80px; }
 .eq:nth-child(6)  { height: 140px; }
 .eq:nth-child(7)  { height: 130px; }
 .eq:nth-child(8)  { height: 130px; }
-.eq:nth-child(9)  { height: 150px; }
-.eq:nth-child(10) { height: 120px; }
-.eq:nth-child(11) { height: 160px; }
+.eq:nth-child(9)  { height: 170px; }
+.eq:nth-child(10) { height: 110px; }
+.eq:nth-child(11) { height: 130px; }
 .eq:nth-child(12) { height: 165px; }
-.eq:nth-child(13) { height: 145px; }
-.eq:nth-child(14) { height: 115px; }
+.eq:nth-child(13) { height: 125px; }
+.eq:nth-child(14) { height: 95px; }
 .eq:nth-child(15) { height: 175px; }
 .eq:nth-child(16) { height: 155px; }
 .eq:nth-child(17) { height: 155px; }
@@ -3335,7 +3353,71 @@ body.focus-mode .side-panel {
 * {
   transition: all 0.2s ease;
 }
+.calendar-wrapper{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    padding:20px;
+    box-sizing:border-box;
+}
 
+.calendar-card{
+    width:100%;
+    max-width:1100px;
+    background:rgba(255,255,255,0.05);
+    border-radius:20px;
+    padding:20px;
+    box-sizing:border-box;
+    overflow:hidden;
+}
+
+.calendar-header h2{
+    margin:0;
+}
+.calendar-inputs{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:12px;
+    margin:15px 0;
+}
+.calendar-grid-wrapper{
+    margin-top:20px;
+}
+@media(max-width:900px){
+
+    .calendar-inputs{
+        grid-template-columns: 1fr;
+    }
+
+    .calendar-card{
+        padding:16px;
+    }
+
+    .calendar-grid{
+        gap:6px;
+    }
+}
+
+.calendar-topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+.calendar-grid{
+    display:grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap:8px;
+}
+.calendar-inputs input,
+.calendar-inputs select,
+.calendar-inputs button{
+    width:100%;
+    padding:10px;
+    border-radius:10px;
+    box-sizing:border-box;
+}
 /* cards floating effect */
 .card:hover,
 .big-box:hover {
