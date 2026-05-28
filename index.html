@@ -41,9 +41,7 @@
   <div class="nav-side"></div>
 
   <!-- CENTER (your nav links) -->
-   <button class="menu-toggle" onclick="toggleMobileMenu()">
-  <i class="fa-solid fa-ellipsis-vertical"></i>
-</button>
+   
   <div class="nav-center">
     <a href="#Home"><i class="fa-solid fa-house"></i> Home</a>
     <a href="#Notes"><i class="fa-solid fa-note-sticky"></i> Notes</a>
@@ -63,12 +61,6 @@
     oninput="runGlobalSearch(this.value)"
   >
 </div>
-<script>
-function toggleMobileMenu() {
-  const nav = document.querySelector(".nav-center");
-  nav.classList.toggle("active");
-}
-</script>
   <script>
   function runGlobalSearch(query) {
   query = query.toLowerCase().trim();
