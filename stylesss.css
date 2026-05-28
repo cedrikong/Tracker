@@ -1205,6 +1205,48 @@ footer {
 
 
 /* ================= RESPONSIVE ================= */
+@media(max-width:1710px){
+    .dashboard {
+      display:flex;
+    }
+
+    .big-box {
+        max-width: 600px;
+        max-height: 380px;
+    }
+    .widget {
+      max-width: 600px;
+    }
+}
+
+@media(max-width:1700px){
+    .dashboard {
+      display:flex;
+    }
+
+    .big-box {
+        max-width: 600px;
+        max-height: 260px;
+    }
+    .widget {
+      max-width: 600px;
+    }
+}
+
+@media(max-width:1600px){
+    .dashboard {
+      display:flex;
+    }
+
+    .big-box {
+        max-width: 600px;
+        max-height: 260px;
+    }
+    .widget {
+      max-width: 600px;
+    }
+}
+
 @media(max-width:1500px){
     .dashboard {
       display:flex;
