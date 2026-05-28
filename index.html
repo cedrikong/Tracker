@@ -41,6 +41,9 @@
   <div class="nav-side"></div>
 
   <!-- CENTER (your nav links) -->
+   <button class="menu-toggle" onclick="toggleMobileMenu()">
+  <i class="fa-solid fa-ellipsis-vertical"></i>
+</button>
   <div class="nav-center">
     <a href="#Home"><i class="fa-solid fa-house"></i> Home</a>
     <a href="#Notes"><i class="fa-solid fa-note-sticky"></i> Notes</a>
@@ -60,6 +63,12 @@
     oninput="runGlobalSearch(this.value)"
   >
 </div>
+<script>
+function toggleMobileMenu() {
+  const nav = document.querySelector(".nav-center");
+  nav.classList.toggle("active");
+}
+</script>
   <script>
   function runGlobalSearch(query) {
   query = query.toLowerCase().trim();
@@ -1113,7 +1122,7 @@ Ethoca and CDRN together provides up to 70% coverage for the alerts market. By k
                   <div class="panel-section">
             <h3>Amex Enrollment</h3>
             <ul>
-<li>To proceed, you will need a dedicated AMEX MID which may be obtained by reaching out to AMEX by either calling this number: 866-847-0890 or complete this form at your convenience. Once, the AMEX MID is provided, please let us know so that our team can proceed with enrolling AMEX.</li>
+<li>For your AMEX enrollment request, the AMEX team has recently centralized the request process to ensure proper routing and reduce delays. you can either call 866-847-0890 or complete this form: https://oneforms.americanexpress.com/iForms/unsecure/acceptance_en_US?journeyId=8e3e6fbb-6526-9182-bf62-01e3d87ddbcf&page=1</li>
             </ul>
         </div>
         
@@ -1523,7 +1532,9 @@ function refreshAlerts(){
     </div>
 </div></section>
 
+
 <section id="Meeting" class="section meeting-bg bg5">
+  
 
   <div class="calendar-wrapper">
 
@@ -1532,36 +1543,39 @@ function refreshAlerts(){
       <div class="calendar-header">
         <h2>📅 Calendar & Alarm</h2>
 
-        <button class="add-event-btn" onclick="addCalendarEvent()">
-          + Add Event
-        </button>
       </div>
 
-      <div class="calendar-inputs">
+      <div class="calendar-inputs modern-form">
 
-        <input type="text" id="eventTitle" placeholder="Event title">
+  <input type="text" id="eventTitle" placeholder="✏️ Event title">
 
-        <input type="datetime-local" id="eventTime">
+  <input type="datetime-local" id="eventTime">
 
-          <input
-    type="text"
-    id="eventLink"
-    placeholder="Meeting link (optional)"
-  >
+  <input type="text" id="eventLink" placeholder="🔗 Meeting / Event link (optional)">
 
-        <select id="eventRepeat">
+  <select id="eventRepeat">
+    <option value="none">🔁 No Repeat</option>
+    <option value="daily">🔁 Daily</option>
+    <option value="weekly">📅 Weekly</option>
+    <option value="monthly">📆 Monthly</option>
+  </select>
 
-  <option value="none">No Repeat</option>
+  <button onclick="addCalendarEvent()">➕ Add Event</button>
 
-  <option value="daily">Daily</option>
+</div>
 
-  <option value="weekly">Weekly</option>
+      <div class="calendar-grid-wrapper">
 
-</select>
+  <div class="calendar-topbar">
+    <button onclick="prevMonth()">◀</button>
+    <h3 id="monthLabel"></h3>
+    <button onclick="nextMonth()">▶</button>
+  </div>
 
-      </div>
+  <div class="calendar-grid" id="calendarGrid"></div>
 
-      <div id="calendarEvents" class="calendar-events"></div>
+</div>
+      
 
     </div>
 
@@ -1574,6 +1588,155 @@ function refreshAlerts(){
 <footer>
     Designed by <b>AriesPogi</b>
 </footer>
+
+<script>
+ let events = JSON.parse(localStorage.getItem("events") || "[]");
+
+let currentDate = new Date();
+
+// -------------------- SAVE --------------------
+function save() {
+  localStorage.setItem("events", JSON.stringify(events));
+}
+
+// -------------------- ADD EVENT --------------------
+function addCalendarEvent(selectedDate = null) {
+  const title = document.getElementById("eventTitle").value;
+  const time = document.getElementById("eventTime").value;
+  const link = document.getElementById("eventLink").value;
+  const repeat = document.getElementById("eventRepeat").value;
+
+  if (!title) return alert("Enter title");
+
+  const eventDate = selectedDate || time;
+
+  if (!eventDate) return alert("Select date/time");
+
+ events.push({
+  id: Date.now(),
+  title,
+  time,
+  link,
+  repeat
+});
+
+
+  save();
+  renderCalendar();
+}
+
+// -------------------- DELETE --------------------
+function deleteEvent(id) {
+  events = events.filter(e => e.id !== id);
+  save();
+  renderCalendar();
+}
+
+// -------------------- EDIT --------------------
+function editEvent(id) {
+  const ev = events.find(e => e.id === id);
+  if (!ev) return;
+
+  const t = prompt("Title:", ev.title);
+  if (t === null) return;
+
+  const tm = prompt("Date (YYYY-MM-DDTHH:MM):", ev.time);
+  if (tm === null) return;
+
+  ev.title = t;
+  ev.time = tm;
+
+  save();
+  renderCalendar();
+}
+
+// -------------------- CALENDAR --------------------
+function renderCalendar() {
+  const grid = document.getElementById("calendarGrid");
+  const label = document.getElementById("monthLabel");
+
+  grid.innerHTML = "";
+
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+
+  label.textContent = currentDate.toLocaleString("default", {
+    month: "long",
+    year: "numeric"
+  });
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  // empty slots
+  for (let i = 0; i < firstDay; i++) {
+    grid.appendChild(document.createElement("div"));
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const cellDate = new Date(year, month, day);
+
+    const cell = document.createElement("div");
+    cell.className = "day";
+
+    cell.innerHTML = `
+      <div class="date-number">${day}</div>
+    `;
+
+    // click to add event on that day
+    cell.onclick = () => {
+      const dt = prompt("Add time (HH:MM)", "12:00");
+      if (!dt) return;
+
+      const full = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}T${dt}`;
+
+      addCalendarEvent(full);
+    };
+
+    // show events
+    events.forEach(ev => {
+      const evDate = new Date(ev.time);
+
+      if (
+        evDate.getFullYear() === year &&
+        evDate.getMonth() === month &&
+        evDate.getDate() === day
+      ) {
+      const el = document.createElement("div");
+el.className = "event-pill";
+
+el.innerHTML = `
+  <div class="event-title-small">📌 ${ev.title}</div>
+
+  ${ev.link ? `<a href="${ev.link}" target="_blank">🔗 Open</a>` : ""}
+
+  <div class="event-actions">
+    <button onclick="event.stopPropagation(); editEvent(${ev.id})">✏️</button>
+    <button onclick="event.stopPropagation(); deleteEvent(${ev.id})">🗑️</button>
+  </div>
+`;
+        cell.appendChild(el);
+      }
+    });
+
+    grid.appendChild(cell);
+  }
+}
+
+// -------------------- MONTH NAV --------------------
+function nextMonth() {
+  currentDate.setMonth(currentDate.getMonth() + 1);
+  renderCalendar();
+}
+
+function prevMonth() {
+  currentDate.setMonth(currentDate.getMonth() - 1);
+  renderCalendar();
+}
+
+// INIT
+renderCalendar();
+</script>
 <script>
 if ("Notification" in window) {
   Notification.requestPermission().then(permission => {
@@ -2064,102 +2227,7 @@ function updateTimers() {
 setInterval(updateTimers, 1000);
 </script>
 
-<script>
-const meetingLink = "https://meet.google.com/vje-ypxm-wjc?hs=224";
 
-// ===== Get next Thursday 8PM =====
-function getNextMeeting(){
-  const now = new Date();
-
-  const result = new Date(now);
-  result.setHours(20,0,0,0); // 8PM
-
-  const day = now.getDay(); // 0 Sun - 6 Sat
-  const daysUntilThursday = (4 - day + 7) % 7;
-
-  result.setDate(now.getDate() + daysUntilThursday);
-
-  // if today is Thursday but already past 8PM → next week
-  if(daysUntilThursday === 0 && now > result){
-    result.setDate(result.getDate() + 7);
-  }
-
-  return result;
-}
-
-// ===== Countdown =====
-// ===== Notification (once per session) =====
-let meetingAlertSent = false;
-
-function triggerMeetingAlert(){
-  const key = new Date().toDateString();
-
-  if(meetingAlertSent) return;
-
-  if(Notification.permission === "granted"){
-    new Notification("Meeting Started", {
-      body: "Your Thursday meeting is now live. Join now!"
-    });
-  }
-
-  meetingAlertSent = true;
-}
-
-// ===== Open link =====
-function openMeetingLink(){
-  window.open(meetingLink, "_blank");
-}
-
-// ===== ICS Calendar Download =====
-function downloadICS(){
-  const meeting = getNextMeeting();
-
-  const start = meeting.toISOString().replace(/[-:]/g,"").split(".")[0]+"Z";
-  const end = new Date(meeting.getTime() + 60*60*1000)
-              .toISOString().replace(/[-:]/g,"").split(".")[0]+"Z";
-
-  const ics = `
-BEGIN:VCALENDAR
-VERSION:2.0
-BEGIN:VEVENT
-SUMMARY:Weekly Meeting
-DTSTART:${start}
-DTEND:${end}
-DESCRIPTION:Weekly Thursday Meeting
-LOCATION:${meetingLink}
-END:VEVENT
-END:VCALENDAR`;
-
-  const blob = new Blob([ics], {type:"text/calendar"});
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "meeting.ics";
-  a.click();
-}
-
-
-function showPopup(msg){
-  const popup = document.createElement("div");
-  popup.innerText = msg;
-
-  popup.style.position = "fixed";
-  popup.style.top = "20px";
-  popup.style.right = "20px";
-  popup.style.background = "#8be9fd";
-  popup.style.color = "#000";
-  popup.style.padding = "12px 15px";
-  popup.style.borderRadius = "10px";
-  popup.style.zIndex = 99999;
-
-  document.body.appendChild(popup);
-
-  setTimeout(()=>popup.remove(), 5000);
-}
-
-// ===== UPDATE EVERYTHING =====
-</script>
 <script>
 let notesV4 = JSON.parse(localStorage.getItem("notesDataV4")) || [];
 let currentIndex = null;
@@ -2346,305 +2414,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 </script>
-<script>
-window.addEventListener("click", () => {
 
-  if (
-    "Notification" in window &&
-    Notification.permission !== "granted"
-  ) {
-
-    Notification.requestPermission();
-
-  }
-
-}, { once:true });
-let calendarEvents =
-JSON.parse(localStorage.getItem("calendarEvents")) || [];
-
-/* ===== SAVE ===== */
-function saveCalendar(){
-  localStorage.setItem(
-    "calendarEvents",
-    JSON.stringify(calendarEvents)
-  );
-}
-
-/* ===== ADD EVENT ===== */
-let editingEventId = null;
-function addCalendarEvent(){
-
-  const title =
-    document.getElementById("eventTitle").value;
-
-  const time =
-    document.getElementById("eventTime").value;
-
-  const repeat =
-    document.getElementById("eventRepeat").value;
-
-  const link =
-    document.getElementById("eventLink").value;
-
-  if(!title || !time){
-    alert("Please complete event details.");
-    return;
-  }
-
-if(editingEventId){
-
-  const existing =
-    calendarEvents.find(
-      e => e.id === editingEventId
-    );
-
-  if(existing){
-
-    existing.title = title;
-    existing.time = time;
-    existing.repeat = repeat;
-    existing.link = link;
-
-  }
-
-  editingEventId = null;
-
-}else{
-
-  calendarEvents.push({
-    id: crypto.randomUUID(),
-    title,
-    time,
-    repeat,
-    link,
-    alerted:false
-  });
-
-}
-
-  saveCalendar();
-  renderCalendar();
-
-  document.getElementById("eventTitle").value = "";
-  document.getElementById("eventTime").value = "";
-  document.getElementById("eventLink").value = "";
-  document.getElementById("eventRepeat").value = "none";
-}
-/* ===== DELETE ===== */
-function deleteEvent(id){
-
-  calendarEvents =
-    calendarEvents.filter(e => e.id !== id);
-
-  saveCalendar();
-  renderCalendar();
-}
-function editEvent(id){
-
-  const event =
-    calendarEvents.find(e => e.id === id);
-
-  if(!event) return;
-
-  editingEventId = id;
-
-  document.getElementById("eventTitle").value =
-    event.title;
-
-  document.getElementById("eventTime").value =
-    event.time;
-
-  document.getElementById("eventLink").value =
-    event.link || "";
-
-  document.getElementById("eventRepeat").value =
-    event.repeat || "none";
-
-}
-/* ===== RENDER ===== */
-function renderCalendar(){
-
-  const container =
-    document.getElementById("calendarEvents");
-
-  if(!container) return;
-
-  container.innerHTML = "";
-
-  if(calendarEvents.length === 0){
-
-    container.innerHTML = `
-      <div class="empty-calendar">
-        No events scheduled
-      </div>
-    `;
-
-    return;
-  }
-
-  calendarEvents.sort((a,b)=>
-    new Date(a.time) - new Date(b.time)
-  );
-
-  calendarEvents.forEach(event => {
-
-    const div = document.createElement("div");
-
-    div.className = "calendar-event";
-
-    const eventDate =
-      new Date(event.time);
-
-div.innerHTML = `
-
-<div class="calendar-event-info">
-
-  <h3>${event.title}</h3>
-
-  <p>${eventDate.toLocaleString()}</p>
-
-  ${
-    event.link
-    ? `
-      <button
-        class="join-btn"
-        onclick="window.open('${event.link}','_blank')"
-      >
-        ▶ Join Meeting
-      </button>
-    `
-    : ""
-  }
-
-</div>
-
-<div class="calendar-actions">
-
-  <button
-    class="edit-event-btn"
-    onclick="editEvent('${event.id}')"
-  >
-    <i class="fa-solid fa-pen"></i>
-  </button>
-
-  <button
-    class="delete-event-btn"
-    onclick="deleteEvent('${event.id}')"
-  >
-    <i class="fa-solid fa-trash"></i>
-  </button>
-
-</div>
-
-`;
-
-    container.appendChild(div);
-  });
-}
-
-/* ===== ALARM CHECK ===== */
-function checkCalendarAlerts(){
-
-  const now = Date.now();
-
-  calendarEvents.forEach(event => {
-
-    const eventTime =
-      new Date(event.time).getTime();
-
-    const diff = eventTime - now;
-
-    // ===== 5 MIN ALERT =====
-    if(
-      diff <= 300000 &&
-      diff > 0 &&
-      !event.alerted
-    ){
-
-      event.alerted = true;
-
-      saveCalendar();
-
-      console.log(
-        "ALERT TRIGGERED:",
-        event.title
-      );
-
-      // ===== BROWSER NOTIFICATION =====
-      if(
-        "Notification" in window &&
-        Notification.permission === "granted"
-      ){
-
-        new Notification(
-          "📅 Event Reminder",
-          {
-            body:
-              `${event.title} starts in 5 minutes`
-          }
-        );
-
-      }
-
-      // ===== SOUND =====
-      alertSound.currentTime = 0;
-
-      alertSound.play().catch(err => {
-        console.log("Sound blocked:", err);
-      });
-
-      // ===== POPUP =====
-      showPopup(
-        `📅 ${event.title} starts in 5 minutes`
-      );
-
-      // ===== AUTO OPEN LINK =====
-      if(event.link){
-        window.open(event.link, "_blank");
-      }
-
-    }
-
-    // ===== REPEAT =====
-    if(diff <= 0){
-
-      if(event.repeat === "daily"){
-
-        let next = new Date(event.time);
-
-        next.setDate(next.getDate() + 1);
-
-        event.time =
-          next.toISOString().slice(0,16);
-
-        event.alerted = false;
-      }
-
-      else if(event.repeat === "weekly"){
-
-        let next = new Date(event.time);
-
-        next.setDate(next.getDate() + 7);
-
-        event.time =
-          next.toISOString().slice(0,16);
-
-        event.alerted = false;
-      }
-
-      saveCalendar();
-      renderCalendar();
-    }
-
-  });
-
-}
-/* ===== INIT ===== */
-renderCalendar();
-
-setInterval(checkCalendarAlerts, 1000);
-
-</script>
 <script>
   let isEditingSpiels = false;
 </script>
