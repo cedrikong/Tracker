@@ -789,10 +789,11 @@ function closeWarningPopup(){
         <a href="https://dev.shopify.com/dashboard/129019726/stores/collaborations/new" target="_blank" class="eq b12"><span>SHOPIFY PARTNERS</span></a>
         <a href="https://docs.google.com/spreadsheets/d/1T1ZZNIwS_qY92P-272jS_mAqe-70bSb4ifcXLrdfTR8/edit?gid=794498043#gid=794498043" target="_blank" class="eq b13"><span>MANAGED ACCOUNTS</span></a></a>
         <a href="https://app.hubspot.com/reports-list/40137453/105616714/?filterSearch=conve" target="_blank" class="eq b14"><span>Response Time</span></a>
-        <a href="https://example.com" target="_blank" class="eq b15"></a>
+     
 
-        <a href="https://example.com" target="_blank" class="eq b16"></a>
+        <a href="https://docs.google.com/document/d/12z72W0NEG44i9xXYpYMg37MecQ9BUeqWFgZX_30f48s/edit?tab=t.io8xwdp517yq" target="_blank" class="eq b16"><span>SOP</span></a>
         <a href="https://example.com" target="_blank" class="eq b17"></a>
+           <a href="https://example.com" target="_blank" class="eq b15"></a>
         <a href="https://example.com" target="_blank" class="eq b18"></a>
         <a href="https://example.com" target="_blank" class="eq b19"></a>
         <a href="https://example.com" target="_blank" class="eq b20"></a>
@@ -2792,106 +2793,227 @@ Date: ${item.date}
 
   alert("Tracker saved to Notes!");
 }</script>
-
 <script>
-let updates = JSON.parse(localStorage.getItem("updates")) || [];
 
+const defaultUpdates = [];
+
+let updates =
+JSON.parse(localStorage.getItem("companyUpdates"))
+|| defaultUpdates;
+
+
+/* =========================
+   SAVE
+========================= */
 function saveUpdates(){
-  localStorage.setItem("updates", JSON.stringify(updates));
+
+  localStorage.setItem(
+    "companyUpdates",
+    JSON.stringify(updates)
+  );
+
 }
 
-function renderUpdates() {
-  const container = document.getElementById("updatesContainer");
-  container.innerHTML = "";
 
-  updates.forEach((u, i) => {
+/* =========================
+   AUTO GROW
+========================= */
+function autoGrow(textarea){
 
-    const div = document.createElement("div");
-    div.className = "update-item";
+  textarea.style.height = "auto";
 
-div.innerHTML = `
-  <div class="update-content">
-
-    <input id="update-title-${i}" value="${u.title}" disabled>
-    <textarea id="update-text-${i}" disabled>${u.text}</textarea>
-
-    <div class="update-actions">
-      <button id="update-edit-${i}" onclick="toggleEdit(${i})">✏️</button>
-      <button onclick="deleteUpdate(${i})">🗑</button>
-    </div>
-
-  </div>
-`;
-
-    container.appendChild(div);
-
-const textArea = div.querySelector(`#update-text-${i}`);
-
-    textArea.addEventListener("input", function () {
-      autoGrow(this);
-    });
-
-    autoGrow(textArea);
-    
-  });
-} 
+  textarea.style.height =
+    textarea.scrollHeight + "px";
+}
 
 
+/* =========================
+   ADD UPDATE
+========================= */
 function addUpdate(){
-  const icons = ["fa-bolt","fa-rocket","fa-circle-info","fa-check","fa-triangle-exclamation"];
 
-  updates.push({
+  const icons = [
+    "fa-bolt",
+    "fa-rocket",
+    "fa-circle-info",
+    "fa-circle-check",
+    "fa-triangle-exclamation"
+  ];
+
+  updates.unshift({
+
     title: "New Update",
-    text: "Write Something",
-    icon: icons[Math.floor(Math.random()*icons.length)],
+
+    text: "Write Something...",
+
+    icon: icons[
+      Math.floor(Math.random() * icons.length)
+    ],
+
     time: "Just now"
+
   });
 
   saveUpdates();
+
   renderUpdates();
 }
 
+
+/* =========================
+   TOGGLE EDIT
+========================= */
 function toggleEdit(i){
 
-const title = document.getElementById(`update-title-${i}`);
-const text = document.getElementById(`update-text-${i}`);
-const editBtn = document.getElementById(`update-edit-${i}`);
+  const title =
+    document.getElementById(`update-title-${i}`);
 
-  if(!title || !text) return;
+  const text =
+    document.getElementById(`update-text-${i}`);
 
-  // IF CURRENTLY EDITING → SAVE
+  const btn =
+    document.getElementById(`update-edit-${i}`);
+
+  if(!title || !text || !btn) return;
+
+
+  /* ===== SAVE ===== */
   if(!title.disabled){
 
     updates[i].title = title.value;
+
     updates[i].text = text.value;
 
     saveUpdates();
 
     title.disabled = true;
+
     text.disabled = true;
 
-    editBtn.innerHTML = "✏️";
+    btn.innerHTML = "✏️";
+
+    autoGrow(text);
 
   } else {
 
-    // ENABLE EDIT MODE
+    /* ===== EDIT MODE ===== */
     title.disabled = false;
+
     text.disabled = false;
 
     title.focus();
 
-    editBtn.innerHTML = "💾";
+    btn.innerHTML = "💾";
+
+    autoGrow(text);
   }
 }
 
+
+/* =========================
+   DELETE
+========================= */
 function deleteUpdate(i){
+
   updates.splice(i,1);
+
   saveUpdates();
+
   renderUpdates();
 }
 
-// INIT
+
+/* =========================
+   RENDER
+========================= */
+function renderUpdates(){
+
+  const container =
+    document.getElementById("updatesContainer");
+
+  if(!container) return;
+
+  container.innerHTML = "";
+
+  updates.forEach((u, i) => {
+
+    const div =
+      document.createElement("div");
+
+    div.className = "update-item";
+
+    div.innerHTML = `
+
+      <div class="update-content">
+
+        <!-- HEADER -->
+        <div class="update-header">
+
+          <i class="fa-solid ${u.icon} update-icon"></i>
+
+          <input
+            id="update-title-${i}"
+            value="${u.title}"
+            disabled
+          >
+
+        </div>
+
+        <!-- TEXT -->
+        <textarea
+          id="update-text-${i}"
+          disabled
+        >${u.text}</textarea>
+
+        <!-- ACTIONS -->
+        <div class="update-actions">
+
+          <button
+            class="edit-btn"
+            id="update-edit-${i}"
+            onclick="toggleEdit(${i})"
+          >
+            ✏️
+          </button>
+
+          <button
+            class="delete-btn"
+            onclick="deleteUpdate(${i})"
+          >
+            🗑
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+    container.appendChild(div);
+
+    /* ===== AUTO GROW ===== */
+    const textArea =
+      div.querySelector(`#update-text-${i}`);
+
+    autoGrow(textArea);
+
+    textArea.addEventListener(
+      "input",
+      function(){
+        autoGrow(this);
+      }
+    );
+
+  });
+
+}
+
+
+/* =========================
+   INIT
+========================= */
 renderUpdates();
+
 </script>
 <script>
   function autoGrow(textarea) {
