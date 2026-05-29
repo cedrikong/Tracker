@@ -2582,30 +2582,26 @@ function renderMeetings(){
   }
 </span>
 
-      <div class="meeting-actions">
+<div class="meeting-actions">
 
-        ${
-          meeting.link
-          ?
-          `<a
-             href="${meeting.link}"
-             target="_blank"
-             class="join-btn"
-           >
-             Join
-           </a>`
-          :
-          ``
-        }
+  ${meeting.link ? `
+    <a
+      href="${meeting.link}"
+      target="_blank"
+      class="join-btn"
+    >
+      Join
+    </a>
+  ` : ""}
 
-        <button
-          class="delete-btn"
-          onclick="deleteMeeting(${meeting.id})"
-        >
-          Delete
-        </button>
+  <button
+    class="delete-btn"
+    onclick="deleteMeeting(${meeting.id})"
+  >
+    Delete
+  </button>
 
-      </div>
+</div>
     `;
 
     list.appendChild(div);
