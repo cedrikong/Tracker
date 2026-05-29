@@ -4282,7 +4282,7 @@ background:var(--primary)!important;
 /* TITLE */
 .success-popup-box h3{
   color: white;
-  font-size: 20px;
+  font-size: 15px;
   margin: 0 0 8px;
 }
 
@@ -4305,7 +4305,7 @@ background:var(--primary)!important;
   height: 4px;
   width: 100%;
 
-  background: #50fa7b;
+  background: red;
 
   animation: popupTimer 2.6s linear forwards;
 }
@@ -4626,7 +4626,7 @@ MEETING PANEL
   padding:10px;
 
   border-radius:12px;
-
+  text-decoration: none;
   cursor:pointer;
 
   text-decoration:none;
@@ -4635,12 +4635,22 @@ MEETING PANEL
 }
 
 .join-btn{
-  background:#8be9fd;
-  color:black;
+  background:transparent;
+width:100%;
+  color:var(--accent);
+margin:5px;
+  backdrop-filter:blur(10px);
+text-decoration: none;
+  transition:0.3s;
+  margin-bottom: 20px;
 }
+
 
 .delete-btn{
   background:#ff4b5c;
+  color:white;
+}
+.join-btn:hover{
   color:white;
 }
 
@@ -4653,7 +4663,7 @@ POPUP
   inset:0;
 
   background:
-    rgba(0,0,0,0.65);
+    rgba(0,0,0,0.03);
 
   display:flex;
   justify-content:center;
@@ -4695,11 +4705,12 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover{
 
 .popup-box p{
   color:#ccc;
-  margin-bottom:18px;
+  margin-bottom:10px;
+  font-size: 13px;
 }
 
 .popup-box button{
-  margin-top:15px;
+  margin-top:0px;
 
   border:none;
 
