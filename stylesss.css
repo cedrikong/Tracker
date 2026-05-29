@@ -4356,7 +4356,175 @@ background:var(--primary)!important;
 
   margin: 0;
 }
+.update-item textarea {
+  overflow: hidden;
+  resize: none;
+  min-height: 60px;
+}
+/* =========================
+   CARD
+========================= */
+.update-item{
 
+  position: relative;
+
+  padding: 14px;
+
+  border-radius: 14px;
+
+  margin-bottom: 12px;
+
+  background: rgba(255,255,255,0.03);
+
+  overflow: visible;
+}
+
+
+/* =========================
+   CONTENT
+========================= */
+.update-content{
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+.update-header{
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+
+.update-icon{
+
+  font-size: 18px;
+
+  width: 24px;
+
+  text-align: center;
+
+  color: #8be9fd;
+}
+
+
+/* =========================
+   TITLE
+========================= */
+.update-header input{
+
+  flex: 1;
+
+  background: transparent;
+
+  border: none;
+
+  outline: none;
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: 600;
+}
+
+
+/* =========================
+   TEXTAREA
+========================= */
+.update-item textarea{
+
+  width: 100%;
+
+  background: transparent;
+
+  border: none;
+
+  outline: none;
+
+  color: white;
+
+  resize: none;
+
+  overflow: hidden;
+
+  min-height: 60px;
+
+  line-height: 1.5;
+
+  font-size: 14px;
+}
+
+
+/* =========================
+   ACTIONS
+========================= */
+.update-actions{
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 8px;
+
+  opacity: 0;
+
+  transform: translateY(5px);
+
+  pointer-events: none;
+
+  transition: 0.2s ease;
+}
+
+
+.update-item:hover .update-actions{
+
+  opacity: 1;
+
+  transform: translateY(0);
+
+  pointer-events: auto;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+.edit-btn,
+.delete-btn{
+
+  border: none;
+
+  padding: 6px 10px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  color: white;
+}
+
+
+.edit-btn{
+
+  background: #444;
+}
+
+
+.delete-btn{
+
+  background: red;
+}
 /* PROGRESS BAR */
 .success-bar{
   position: absolute;
