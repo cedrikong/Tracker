@@ -2800,47 +2800,42 @@ function saveUpdates(){
   localStorage.setItem("updates", JSON.stringify(updates));
 }
 
-function renderUpdates(){
+function renderUpdates() {
   const container = document.getElementById("updatesContainer");
   container.innerHTML = "";
 
-  setTimeout(() => {
-  document.querySelectorAll(".update-text").forEach(t => {
-    autoResize(t);
-  });
-}, 0);
-
   updates.forEach((u, i) => {
-    const card = document.createElement("div");
-    card.className = "update-item";
 
-    card.innerHTML = `
-      <i class="fa-solid ${u.icon}"></i>
+    const div = document.createElement("div");
+    div.className = "update-item";
 
-      
+div.innerHTML = `
+  <div class="update-content">
 
-      <div style="flex:1;">
-        <input id="title-${i}" value="${u.title}" disabled class="update-title">
+    <input id="update-title-${i}" value="${u.title}" disabled>
+    <textarea id="update-text-${i}" disabled>${u.text}</textarea>
 
-        <textarea 
-  id="text-${i}" 
-  disabled 
-  class="update-text"
-  oninput="autoResize(this)"
->${u.text}</textarea>
+    <div class="update-actions">
+      <button id="update-edit-${i}" onclick="toggleEdit(${i})">✏️</button>
+      <button onclick="deleteUpdate(${i})">🗑</button>
+    </div>
 
-        <span>${u.time}</span>
+  </div>
+`;
 
-        <div class="update-actions">
-          <button onclick="toggleEdit(${i})" id="edit-${i}">✏️</button>
-          <button onclick="deleteUpdate(${i})">🗑</button>
-        </div>
-      </div>
-    `;
+    container.appendChild(div);
 
-    container.appendChild(card);
+const textArea = div.querySelector(`#update-text-${i}`);
+
+    textArea.addEventListener("input", function () {
+      autoGrow(this);
+    });
+
+    autoGrow(textArea);
+    
   });
-}
+} 
+
 
 function addUpdate(){
   const icons = ["fa-bolt","fa-rocket","fa-circle-info","fa-check","fa-triangle-exclamation"];
@@ -2897,6 +2892,12 @@ function deleteUpdate(i){
 
 // INIT
 renderUpdates();
+</script>
+<script>
+  function autoGrow(textarea) {
+  textarea.style.height = "auto"; // reset height
+  textarea.style.height = textarea.scrollHeight + "px"; // expand
+}
 </script>
 <script>
   function autoResize(el){
