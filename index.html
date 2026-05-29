@@ -11,21 +11,6 @@
 </head>
 <body>
   
-<div id="meetingPopup" class="meeting-popup hidden">
-  
-  <div class="popup-glow"></div>
-
-  <div class="popup-icon">⏰</div>
-
-  <div class="popup-content">
-    <div class="popup-title" id="popupTitle">Meeting Started</div>
-    <div class="popup-time" id="popupTime">--</div>
-
-    <div class="popup-actions">
-      <a id="popupLink" target="_blank" class="join-btn">Join</a>
-      <button class="close-btn" onclick="closePopup()">Close</button>
-    </div>
-  </div>
 
 </div>
   <!-- LOGIN SCREEN -->
@@ -65,10 +50,6 @@
     <a href="#Notes"><i class="fa-solid fa-note-sticky"></i> Notes</a>
     <a href="#Tracker"><i class="fa-solid fa-chart-line"></i> Tracker</a>
     <a href="#Stats"><i class="fa-solid fa-flag-checkered"></i> Stats</a>
-    <a href="#Meeting">
-  <i class="fa-solid fa-calendar-days"></i>
-  Calendar
-</a>
   </div>
         <div class="global-search">
   <i class="fa-solid fa-magnifying-glass"></i>
@@ -1575,38 +1556,7 @@ function refreshAlerts(){
 </div></section>
 
 
-<section id="Meeting" class="section meeting-bg bg5">
 
-  <div class="calendar-wrapper">
-
-    <div class="calendar-card">
-
-      <div class="calendar-header">
-        <h2>📅 Calendar & Meeting Alarm</h2>
-      </div>
-
-      <div class="calendar-inputs modern-form">
-
-        <input type="text" id="eventTitle" placeholder="✏️ Event title">
-        <input type="datetime-local" id="eventTime">
-        <input type="text" id="eventLink" placeholder="🔗 Meeting link (optional)">
-
-        <select id="eventRepeat">
-          <option value="none">🔁 No Repeat</option>
-          <option value="daily">🔁 Daily</option>
-          <option value="weekly">📅 Weekly</option>
-          <option value="monthly">📆 Monthly</option>
-        </select>
-
-        <button onclick="addCalendarEvent()">➕ Add Event</button>
-
-      </div>
-
-      <div id="eventList" class="event-list"></div>
-
-    </div>
-  </div>
-</section>
 
 <!-- ALERT POPUP -->
 <div id="meetingAlert" class="custom-alert hidden">
@@ -1633,178 +1583,6 @@ function refreshAlerts(){
 <footer>
     Designed by <b>AriesPogi</b>
 </footer>
-<script>
-  let events = JSON.parse(localStorage.getItem("events")) || [];
-let editIndex = null;
-
-// SAVE
-function saveEvents(){
-  localStorage.setItem("events", JSON.stringify(events));
-}
-
-// ADD OR UPDATE
-function addCalendarEvent(){
-
-  const title = document.getElementById("eventTitle").value;
-  const time = document.getElementById("eventTime").value;
-  const link = document.getElementById("eventLink").value;
-  const repeat = document.getElementById("eventRepeat").value;
-
-  if(!title || !time){
-    alert("Please fill title and time");
-    return;
-  }
-
-  const eventData = {
-    title,
-    time,
-    link,
-    repeat,
-    notified:false
-  };
-
-  if(editIndex !== null){
-    events[editIndex] = eventData;
-    editIndex = null;
-  }else{
-    events.push(eventData);
-  }
-
-  saveEvents();
-  renderEvents();
-  clearForm();
-}
-
-// CLEAR INPUTS
-function clearForm(){
-  document.getElementById("eventTitle").value = "";
-  document.getElementById("eventTime").value = "";
-  document.getElementById("eventLink").value = "";
-  document.getElementById("eventRepeat").value = "none";
-}
-
-// DELETE
-function deleteEvent(index){
-  events.splice(index,1);
-  saveEvents();
-  renderEvents();
-}
-
-// EDIT
-function editEvent(index){
-  const e = events[index];
-
-  document.getElementById("eventTitle").value = e.title;
-  document.getElementById("eventTime").value = e.time;
-  document.getElementById("eventLink").value = e.link;
-  document.getElementById("eventRepeat").value = e.repeat;
-
-  editIndex = index;
-}
-
-// OPEN LINK
-function openLink(link){
-  if(link) window.open(link, "_blank");
-}
-
-// COUNTDOWN
-function getCountdown(time){
-  const now = new Date().getTime();
-  const target = new Date(time).getTime();
-  const diff = target - now;
-
-  if(diff <= 0) return "⏰ Time reached";
-
-  const h = Math.floor(diff / (1000*60*60));
-  const m = Math.floor((diff % (1000*60*60)) / (1000*60));
-  const s = Math.floor((diff % (1000*60)) / 1000);
-
-  return `${h}h ${m}m ${s}s`;
-}
-
-// REPEAT LOGIC
-function applyRepeat(event){
-  const time = new Date(event.time);
-
-  if(event.repeat === "daily"){
-    time.setDate(time.getDate()+1);
-  }
-  if(event.repeat === "weekly"){
-    time.setDate(time.getDate()+7);
-  }
-  if(event.repeat === "monthly"){
-    time.setMonth(time.getMonth()+1);
-  }
-
-  event.time = time.toISOString().slice(0,16);
-  event.notified = false;
-}
-
-// RENDER
-function renderEvents(){
-
-  const list = document.getElementById("eventList");
-  list.innerHTML = "";
-
-  events.forEach((e,index)=>{
-
-    const card = document.createElement("div");
-    card.className = "event-card";
-
-    card.innerHTML = `
-      <div class="event-title">${e.title}</div>
-      <div class="event-time">🕒 ${e.time}</div>
-
-      <div class="countdown" id="cd-${index}">
-        ${getCountdown(e.time)}
-      </div>
-
-      <div class="event-actions">
-
-        <button class="link-btn" onclick="openLink('${e.link}')">🔗 Link</button>
-        <button class="edit-btn" onclick="editEvent(${index})">✏️ Edit</button>
-        <button class="delete-btn" onclick="deleteEvent(${index})">🗑 Delete</button>
-
-      </div>
-    `;
-
-    list.appendChild(card);
-  });
-}
-
-// ALERT + LIVE TIMER CHECK
-setInterval(()=>{
-
-  const now = new Date().getTime();
-
-  events.forEach((e,i)=>{
-
-    const target = new Date(e.time).getTime();
-
-    // ALERT
-if(!e.notified && now >= target){
-  showMeetingPopup(e);
-  e.notified = true;
-
-      if(e.repeat !== "none"){
-        applyRepeat(e);
-      }
-      saveEvents();
-    }
-
-    // UPDATE COUNTDOWN
-    const el = document.getElementById(`cd-${i}`);
-    if(el){
-      el.innerText = getCountdown(e.time);
-    }
-
-  });
-
-},1000);
-
-// INIT
-renderEvents();
-</script>
 
 <script>
 if ("Notification" in window) {
@@ -2487,8 +2265,478 @@ window.addEventListener("DOMContentLoaded", () => {
 <script>
   let isEditingSpiels = false;
 </script>
-</body>
+<!-- =========================
+MINI CLOCK DOCK
+========================= -->
 
+<div class="mini-clock-dock" onclick="toggleMeetingPanel()">
+
+  <div class="clock-ring"></div>
+
+  <div class="clock-inner">
+    <i class="fa-solid fa-clock"></i>
+  </div>
+
+  <span class="clock-badge" id="alarmCount">
+    0
+  </span>
+
+</div>
+
+<!-- =========================
+MEETING PANEL
+========================= -->
+
+<div class="meeting-panel hidden" id="meetingPanel">
+
+  <div class="meeting-header">
+
+    <h2>
+      Meetings & Alarms
+    </h2>
+
+    <button onclick="toggleMeetingPanel()">
+      ✕
+    </button>
+
+  </div>
+
+  <input
+    type="text"
+    id="meetingTitle"
+    placeholder="Meeting title"
+  >
+
+  <input
+    type="datetime-local"
+    id="meetingTime"
+  >
+
+  <input
+    type="url"
+    id="meetingLink"
+    placeholder="Meeting link (optional)"
+  >
+
+  <select id="meetingRepeat">
+
+  <option value="none">
+    No Repeat
+  </option>
+
+  <option value="daily">
+    Repeat Daily
+  </option>
+
+  <option value="weekly">
+    Repeat Weekly
+  </option>
+
+</select>
+
+  <button
+    class="save-meeting-btn"
+    onclick="addMeeting()"
+  >
+    Save Meeting
+  </button>
+
+  <div
+    class="meeting-list"
+    id="meetingList"
+  ></div>
+
+</div>
+
+<!-- =========================
+POPUP ALERT
+========================= -->
+
+<div class="meeting-popup hidden" id="meetingPopup">
+
+  <div class="popup-box">
+
+    <h2 id="popupTitle">
+      Meeting Starting
+    </h2>
+
+    <p id="popupTime"></p>
+
+    <a
+      id="popupLink"
+      target="_blank"
+      class="join-btn"
+    >
+      Join Meeting
+    </a>
+
+    <button onclick="closePopup()">
+      Close
+    </button>
+
+  </div>
+
+</div>
+
+<!-- =========================
+ALARM SOUND
+========================= -->
+
+<audio id="alarmSound">
+  <source
+    src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3"
+    type="audio/mpeg"
+  >
+</audio>
+</body>
+<script>
+
+/* =========================
+DATA
+========================= */
+
+let meetings =
+JSON.parse(localStorage.getItem("meetings"))
+|| [];
+
+/* =========================
+OPEN/CLOSE PANEL
+========================= */
+
+function toggleMeetingPanel(){
+
+  document
+    .getElementById("meetingPanel")
+    .classList
+    .toggle("hidden");
+}
+
+/* =========================
+SAVE
+========================= */
+
+function saveMeetings(){
+
+  localStorage.setItem(
+    "meetings",
+    JSON.stringify(meetings)
+  );
+}
+
+/* =========================
+BADGE
+========================= */
+
+function updateBadge(){
+
+  const badge =
+    document.getElementById("alarmCount");
+
+  badge.innerText = meetings.length;
+
+  if(meetings.length <= 0){
+    badge.style.display = "none";
+  } else {
+    badge.style.display = "flex";
+  }
+}
+
+/* =========================
+ADD MEETING
+========================= */
+
+function addMeeting(){
+
+  const title =
+    document.getElementById("meetingTitle").value;
+
+  const time =
+    document.getElementById("meetingTime").value;
+
+  const link =
+    document.getElementById("meetingLink").value;
+
+  const repeat =
+    document.getElementById("meetingRepeat").value;
+
+  if(!title || !time){
+
+    alert("Complete the fields");
+
+    return;
+  }
+
+  meetings.push({
+
+    id:Date.now(),
+
+    title,
+
+    time,
+
+    link,
+
+    repeat,
+
+    alerted:false
+  });
+
+  saveMeetings();
+
+  renderMeetings();
+
+  updateBadge();
+
+  document.getElementById("meetingTitle").value = "";
+
+  document.getElementById("meetingTime").value = "";
+
+  document.getElementById("meetingLink").value = "";
+
+  document.getElementById("meetingRepeat").value =
+    "none";
+}
+
+/* =========================
+DELETE
+========================= */
+
+function deleteMeeting(id){
+
+  meetings =
+    meetings.filter(m => m.id !== id);
+
+  saveMeetings();
+
+  renderMeetings();
+
+  updateBadge();
+}
+
+/* =========================
+COUNTDOWN
+========================= */
+
+function getCountdown(time){
+
+  const now = new Date();
+
+  const target = new Date(time);
+
+  const diff = target - now;
+
+  if(diff <= 0){
+    return "Starting now";
+  }
+
+  const hrs =
+    Math.floor(diff / 1000 / 60 / 60);
+
+  const mins =
+    Math.floor((diff / 1000 / 60) % 60);
+
+  return `${hrs}h ${mins}m left`;
+}
+
+/* =========================
+RENDER
+========================= */
+
+function renderMeetings(){
+
+  const list =
+    document.getElementById("meetingList");
+
+  list.innerHTML = "";
+
+  meetings.forEach(meeting => {
+
+    const div =
+      document.createElement("div");
+
+    div.className = "meeting-card";
+
+    div.innerHTML = `
+
+      <h3>${meeting.title}</h3>
+
+      <p>
+        ${new Date(meeting.time).toLocaleString()}
+      </p>
+
+<span>
+  ⏳ ${getCountdown(meeting.time)}
+</span>
+
+<br><br>
+
+<span style="color:#8be9fd;">
+  🔁 ${
+    meeting.repeat === "daily"
+    ? "Daily"
+
+    : meeting.repeat === "weekly"
+    ? "Weekly"
+
+    : "No Repeat"
+  }
+</span>
+
+      <div class="meeting-actions">
+
+        ${
+          meeting.link
+          ?
+          `<a
+             href="${meeting.link}"
+             target="_blank"
+             class="join-btn"
+           >
+             Join
+           </a>`
+          :
+          ``
+        }
+
+        <button
+          class="delete-btn"
+          onclick="deleteMeeting(${meeting.id})"
+        >
+          Delete
+        </button>
+
+      </div>
+    `;
+
+    list.appendChild(div);
+  });
+}
+
+/* =========================
+POPUP
+========================= */
+
+function showPopup(meeting){
+
+  document
+    .getElementById("popupTitle")
+    .innerText =
+      "⏰ " + meeting.title;
+
+  document
+    .getElementById("popupTime")
+    .innerText =
+      new Date(meeting.time)
+      .toLocaleString();
+
+  const link =
+    document.getElementById("popupLink");
+
+  if(meeting.link){
+
+    link.href = meeting.link;
+
+    link.style.display = "inline-block";
+
+  } else {
+
+    link.style.display = "none";
+  }
+
+  document
+    .getElementById("meetingPopup")
+    .classList
+    .remove("hidden");
+
+  document
+    .getElementById("alarmSound")
+    .play();
+}
+
+function closePopup(){
+
+  document
+    .getElementById("meetingPopup")
+    .classList
+    .add("hidden");
+}
+
+/* =========================
+CHECK ALERTS
+========================= */
+
+setInterval(() => {
+
+  const now = new Date();
+
+  meetings.forEach(meeting => {
+
+    const target =
+      new Date(meeting.time);
+
+    if(
+      target <= now &&
+      !meeting.alerted
+    ){
+
+      meeting.alerted = true;
+
+      saveMeetings();
+
+      showPopup(meeting);
+
+      /* ======================
+      REPEAT SYSTEM
+      ====================== */
+
+      if(meeting.repeat === "daily"){
+
+        const next =
+          new Date(meeting.time);
+
+        next.setDate(
+          next.getDate() + 1
+        );
+
+        meeting.time =
+          next.toISOString().slice(0,16);
+
+        meeting.alerted = false;
+      }
+
+      else if(meeting.repeat === "weekly"){
+
+        const next =
+          new Date(meeting.time);
+
+        next.setDate(
+          next.getDate() + 7
+        );
+
+        meeting.time =
+          next.toISOString().slice(0,16);
+
+        meeting.alerted = false;
+      }
+
+      saveMeetings();
+
+      renderMeetings();
+    }
+
+  });
+
+},1000);
+
+/* =========================
+INIT
+========================= */
+
+renderMeetings();
+
+updateBadge();
+
+</script>
 <script>
 document.querySelectorAll('nav a').forEach(link => {
   link.addEventListener('click', function(e) {
