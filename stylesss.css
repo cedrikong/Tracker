@@ -482,6 +482,25 @@ body.neon {
   --primary: #00f7ff;
   --glow: #00f7ff;
 }
+.update-item {
+  position: relative;
+}
+
+/* content stack */
+.update-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* BUTTONS LOWER RIGHT */
+.update-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+margin-right:10px;
+  margin-top: 10px;
+}
 
 /* GLOW EFFECT */
 button {
@@ -1863,6 +1882,22 @@ body.black .eq {
     font-weight: 600;
     color: var(--primary);
 }
+.update-item textarea {
+  width: 100%;
+  resize: none;        /* optional (remove if you want manual resize) */
+  height: auto;
+  min-height: 60px;
+  overflow: hidden;    /* prevents internal scroll */
+}
+.updates-feed {
+  height: auto;
+  overflow: visible;
+}
+
+#updatesContainer {
+  height: auto;
+  overflow: visible;
+}
 
 .updates-header i {
     font-size: 18px;
@@ -1882,7 +1917,39 @@ body.black .eq {
 .updates-feed::-webkit-scrollbar {
     width: 6px;
 }
+/* CARD */
+.update-item {
+  position: relative;
+  padding: 12px;
+}
 
+/* ACTIONS HIDDEN BY DEFAULT */
+.update-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+
+  opacity: 0;
+  transform: translateY(5px);
+  pointer-events: none;
+
+  transition: 0.2s ease;
+}
+.update-item {
+  transition: background 0.2s ease;
+}
+
+.update-item:hover {
+  background: rgba(255,255,255,0.03);
+  border-radius: 10px;
+}
+
+/* SHOW ON HOVER */
+.update-item:hover .update-actions {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
 .updates-feed::-webkit-scrollbar-track {
     border-radius: 10px;
 }
@@ -1897,19 +1964,13 @@ body.black .eq {
 }
 
 /* ITEM */
-.update-item {
-    display: flex;
-    gap: 12px;
-    padding: 10px;
-
-    border-radius: 10px;
-
-    border: 1px solid rgba(255,255,255,0.08);
-
-    transition: 0.2s;
+.update-item textarea {
+  width: 100%;
+  min-height: 60px;
+  resize: none;
+  overflow: hidden;
 }
-.update-item:textarea 
-/* ICON */
+
 .update-item i {
     color: var(--primary);
     font-size: 14px;
@@ -4324,7 +4385,7 @@ body.black .update-actions button {
 }
 /* BUTTON STYLE */
 .update-actions button {
-  background: rgba(255,255,255,0.05);
+  background: var(--card)!important;
   border: 1px solid rgba(255,255,255,0.15);
   color: #ccc;
 
