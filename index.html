@@ -49,6 +49,7 @@
     <a href="#Home"><i class="fa-solid fa-house"></i> Home</a>
     <a href="#Notes"><i class="fa-solid fa-note-sticky"></i> Notes</a>
     <a href="#Tracker"><i class="fa-solid fa-chart-line"></i> Tracker</a>
+    <a href="#Handbook"><i class="fa-solid fa-book-open"></i> Handbook</a>
     <a href="#Stats"><i class="fa-solid fa-flag-checkered"></i> Stats</a>
   </div>
         <div class="global-search">
@@ -1323,6 +1324,291 @@ Ethoca and CDRN together provides up to 70% coverage for the alerts market. By k
 
 </section>
 
+<section id="Handbook" class="handbook">
+
+  <div class="handbook-container">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="handbook-sidebar">
+
+      <div class="hb-header">
+        <i class="fa-solid fa-book"></i>
+        <h2>Handbook</h2>
+      </div>
+
+      <input
+        type="text"
+        placeholder="Search handbook..."
+        oninput="filterHandbook(this.value)"
+      >
+
+<div class="hb-menu">
+
+  <div class="hb-item">
+    <button onclick="toggleHBMenu(this)">📘 Getting to Know Chargeblast ▾</button>
+    <div class="hb-submenu">
+      <button onclick="showHB('general-1')">What is Chargeblast</button>
+      <button onclick="showHB('general-2')">How does it work</button>
+      <button onclick="showHB('general-3')">Chargeblast Dashboard</button>
+    </div>
+  </div>
+
+  <div class="hb-item">
+    <button onclick="toggleHBMenu(this)">🚨 Alerts ▾</button>
+    <div class="hb-submenu">
+      <button onclick="showHB('alerts')">Alert Types</button>
+      <button onclick="showHB('alerts')">Alert Flow</button>
+    </div>
+  </div>
+
+  <div class="hb-item">
+    <button onclick="toggleHBMenu(this)">🟦 RDR / CDRN ▾</button>
+    <div class="hb-submenu">
+      <button onclick="showHB('rdr')">RDR Guide</button>
+      <button onclick="showHB('rdr')">CDRN Guide</button>
+    </div>
+  </div>
+
+  <div class="hb-item">
+    <button onclick="toggleHBMenu(this)">🟣 Ethoca ▾</button>
+    <div class="hb-submenu">
+      <button onclick="showHB('ethoca')">Overview</button>
+    </div>
+  </div>
+
+  <div class="hb-item">
+    <button onclick="toggleHBMenu(this)">💳 AMEX ▾</button>
+    <div class="hb-submenu">
+      <button onclick="showHB('amex')">AMEX Flow</button>
+    </div>
+  </div>
+
+  <div class="hb-item">
+    <button onclick="toggleHBMenu(this)">💰 Refunds ▾</button>
+    <div class="hb-submenu">
+      <button onclick="showHB('refunds')">Refund Policy</button>
+    </div>
+  </div>
+
+  <div class="hb-item">
+    <button onclick="toggleHBMenu(this)">💬 Scripts ▾</button>
+    <div class="hb-submenu">
+      <button onclick="showHB('scripts')">Support Scripts</button>
+    </div>
+  </div>
+
+</div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="handbook-main">
+
+      <!-- GENERAL -->
+      <section id="hb-general-1" class="hb-section active">
+
+      
+
+        <div class="hb-card">
+         <img src="1.JPG" onclick="openImage(this)">
+        </div>
+
+      </section>
+
+            <section id="hb-general-2" class="hb-section active">
+
+      
+
+        <div class="hb-card">
+         <img src="2.jpg" onclick="openImage(this)">
+        </div>
+        
+
+      </section>
+
+
+            <section id="hb-general-3" class="hb-section active">
+
+        <div class="hb-card">
+         <img src="3.jpg" onclick="openImage(this)">
+        </div>
+                <div class="hb-card">
+         <img src="4.jpg" onclick="openImage(this)">
+        </div>
+                        <div class="hb-card">
+         <img src="5.jpg" onclick="openImage(this)">
+        </div>
+                        <div class="hb-card">
+         <img src="6.jpg" onclick="openImage(this)">
+        </div>
+                        <div class="hb-card">
+         <img src="7.jpg" onclick="openImage(this)">
+        </div>
+                        <div class="hb-card">
+         <img src="8.jpg" onclick="openImage(this)">
+        </div>
+                        <div class="hb-card">
+         <img src="9.jpg" onclick="openImage(this)">
+        </div>
+                        <div class="hb-card">
+         <img src="10.jpg" onclick="openImage(this)">
+        </div>
+                        <div class="hb-card">
+         <img src="11.jpg" onclick="openImage(this)">
+         
+        </div>
+
+
+
+      </section>
+
+                  <section id="hb-general-4" class="hb-section active">
+
+        <div class="hb-card">
+         <img src="5.jpg" onclick="openImage(this)">
+        </div>
+
+      </section>
+      
+
+      <!-- ALERTS -->
+      <section id="hb-alerts" class="hb-section">
+
+        <h1>Alert Handling</h1>
+
+        <div class="hb-card">
+          <ol>
+            <li>Open alert in portal</li>
+            <li>Match transaction (BIN / last 4 / amount)</li>
+            <li>Locate in Stripe or processor</li>
+            <li>Refund if necessary</li>
+            <li>Mark alert as processed</li>
+          </ol>
+        </div>
+
+      </section>
+
+      <!-- RDR -->
+      <section id="hb-rdr" class="hb-section">
+
+        <h1>RDR / CDRN Rules</h1>
+
+        <div class="hb-card">
+          <p>
+            RDR handles Visa disputes automatically based on rulesets.
+            If out of scope, alerts may fall into CDRN for manual review.
+          </p>
+        </div>
+
+        <div class="hb-card">
+          <p>
+            Keeping both RDR + CDRN active ensures full protection coverage
+            and reduces gaps in dispute handling.
+          </p>
+        </div>
+  
+      </section>
+
+      <!-- ETHOCA -->
+      <section id="hb-ethoca" class="hb-section">
+
+        <h1>Ethoca Process</h1>
+
+        <div class="hb-card">
+          <p>
+            Ethoca provides Mastercard chargeback alerts before disputes are filed.
+            These alerts should be actioned immediately to avoid fees.
+          </p>
+        </div>
+
+      </section>
+
+      <!-- AMEX -->
+      <section id="hb-amex" class="hb-section">
+
+        <h1>AMEX Enrollment</h1>
+
+        <div class="hb-card">
+          <p>
+            AMEX requires direct merchant ID enrollment for best coverage and match rate.
+          </p>
+        </div>
+
+      </section>
+
+      <!-- REFUNDS -->
+      <section id="hb-refunds" class="hb-section">
+
+        <h1>Refund Process</h1>
+
+        <div class="hb-card">
+          <ol>
+            <li>Search transaction in Stripe / processor</li>
+            <li>Verify BIN + amount + date</li>
+            <li>Issue refund</li>
+            <li>Update alert status</li>
+          </ol>
+        </div>
+
+      </section>
+
+      <!-- SCRIPTS -->
+      <section id="hb-scripts" class="hb-section">
+
+        <h1>Support Scripts</h1>
+
+        <div class="hb-card">
+          <p>
+            Use predefined spiels for consistency in customer communication.
+          </p>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</section>
+<script>
+  function toggleHBMenu(btn) {
+  const submenu = btn.nextElementSibling;
+
+  const isOpen = submenu.style.display === "flex";
+
+  // close all first (optional clean UX)
+  document.querySelectorAll(".hb-submenu").forEach(m => {
+    m.style.display = "none";
+  });
+
+  submenu.style.display = isOpen ? "none" : "flex";
+}
+</script>
+<script>
+
+function showHB(id){
+
+  document.querySelectorAll(".hb-section")
+    .forEach(el => el.classList.remove("active"));
+
+  document.getElementById("hb-" + id)
+    .classList.add("active");
+}
+
+function filterHandbook(value){
+
+  const v = value.toLowerCase();
+
+  document.querySelectorAll(".hb-card").forEach(card => {
+    card.style.display =
+      card.innerText.toLowerCase().includes(v)
+        ? "block"
+        : "none";
+  });
+
+}
+
+</script>
 <script>
 function generateAlertMatch() {
 
@@ -1571,7 +1857,7 @@ function refreshAlerts(){
     <div class="alert-body">
       <h3 id="alertTitle"></h3>
       <p id="alertTime"></p>
-      <a id="alertLink" target="_blank">Join Meeting</a>
+      <a id="alertLink" target="_blank" style="color:red;">Join Meeting</a>
     </div>
 
     <div class="alert-footer">
@@ -1603,6 +1889,7 @@ alertSound.play().catch(()=>{});
 /* ================= SAVE ================= */
 
 /* ================= TIMER ================= */
+
 function getRemainingTime(lastAlert, duration = 30){
   const now = Date.now();
   const limitMs = duration * 60 * 1000;
@@ -2010,10 +2297,39 @@ function showAlert(message){
   document.getElementById("alertModal").classList.remove("hidden");
 }
 
-function closeAlert(){
+let meetingToDelete = null;
+
+function askDelete(id) {
+  meetingToDelete = id;
+
+  document.getElementById("alertText").innerText =
+    "Are you sure you want to delete this meeting?";
+
+  document.getElementById("alertModal").classList.remove("hidden");
+}
+
+function confirmDelete() {
+  if (meetingToDelete === null) return;
+
+  deleteMeeting(meetingToDelete); // 🔥 THIS is the real delete
+
+  meetingToDelete = null;
+
   document.getElementById("alertModal").classList.add("hidden");
 }
-function updateTimers() {
+
+function closeAlert() {
+  meetingToDelete = null; // cancel delete
+  document.getElementById("alertModal").classList.add("hidden");
+
+  // 🔥 FORCE CLOSE MODAL
+  document.getElementById("alertModal").classList.add("hidden");
+}
+
+
+</script>
+<script>
+  function updateTimers() {
   const timers = document.querySelectorAll(".timer");
 
   timers.forEach(el => {
@@ -2024,58 +2340,87 @@ function updateTimers() {
     if (!item) return;
 
     const textEl = el.querySelector(".timer-text");
-
     if (!textEl) return;
 
-    // completed/email states
-    if (item.status === "Complete") {
-      textEl.innerText = "✅ Completed";
-      return;
-    }
+    const status = (item.status || "").toLowerCase().trim();
 
-    if (item.status === "Email") {
-      textEl.innerText = "📧 Email";
-      return;
-    }
+if (status === "complete") {
+  textEl.innerText = "✅ Completed";
+  el.classList.remove("due");
+  return;
+}
 
-    // live countdown
-    const remaining = getRemainingTime(
-      item.lastAlert,
-      item.duration || 30
+if (status === "email") {
+  textEl.innerText = "📧 Email";
+  el.classList.remove("due");
+  return;
+}
+
+const durationMs = (item.duration || 30) * 60 * 1000;
+
+// if no start time, set it ONCE
+if (!item.startTime) {
+  item.startTime = Date.now();
+}
+
+const diff = (item.startTime + durationMs) - Date.now();
+
+if (diff <= 0) {
+
+  textEl.innerText = "⏰ DUE";
+  el.classList.add("due");
+
+  // 🔥 FIRE ONLY ONCE
+  if (!alertedRows.has(item.id)) {
+
+    alertedRows.add(item.id);
+
+    console.log("TRIGGER ALERT FOR:", item);
+
+    // 1. browser sound/notification
+    triggerAlert(item);
+
+    // 2. popup (MAKE SURE THIS EXISTS)
+    showTrackerAlert(
+      "Follow up required: " + (item.dba || "Unnamed")
     );
 
-    textEl.innerText = remaining;
+  }
 
-    // due state
-    if (remaining === "⏰ DUE") {
+  return;
+}
 
-      el.classList.add("due");
+    el.classList.remove("due");
 
-      if (!alertedRows.has(i)) {
+    const mins = Math.floor(diff / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
 
-        triggerAlert(item);
-
-        showAlert(
-          "Follow up required: " +
-          (item.dba || "Unnamed")
-        );
-
-        alertedRows.add(i);
-      }
-
-    } else {
-
-      el.classList.remove("due");
-
-    }
+    textEl.innerText = `${mins}m ${secs}s`;
 
   });
 }
-// ⬇️ Run every 2 seconds instead of 1
 setInterval(updateTimers, 1000);
 </script>
 
+<div id="trackerAlertModal" class="alert-modal hidden">
+  <div class="alert-box">
+    <h3>Tracker Alert</h3>
+    <p id="trackerAlertText"></p>
+    <button onclick="document.getElementById('trackerAlertModal').classList.add('hidden')">
+      OK
+    </button>
+  </div>
+</div>
+<script>
+  function showTrackerAlert(message){
+  document.getElementById("trackerAlertText").innerText = message;
+  document.getElementById("trackerAlertModal").classList.remove("hidden");
+}
 
+function closeTrackerAlert(){
+  document.getElementById("trackerAlertModal").classList.add("hidden");
+}
+</script>
 <script>
 let notesV4 = JSON.parse(localStorage.getItem("notesDataV4")) || [];
 let currentIndex = null;
@@ -2217,14 +2562,24 @@ noteTagV4.addEventListener("change", autoSaveV4);
 </script>
 <div id="alertModal" class="alert-modal hidden">
   <div class="alert-box">
-    <div class="alert-icon">⏰</div>
+    <div class="alert-icon">⚠️</div>
     
-    <h3>Timer Alert</h3>
-    <p id="alertText">Follow up required</p>
+    <h3>Confirm Delete</h3>
+    <p id="alertText">Are you sure?</p>
 
-    <button onclick="closeAlert()" class="alert-btn">OK</button>
+    <div style="margin-top:15px;">
+      <button onclick="confirmDelete()" class="alert-btn" style="background:red;">
+        Delete
+      </button>
+
+      <button onclick="closeAlert()" class="alert-btn">
+        Cancel
+      </button>
+    </div>
   </div>
 </div>
+
+
 <script>
 function getUserName() {
   return localStorage.getItem("loggedUser") || "Support";
@@ -2338,7 +2693,7 @@ MEETING PANEL
   <button
     class="save-meeting-btn"
     onclick="addMeeting()"
-  >
+  style="margin-top: 10px;">
     Save Meeting
   </button>
 
@@ -2389,7 +2744,36 @@ ALARM SOUND
     type="audio/mpeg"
   >
 </audio>
+<div id="imageModal" style="display:none;">
+    <img id="modalImg">
+</div>
 </body>
+
+<script>
+const viewer = document.getElementById('imgViewer');
+const viewerImg = document.getElementById('viewerImg');
+
+document.querySelectorAll('.hb-card img').forEach(img => {
+    img.addEventListener('click', function () {
+        viewerImg.src = this.src;
+        viewer.classList.add('show');
+    });
+});
+
+viewer.addEventListener('click', () => {
+    viewer.classList.remove('show');
+});
+</script>
+<script>
+function openImage(img){
+    document.getElementById("modalImg").src = img.src;
+    document.getElementById("imageModal").style.display = "block";
+}
+
+document.getElementById("imageModal").onclick = function(){
+    this.style.display = "none";
+}
+</script>
 <script>
 
 /* =========================
@@ -2503,14 +2887,14 @@ DELETE
 ========================= */
 
 function deleteMeeting(id){
+let meetingToDelete = null;
 
-  meetings =
-    meetings.filter(m => m.id !== id);
+  meetings = meetings.filter(
+    m => m.id !== id
+  );
 
   saveMeetings();
-
   renderMeetings();
-
   updateBadge();
 }
 
@@ -2597,7 +2981,7 @@ function renderMeetings(){
 
   <button
     class="delete-btn"
-    onclick="deleteMeeting(${meeting.id})"
+    onclick="askDelete(${meeting.id})"
   >
     Delete
   </button>
