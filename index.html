@@ -793,7 +793,7 @@ function closeWarningPopup(){
      
 
         <a href="https://docs.google.com/document/d/12z72W0NEG44i9xXYpYMg37MecQ9BUeqWFgZX_30f48s/edit?tab=t.io8xwdp517yq" target="_blank" class="eq b16"><span>SOP</span></a>
-        <a href="https://example.com" target="_blank" class="eq b17"></a>
+        <a href="https://docs.google.com/spreadsheets/d/18xCM0dRamEuoiCZ9nUuA7ipkVkHFZ_WqEdF6njWDIjk/edit?gid=872613523#gid=872613523" target="_blank" class="eq b17"><span>Account Login</span></a>
            <a href="https://example.com" target="_blank" class="eq b15"></a>
         <a href="https://example.com" target="_blank" class="eq b18"></a>
         <a href="https://example.com" target="_blank" class="eq b19"></a>
@@ -1570,19 +1570,47 @@ Ethoca and CDRN together provides up to 70% coverage for the alerts market. By k
   </div>
 
 </section>
+
 <script>
-  function toggleHBMenu(btn) {
-  const submenu = btn.nextElementSibling;
+function closeFullscreen() {
+    document.querySelectorAll('.fullscreen').forEach(img => {
+        img.classList.remove('fullscreen');
+    });
 
-  const isOpen = submenu.style.display === "flex";
-
-  // close all first (optional clean UX)
-  document.querySelectorAll(".hb-submenu").forEach(m => {
-    m.style.display = "none";
-  });
-
-  submenu.style.display = isOpen ? "none" : "flex";
+    document.querySelectorAll('.image-backdrop').forEach(bg => {
+        bg.remove();
+    });
 }
+
+
+</script>
+<script>
+const viewer = document.getElementById("imgViewer");
+const viewerImg = document.getElementById("viewerImg");
+
+function openImage(img) {
+    viewerImg.src = img.src;
+    viewer.classList.add("show");
+
+    // force focus to body so ESC always works
+    document.body.focus();
+}
+
+function closeImage() {
+    viewer.classList.remove("show");
+    viewerImg.src = "";
+}
+
+/* CLICK TO CLOSE */
+viewer.addEventListener("click", closeImage);
+
+/* ESC FIX (capture mode = IMPORTANT) */
+window.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" || e.key === "Esc") {
+        e.preventDefault();
+        closeImage();
+    }
+}, true); // <-- CAPTURE PHASE (this is the fix)
 </script>
 <script>
 
@@ -2747,22 +2775,54 @@ ALARM SOUND
 <div id="imageModal" style="display:none;">
     <img id="modalImg">
 </div>
+<div id="imgViewer" class="img-viewer">
+    <img id="viewerImg">
+</div>
 </body>
 
 <script>
-const viewer = document.getElementById('imgViewer');
-const viewerImg = document.getElementById('viewerImg');
+const viewer = document.getElementById("imgViewer");
+const viewerImg = document.getElementById("viewerImg");
 
-document.querySelectorAll('.hb-card img').forEach(img => {
-    img.addEventListener('click', function () {
-        viewerImg.src = this.src;
-        viewer.classList.add('show');
-    });
+// OPEN IMAGE
+function openImage(img) {
+    viewerImg.src = img.src;
+    viewer.classList.add("show");
+
+    // IMPORTANT: force focus reset (fixes blocked ESC in some layouts)
+    setTimeout(() => {
+        document.body.focus();
+        window.focus();
+    }, 0);
+}
+
+// CLOSE IMAGE
+function closeImage() {
+    viewer.classList.remove("show");
+    viewerImg.src = "";
+}
+
+// CLICK IMAGE TO OPEN
+document.querySelectorAll(".hb-card img").forEach(img => {
+    img.addEventListener("click", () => openImage(img));
 });
 
-viewer.addEventListener('click', () => {
-    viewer.classList.remove('show');
-});
+// CLICK BACKGROUND TO CLOSE
+viewer.addEventListener("click", closeImage);
+
+// ESC (multiple fallback methods)
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" || e.keyCode === 27) {
+        closeImage();
+    }
+}, true);
+
+// extra safety (some browsers)
+window.onkeydown = function(e) {
+    if (e.key === "Escape") {
+        closeImage();
+    }
+};
 </script>
 <script>
 function openImage(img){
