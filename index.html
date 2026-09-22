@@ -50,6 +50,7 @@
     <a href="#Notes"><i class="fa-solid fa-note-sticky"></i> Notes</a>
     <a href="#Tracker"><i class="fa-solid fa-chart-line"></i> Tracker</a>
     <a href="#Stats"><i class="fa-solid fa-flag-checkered"></i> Stats</a>
+    <a href="#Planner"><i class="fa-solid fa-calendar-days"></i>Planner</a>
   </div>
         <div class="global-search">
   <i class="fa-solid fa-magnifying-glass"></i>
@@ -1581,6 +1582,1502 @@ function refreshAlerts(){
 
   </div>
 </div>
+
+<section id="Planner" class="section bg5">
+
+<main class="container">
+
+    <div class="planner-header">
+
+        <div>
+
+            <h1>
+                Planner
+            </h1>
+
+            <p>
+                Drag your tasks anywhere on the board.
+                Everything is saved automatically.
+            </p>
+
+        </div>
+
+
+        <button
+            class="btn btn-primary"
+            id="addTaskBtn"
+            type="button"
+        >
+
+            <i class="fa-solid fa-plus"></i>
+
+            Add Planner Item
+
+        </button>
+
+    </div>
+
+
+    <!-- ===================================================
+         TOOLBAR
+    ==================================================== -->
+
+    <div class="toolbar">
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search planner..."
+            >
+
+        </div>
+
+
+        <select id="statusFilter">
+
+            <option value="">
+                All Status
+            </option>
+
+            <option value="Planned">
+                Planned
+            </option>
+
+            <option value="In Progress">
+                In Progress
+            </option>
+
+            <option value="Done">
+                Done
+            </option>
+
+            <option value="Waiting">
+                Waiting
+            </option>
+
+        </select>
+
+
+        <select id="priorityFilter">
+
+            <option value="">
+                All Priority
+            </option>
+
+            <option value="High">
+                High
+            </option>
+
+            <option value="Normal">
+                Normal
+            </option>
+
+            <option value="Low">
+                Low
+            </option>
+
+        </select>
+
+
+        <button
+            class="btn"
+            id="todayBtn"
+            type="button"
+        >
+
+            <i class="fa-solid fa-calendar-day"></i>
+
+            Today
+
+        </button>
+
+
+        <button
+            class="btn"
+            id="clearFiltersBtn"
+            type="button"
+        >
+
+            <i class="fa-solid fa-filter-circle-xmark"></i>
+
+            Clear
+
+        </button>
+
+    </div>
+
+
+    <!-- ===================================================
+         BOARD
+    ==================================================== -->
+
+    <div class="board-wrapper">
+
+        <div
+            class="board"
+            id="plannerBoard"
+        >
+
+            <div
+                class="empty-state"
+                id="emptyState"
+            >
+
+                <div>
+
+                    <i class="fa-regular fa-calendar-check"></i>
+
+                    <div>
+                        No planner items yet.
+                    </div>
+
+                    <small>
+                        Click "Add Planner Item" to get started.
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- =======================================================
+     ADD / EDIT MODAL
+======================================================== -->
+
+<div
+    class="modal"
+    id="taskModal"
+>
+
+    <form
+        class="modal-box"
+        id="taskForm"
+    >
+
+        <div class="modal-header">
+
+            <h2 id="modalTitle">
+                Add Planner Item
+            </h2>
+
+            <button
+                type="button"
+                class="close-modal"
+                id="closeModal"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- NAME -->
+
+            <div class="form-group full">
+
+                <label for="taskName">
+                    Name / Title
+                </label>
+
+                <input
+                    type="text"
+                    id="taskName"
+                    maxlength="100"
+                    placeholder="Example: Follow up with merchant"
+                    required
+                >
+
+            </div>
+
+
+            <!-- LABEL -->
+
+            <div class="form-group">
+
+                <label for="taskLabel">
+                    Label
+                </label>
+
+                <input
+                    type="text"
+                    id="taskLabel"
+                    maxlength="40"
+                    placeholder="Example: Enrollment"
+                >
+
+            </div>
+
+
+            <!-- DATE -->
+
+            <div class="form-group">
+
+                <label for="taskDate">
+                    Date
+                </label>
+
+                <input
+                    type="date"
+                    id="taskDate"
+                >
+
+            </div>
+
+
+            <!-- TIME -->
+
+            <div class="form-group">
+
+                <label for="taskTime">
+                    Time
+                </label>
+
+                <input
+                    type="time"
+                    id="taskTime"
+                >
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="form-group">
+
+                <label for="taskStatus">
+                    Status
+                </label>
+
+                <select id="taskStatus">
+
+                    <option value="Planned">
+                        Planned
+                    </option>
+
+                    <option value="In Progress">
+                        In Progress
+                    </option>
+
+                    <option value="Done">
+                        Done
+                    </option>
+
+                    <option value="Waiting">
+                        Waiting
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- PRIORITY -->
+
+            <div class="form-group">
+
+                <label for="taskPriority">
+                    Priority
+                </label>
+
+                <select id="taskPriority">
+
+                    <option value="Normal">
+                        Normal
+                    </option>
+
+                    <option value="High">
+                        High
+                    </option>
+
+                    <option value="Low">
+                        Low
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- COLOR -->
+
+            <div class="form-group">
+
+                <label for="taskColor">
+                    Card Color
+                </label>
+
+                <input
+                    type="color"
+                    id="taskColor"
+                    class="color-input"
+                    value="#8be9fd"
+                >
+
+            </div>
+
+
+            <!-- NOTES -->
+
+            <div class="form-group full">
+
+                <label for="taskNotes">
+                    Notes / More Information
+                </label>
+
+                <textarea
+                    id="taskNotes"
+                    maxlength="1000"
+                    placeholder="Add additional information..."
+                ></textarea>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                type="button"
+                class="btn"
+                id="cancelBtn"
+            >
+                Cancel
+            </button>
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                <i class="fa-solid fa-check"></i>
+                Save Item
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+
+(() => {
+
+    "use strict";
+
+
+    /* =====================================================
+       STORAGE
+    ====================================================== */
+
+    const STORAGE_KEY =
+        "chargeblast_planner_items_v1";
+
+
+    let plannerItems =
+        JSON.parse(
+            localStorage.getItem(STORAGE_KEY) || "[]"
+        );
+
+
+    if (!Array.isArray(plannerItems)) {
+
+        plannerItems = [];
+
+    }
+
+
+    let editingId = null;
+
+    let draggedItem = null;
+
+
+    /* =====================================================
+       ELEMENTS
+    ====================================================== */
+
+    const board =
+        document.getElementById("plannerBoard");
+
+    const emptyState =
+        document.getElementById("emptyState");
+
+    const modal =
+        document.getElementById("taskModal");
+
+    const form =
+        document.getElementById("taskForm");
+
+
+    const taskName =
+        document.getElementById("taskName");
+
+    const taskLabel =
+        document.getElementById("taskLabel");
+
+    const taskDate =
+        document.getElementById("taskDate");
+
+    const taskTime =
+        document.getElementById("taskTime");
+
+    const taskStatus =
+        document.getElementById("taskStatus");
+
+    const taskPriority =
+        document.getElementById("taskPriority");
+
+    const taskColor =
+        document.getElementById("taskColor");
+
+    const taskNotes =
+        document.getElementById("taskNotes");
+
+
+    /* =====================================================
+       HELPERS
+    ====================================================== */
+
+    function generateId() {
+
+        return (
+            Date.now().toString(36) +
+            Math.random()
+                .toString(36)
+                .substring(2, 9)
+        );
+
+    }
+
+
+    function saveItems() {
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(plannerItems)
+        );
+
+    }
+
+
+    function getToday() {
+
+        const date = new Date();
+
+        const year =
+            date.getFullYear();
+
+        const month =
+            String(
+                date.getMonth() + 1
+            ).padStart(2, "0");
+
+        const day =
+            String(
+                date.getDate()
+            ).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+
+    }
+
+
+    function escapeHTML(value) {
+
+        return String(value || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    function formatDate(date) {
+
+        if (!date) {
+
+            return "No date";
+
+        }
+
+        const parts =
+            date.split("-");
+
+        if (parts.length !== 3) {
+
+            return date;
+
+        }
+
+        return `${parts[1]}/${parts[2]}/${parts[0]}`;
+
+    }
+
+
+    /* =====================================================
+       MODAL
+    ====================================================== */
+
+    function openModal(item = null) {
+
+        editingId =
+            item ? item.id : null;
+
+
+        document.getElementById(
+            "modalTitle"
+        ).textContent =
+            item
+                ? "Edit Planner Item"
+                : "Add Planner Item";
+
+
+        taskName.value =
+            item?.name || "";
+
+        taskLabel.value =
+            item?.label || "";
+
+        taskDate.value =
+            item?.date || getToday();
+
+        taskTime.value =
+            item?.time || "";
+
+        taskStatus.value =
+            item?.status || "Planned";
+
+        taskPriority.value =
+            item?.priority || "Normal";
+
+        taskColor.value =
+            item?.color || "#8be9fd";
+
+        taskNotes.value =
+            item?.notes || "";
+
+
+        modal.classList.add("show");
+
+        taskName.focus();
+
+    }
+
+
+    function closeModal() {
+
+        modal.classList.remove("show");
+
+        form.reset();
+
+        editingId = null;
+
+    }
+
+
+    /* =====================================================
+       RENDER
+    ====================================================== */
+
+    function renderPlanner() {
+
+        board
+            .querySelectorAll(".planner-card")
+            .forEach(card => card.remove());
+
+
+        const search =
+            document
+                .getElementById("searchInput")
+                .value
+                .toLowerCase()
+                .trim();
+
+
+        const status =
+            document
+                .getElementById("statusFilter")
+                .value;
+
+
+        const priority =
+            document
+                .getElementById("priorityFilter")
+                .value;
+
+
+        const visibleItems =
+            plannerItems.filter(item => {
+
+                const searchable =
+                    (
+                        item.name +
+                        " " +
+                        item.label +
+                        " " +
+                        item.notes
+                    )
+                    .toLowerCase();
+
+
+                const matchesSearch =
+                    !search ||
+                    searchable.includes(search);
+
+
+                const matchesStatus =
+                    !status ||
+                    item.status === status;
+
+
+                const matchesPriority =
+                    !priority ||
+                    item.priority === priority;
+
+
+                return (
+                    matchesSearch &&
+                    matchesStatus &&
+                    matchesPriority
+                );
+
+            });
+
+
+        emptyState.style.display =
+            visibleItems.length
+                ? "none"
+                : "flex";
+
+
+        visibleItems.forEach(
+            createCard
+        );
+
+    }
+
+
+    /* =====================================================
+       CREATE CARD
+    ====================================================== */
+
+    function createCard(item) {
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "planner-card";
+
+
+        card.dataset.id =
+            item.id;
+
+
+        card.style.left =
+            `${item.x || 20}px`;
+
+
+        card.style.top =
+            `${item.y || 20}px`;
+
+            card.style.setProperty(
+    "--sticker-color",
+    item.color || "#fff3a3"
+);
+
+const rotations = [
+    "-1.2deg",
+    "0.8deg",
+    "-0.6deg",
+    "1.1deg"
+];
+
+card.style.setProperty(
+    "--sticker-rotation",
+    item.rotation || rotations[
+        Math.floor(Math.random() * rotations.length)
+    ]
+);
+
+
+        let statusClass = "";
+
+        if (item.status === "Done") {
+
+            statusClass = "done";
+
+        }
+
+        if (item.status === "Waiting") {
+
+            statusClass = "waiting";
+
+        }
+
+
+        let priorityClass = "";
+
+        if (item.priority === "High") {
+
+            priorityClass = "high";
+
+        }
+
+
+        card.innerHTML = `
+
+            <div class="card-header">
+
+                <span
+                    class="color-dot"
+                    style="background:${escapeHTML(item.color)}"
+                ></span>
+
+
+                <div class="card-title">
+
+                    ${escapeHTML(item.name)}
+
+                </div>
+
+
+                <div class="card-actions">
+
+                    <button
+                        type="button"
+                        class="card-action edit-btn"
+                        title="Edit"
+                    >
+
+                        <i class="fa-solid fa-pen"></i>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="card-action delete delete-btn"
+                        title="Delete"
+                    >
+
+                        <i class="fa-solid fa-trash"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-meta">
+
+                ${
+                    item.label
+                    ? `
+                        <span class="tag">
+                            ${escapeHTML(item.label)}
+                        </span>
+                    `
+                    : ""
+                }
+
+
+                ${
+                    item.date
+                    ? `
+                        <span class="tag">
+                            <i class="fa-regular fa-calendar"></i>
+                            ${formatDate(item.date)}
+                        </span>
+                    `
+                    : ""
+                }
+
+
+                ${
+                    item.time
+                    ? `
+                        <span class="tag">
+                            <i class="fa-regular fa-clock"></i>
+                            ${escapeHTML(item.time)}
+                        </span>
+                    `
+                    : ""
+                }
+
+
+                <span class="tag ${statusClass}">
+                    ${escapeHTML(item.status)}
+                </span>
+
+
+                <span class="tag ${priorityClass}">
+                    ${escapeHTML(item.priority)}
+                </span>
+
+            </div>
+
+
+            ${
+                item.notes
+                ? `
+                    <div class="card-notes">
+                        ${escapeHTML(item.notes)}
+                    </div>
+                `
+                : ""
+            }
+
+        `;
+
+
+        /* EDIT */
+
+        card
+            .querySelector(".edit-btn")
+            .addEventListener(
+                "click",
+                event => {
+
+                    event.stopPropagation();
+
+                    openModal(item);
+
+                }
+            );
+
+
+        /* DELETE */
+
+        card
+            .querySelector(".delete-btn")
+            .addEventListener(
+                "click",
+                event => {
+
+                    event.stopPropagation();
+
+
+                    const confirmed =
+                        confirm(
+                            "Delete this planner item?"
+                        );
+
+
+                    if (!confirmed) {
+
+                        return;
+
+                    }
+
+
+                    plannerItems =
+                        plannerItems.filter(
+                            current =>
+                                current.id !== item.id
+                        );
+
+
+                    saveItems();
+
+                    renderPlanner();
+
+                }
+            );
+
+
+        /* DRAG */
+
+        card.addEventListener(
+            "pointerdown",
+            startDrag
+        );
+
+
+        board.appendChild(card);
+
+    }
+
+
+    /* =====================================================
+       DRAGGING
+    ====================================================== */
+
+    function startDrag(event) {
+
+        if (
+            event.target.closest(
+                "button"
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        if (event.button !== 0) {
+
+            return;
+
+        }
+
+
+        const card =
+            event.currentTarget;
+
+
+        const id =
+            card.dataset.id;
+
+
+        const item =
+            plannerItems.find(
+                current =>
+                    current.id === id
+            );
+
+
+        if (!item) {
+
+            return;
+
+        }
+
+
+        const boardRect =
+            board.getBoundingClientRect();
+
+        const cardRect =
+            card.getBoundingClientRect();
+
+
+        draggedItem = {
+
+            item,
+
+            card,
+
+            offsetX:
+                event.clientX -
+                cardRect.left,
+
+            offsetY:
+                event.clientY -
+                cardRect.top,
+
+            boardRect
+
+        };
+
+
+        card.classList.add(
+            "dragging"
+        );
+
+
+        card.setPointerCapture(
+            event.pointerId
+        );
+
+
+        card.addEventListener(
+            "pointermove",
+            dragMove
+        );
+
+
+        card.addEventListener(
+            "pointerup",
+            dragEnd,
+            { once: true }
+        );
+
+
+        card.addEventListener(
+            "pointercancel",
+            dragEnd,
+            { once: true }
+        );
+
+    }
+
+
+    function dragMove(event) {
+
+        if (!draggedItem) {
+
+            return;
+
+        }
+
+
+        const card =
+            draggedItem.card;
+
+
+        const item =
+            draggedItem.item;
+
+
+        const maxX =
+            Math.max(
+                0,
+                board.clientWidth -
+                card.offsetWidth
+            );
+
+
+        const maxY =
+            Math.max(
+                0,
+                board.scrollHeight -
+                card.offsetHeight
+            );
+
+
+        let x =
+            event.clientX -
+            draggedItem.boardRect.left -
+            draggedItem.offsetX +
+            board.scrollLeft;
+
+
+        let y =
+            event.clientY -
+            draggedItem.boardRect.top -
+            draggedItem.offsetY +
+            board.scrollTop;
+
+
+        x =
+            Math.max(
+                0,
+                Math.min(maxX, x)
+            );
+
+
+        y =
+            Math.max(
+                0,
+                Math.min(maxY, y)
+            );
+
+
+        item.x = x;
+
+        item.y = y;
+
+
+        card.style.left =
+            `${x}px`;
+
+        card.style.top =
+            `${y}px`;
+
+    }
+
+
+    function dragEnd() {
+
+        if (!draggedItem) {
+
+            return;
+
+        }
+
+
+        draggedItem.card
+            .classList
+            .remove("dragging");
+
+
+        saveItems();
+
+        draggedItem = null;
+
+    }
+
+
+    /* =====================================================
+       FORM SUBMIT
+    ====================================================== */
+
+    form.addEventListener(
+        "submit",
+        event => {
+
+            event.preventDefault();
+
+
+            const name =
+                taskName.value.trim();
+
+
+            if (!name) {
+
+                alert(
+                    "Please enter a name for the planner item."
+                );
+
+                taskName.focus();
+
+                return;
+
+            }
+
+
+            const data = {
+
+                name,
+
+                label:
+                    taskLabel.value.trim(),
+
+                date:
+                    taskDate.value,
+
+                time:
+                    taskTime.value,
+
+                status:
+                    taskStatus.value,
+
+                priority:
+                    taskPriority.value,
+
+                color:
+                    taskColor.value,
+
+                notes:
+                    taskNotes.value.trim()
+
+            };
+
+
+            /* EDIT EXISTING */
+
+            if (editingId) {
+
+                const item =
+                    plannerItems.find(
+                        current =>
+                            current.id ===
+                            editingId
+                    );
+
+
+                if (item) {
+
+                    Object.assign(
+                        item,
+                        data
+                    );
+
+                }
+
+            }
+
+
+            /* CREATE NEW */
+
+            else {
+
+                data.id =
+                    generateId();
+
+
+                data.x =
+                    25 +
+                    (
+                        plannerItems.length %
+                        4
+                    ) * 310;
+
+
+                data.y =
+                    25 +
+                    Math.floor(
+                        plannerItems.length /
+                        4
+                    ) * 190;
+
+
+                plannerItems.push(
+                    data
+                );
+
+            }
+
+
+            saveItems();
+
+            closeModal();
+
+            renderPlanner();
+
+        }
+    );
+
+
+    /* =====================================================
+       BUTTON EVENTS
+    ====================================================== */
+
+    document
+        .getElementById("addTaskBtn")
+        .addEventListener(
+            "click",
+            () => openModal()
+        );
+
+
+    document
+        .getElementById("closeModal")
+        .addEventListener(
+            "click",
+            closeModal
+        );
+
+
+    document
+        .getElementById("cancelBtn")
+        .addEventListener(
+            "click",
+            closeModal
+        );
+
+
+    modal.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target === modal
+            ) {
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Escape" &&
+                modal.classList.contains("show")
+            ) {
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       FILTERS
+    ====================================================== */
+
+    document
+        .getElementById("searchInput")
+        .addEventListener(
+            "input",
+            renderPlanner
+        );
+
+
+    document
+        .getElementById("statusFilter")
+        .addEventListener(
+            "change",
+            renderPlanner
+        );
+
+
+    document
+        .getElementById("priorityFilter")
+        .addEventListener(
+            "change",
+            renderPlanner
+        );
+
+
+    /* =====================================================
+       TODAY
+    ====================================================== */
+
+    document
+        .getElementById("todayBtn")
+        .addEventListener(
+            "click",
+            () => {
+
+                const today =
+                    getToday();
+
+
+                const todaysItems =
+                    plannerItems.filter(
+                        item =>
+                            item.date === today
+                    );
+
+
+                if (
+                    todaysItems.length === 0
+                ) {
+
+                    alert(
+                        "There are no planner items scheduled for today."
+                    );
+
+                    return;
+
+                }
+
+
+                document
+                    .getElementById(
+                        "searchInput"
+                    )
+                    .value = "";
+
+
+                document
+                    .getElementById(
+                        "statusFilter"
+                    )
+                    .value = "";
+
+
+                document
+                    .getElementById(
+                        "priorityFilter"
+                    )
+                    .value = "";
+
+
+                renderPlanner();
+
+
+                const first =
+                    board.querySelector(
+                        `[data-id="${todaysItems[0].id}"]`
+                    );
+
+
+                if (first) {
+
+                    first.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center",
+                        inline: "center"
+                    });
+
+                }
+
+            }
+        );
+
+
+    /* =====================================================
+       CLEAR FILTERS
+    ====================================================== */
+
+    document
+        .getElementById("clearFiltersBtn")
+        .addEventListener(
+            "click",
+            () => {
+
+                document
+                    .getElementById(
+                        "searchInput"
+                    )
+                    .value = "";
+
+
+                document
+                    .getElementById(
+                        "statusFilter"
+                    )
+                    .value = "";
+
+
+                document
+                    .getElementById(
+                        "priorityFilter"
+                    )
+                    .value = "";
+
+
+                renderPlanner();
+
+            }
+        );
+
+
+    /* =====================================================
+       LOAD EXISTING THEME
+    ====================================================== */
+
+    const savedTheme =
+        localStorage.getItem("theme");
+
+
+    if (savedTheme) {
+
+        /*
+         * Your existing website stores
+         * the selected theme in localStorage.
+         *
+         * If your main CSS uses body classes,
+         * this keeps Planner compatible.
+         */
+
+        document.body.classList.add(
+            savedTheme
+        );
+
+    }
+
+
+    /* =====================================================
+       INITIAL LOAD
+    ====================================================== */
+
+    renderPlanner();
+
+})();
+
+</script>
+
+
+</section>
 
 <footer>
     Designed by <b>AriesPogi</b>
