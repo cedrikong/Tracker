@@ -5851,7 +5851,7 @@ button {
 }
 
 .btn-primary:hover {
-    color: white;
+    color: #071018;
 
     opacity: 0.9;
 }
@@ -6133,7 +6133,7 @@ button {
 
     border-radius: 6px;
 
-    background: rgba(255,255,255,0.35);
+    background: transparent!important;
 
     color: #374151;
 
@@ -6143,7 +6143,7 @@ button {
 .card-action:hover {
     background: rgba(255,255,255,0.05);
 
-    color: var(--accent);
+    color: black;
 }
 
 .card-action.delete:hover {
@@ -6433,4 +6433,3 @@ button {
         left: 14px !important;
     }
 }
-
