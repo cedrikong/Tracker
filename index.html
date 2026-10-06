@@ -51,6 +51,7 @@
     <a href="#Tracker"><i class="fa-solid fa-chart-line"></i> Tracker</a>
     <a href="#Stats"><i class="fa-solid fa-flag-checkered"></i> Stats</a>
     <a href="#Planner"><i class="fa-solid fa-calendar-days"></i>Planner</a>
+    <a href="#LinkLibrary"><i class="fa-solid fa-link"></i>Link Library</a>
   </div>
         <div class="global-search">
   <i class="fa-solid fa-magnifying-glass"></i>
@@ -3078,6 +3079,541 @@ card.style.setProperty(
 
 
 </section>
+
+<!-- ==================== LINK LIBRARY ==================== -->
+<section id="LinkLibrary" class="section bg5 link-library-section">
+
+    <div class="link-library-header">
+        <div>
+            <h2>
+                <i class="fa-solid fa-link"></i>
+                Link Library
+            </h2>
+            <p>Save and manage your frequently used links.</p>
+        </div>
+
+        <button class="primary-btn" onclick="openLinkModal()">
+            <i class="fa-solid fa-plus"></i>
+            Add Link
+        </button>
+    </div>
+
+    <div class="link-library-toolbar">
+
+        <div class="link-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input
+                type="text"
+                id="linkSearch"
+                placeholder="Search links..."
+                oninput="renderLinkLibrary()"
+            >
+        </div>
+
+        <span id="linkCount" class="link-count">0 Links</span>
+
+    </div>
+
+    <div id="linkLibraryGrid" class="link-library-grid"></div>
+
+    <div id="linkLibraryEmpty" class="link-library-empty">
+        <i class="fa-solid fa-link"></i>
+        <h3>No links yet</h3>
+        <p>Add your first link to start building your library.</p>
+
+        <button class="secondary-btn" onclick="openLinkModal()">
+            <i class="fa-solid fa-plus"></i>
+            Add Your First Link
+        </button>
+    </div>
+
+</section>
+
+
+<!-- ==================== ADD / EDIT LINK MODAL ==================== -->
+<div id="linkModal" class="link-modal">
+
+    <div class="link-modal-content">
+
+        <div class="link-modal-header">
+            <h3 id="linkModalTitle">
+                <i class="fa-solid fa-link"></i>
+                Add Link
+            </h3>
+
+            <button
+                class="link-modal-close"
+                onclick="closeLinkModal()"
+                type="button"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="link-form">
+
+            <label for="linkName">Name</label>
+
+            <input
+                type="text"
+                id="linkName"
+                placeholder="Example: Facebook"
+            >
+
+            <label for="linkUrl">URL</label>
+
+            <input
+                type="text"
+                id="linkUrl"
+                placeholder="https://example.com"
+            >
+
+            <label for="linkDescription">Description</label>
+
+            <textarea
+                id="linkDescription"
+                placeholder="Optional description..."
+                rows="3"
+            ></textarea>
+
+            <input
+                type="hidden"
+                id="editingLinkId"
+            >
+
+            <div class="link-form-actions">
+
+                <button
+                    class="secondary-btn"
+                    onclick="closeLinkModal()"
+                    type="button"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    class="primary-btn"
+                    onclick="saveLinkLibraryItem()"
+                    type="button"
+                >
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Save Link
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+/* ==================== LINK LIBRARY ==================== */
+
+const LINK_LIBRARY_STORAGE_KEY = "chargeblastLinkLibrary";
+
+let linkLibraryItems = JSON.parse(
+    localStorage.getItem(LINK_LIBRARY_STORAGE_KEY) || "[]"
+);
+
+if (!Array.isArray(linkLibraryItems)) {
+    linkLibraryItems = [];
+}
+
+
+/* Save to Local Storage */
+
+function saveLinkLibrary() {
+    localStorage.setItem(
+        LINK_LIBRARY_STORAGE_KEY,
+        JSON.stringify(linkLibraryItems)
+    );
+}
+
+
+/* Escape HTML */
+
+function escapeLinkLibraryHtml(value) {
+    const div = document.createElement("div");
+    div.textContent = value || "";
+    return div.innerHTML;
+}
+
+
+/* Normalize URL */
+
+function normalizeLinkUrl(url) {
+    url = url.trim();
+
+    if (!/^https?:\/\//i.test(url)) {
+        return "https://" + url;
+    }
+
+    return url;
+}
+
+
+/* Open Add/Edit Modal */
+
+function openLinkModal(id = null) {
+
+    const modal = document.getElementById("linkModal");
+    const title = document.getElementById("linkModalTitle");
+
+    const name = document.getElementById("linkName");
+    const url = document.getElementById("linkUrl");
+    const description = document.getElementById("linkDescription");
+    const editingId = document.getElementById("editingLinkId");
+
+    if (id) {
+
+        const item = linkLibraryItems.find(
+            link => link.id === id
+        );
+
+        if (!item) return;
+
+        title.innerHTML =
+            '<i class="fa-solid fa-pen"></i> Edit Link';
+
+        name.value = item.name;
+        url.value = item.url;
+        description.value = item.description || "";
+
+        editingId.value = id;
+
+    } else {
+
+        title.innerHTML =
+            '<i class="fa-solid fa-link"></i> Add Link';
+
+        name.value = "";
+        url.value = "";
+        description.value = "";
+
+        editingId.value = "";
+    }
+
+    modal.classList.add("active");
+
+    setTimeout(() => {
+        name.focus();
+    }, 100);
+}
+
+
+/* Close Modal */
+
+function closeLinkModal() {
+
+    const modal = document.getElementById("linkModal");
+
+    modal.classList.remove("active");
+
+    document.getElementById("linkName").value = "";
+    document.getElementById("linkUrl").value = "";
+    document.getElementById("linkDescription").value = "";
+    document.getElementById("editingLinkId").value = "";
+}
+
+
+/* Save Link */
+
+function saveLinkLibraryItem() {
+
+    const name = document
+        .getElementById("linkName")
+        .value
+        .trim();
+
+    const url = document
+        .getElementById("linkUrl")
+        .value
+        .trim();
+
+    const description = document
+        .getElementById("linkDescription")
+        .value
+        .trim();
+
+    const editingId = document
+        .getElementById("editingLinkId")
+        .value;
+
+
+    if (!name) {
+        alert("Please enter a link name.");
+        return;
+    }
+
+    if (!url) {
+        alert("Please enter a URL.");
+        return;
+    }
+
+
+    const finalUrl = normalizeLinkUrl(url);
+
+
+    if (editingId) {
+
+        const index = linkLibraryItems.findIndex(
+            link => link.id === editingId
+        );
+
+        if (index !== -1) {
+
+            linkLibraryItems[index] = {
+                ...linkLibraryItems[index],
+                name,
+                url: finalUrl,
+                description
+            };
+
+        }
+
+    } else {
+
+        linkLibraryItems.push({
+
+            id:
+                Date.now().toString() +
+                Math.random().toString(36).substring(2),
+
+            name,
+            url: finalUrl,
+            description,
+
+            createdAt: new Date().toISOString()
+
+        });
+
+    }
+
+
+    saveLinkLibrary();
+
+    renderLinkLibrary();
+
+    closeLinkModal();
+
+}
+
+
+/* Delete Link */
+
+function deleteLinkLibraryItem(id) {
+
+    const item = linkLibraryItems.find(
+        link => link.id === id
+    );
+
+    if (!item) return;
+
+
+    if (!confirm(`Delete "${item.name}"?`)) {
+        return;
+    }
+
+
+    linkLibraryItems = linkLibraryItems.filter(
+        link => link.id !== id
+    );
+
+
+    saveLinkLibrary();
+
+    renderLinkLibrary();
+}
+
+
+/* Open Link */
+
+function openLinkLibraryItem(id) {
+
+    const item = linkLibraryItems.find(
+        link => link.id === id
+    );
+
+    if (!item) return;
+
+    window.open(
+        item.url,
+        "_blank",
+        "noopener,noreferrer"
+    );
+}
+
+
+/* Render Library */
+
+function renderLinkLibrary() {
+
+    const grid = document.getElementById(
+        "linkLibraryGrid"
+    );
+
+    const empty = document.getElementById(
+        "linkLibraryEmpty"
+    );
+
+    const count = document.getElementById(
+        "linkCount"
+    );
+
+    const searchInput = document.getElementById(
+        "linkSearch"
+    );
+
+
+    if (!grid || !empty) return;
+
+
+    const search = searchInput
+        ? searchInput.value.trim().toLowerCase()
+        : "";
+
+
+    const filteredLinks = linkLibraryItems.filter(item => {
+
+        return (
+            item.name.toLowerCase().includes(search) ||
+            item.url.toLowerCase().includes(search) ||
+            (item.description || "")
+                .toLowerCase()
+                .includes(search)
+        );
+
+    });
+
+
+    count.textContent =
+        `${filteredLinks.length} ${
+            filteredLinks.length === 1
+                ? "Link"
+                : "Links"
+        }`;
+
+
+    grid.innerHTML = "";
+
+
+    if (filteredLinks.length === 0) {
+
+        grid.style.display = "none";
+        empty.style.display = "block";
+
+        return;
+    }
+
+
+    grid.style.display = "grid";
+    empty.style.display = "none";
+
+
+    filteredLinks.forEach(item => {
+
+        const card = document.createElement("div");
+
+        card.className = "link-card";
+
+
+        card.innerHTML = `
+
+            <div
+                class="link-card-main"
+                onclick="openLinkLibraryItem('${item.id}')"
+            >
+
+                <div class="link-card-icon">
+                    <i class="fa-solid fa-link"></i>
+                </div>
+
+                <h3 class="link-card-title">
+                    ${escapeLinkLibraryHtml(item.name)}
+                </h3>
+
+                ${
+                    item.description
+                        ? `
+                            <p class="link-card-description">
+                                ${escapeLinkLibraryHtml(item.description)}
+                            </p>
+                        `
+                        : ""
+                }
+
+                <div class="link-card-url">
+                    ${escapeLinkLibraryHtml(item.url)}
+                </div>
+
+            </div>
+
+
+            <div class="link-card-actions">
+
+                <button
+                    class="link-card-action"
+                    title="Edit"
+                    onclick="event.stopPropagation(); openLinkModal('${item.id}')"
+                >
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+
+                <button
+                    class="link-card-action delete"
+                    title="Delete"
+                    onclick="event.stopPropagation(); deleteLinkLibraryItem('${item.id}')"
+                >
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+
+            </div>
+
+        `;
+
+
+        grid.appendChild(card);
+
+    });
+
+}
+
+
+/* Close modal when clicking outside */
+
+document.addEventListener("click", function(event) {
+
+    const modal = document.getElementById("linkModal");
+
+    if (
+        event.target === modal &&
+        modal.classList.contains("active")
+    ) {
+        closeLinkModal();
+    }
+
+});
+
+
+/* ESC closes modal */
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+        closeLinkModal();
+    }
+
+});
+
+
+/* Load Library */
+
+document.addEventListener("DOMContentLoaded", function() {
+    renderLinkLibrary();
+});
+
+</script>
 
 <footer>
     Designed by <b>AriesPogi</b>
