@@ -6512,7 +6512,7 @@ button {
     border: 1px solid rgba(139, 233, 253, 0.20);
     border-radius: 9px;
 
-    background: rgba(139, 233, 253, 0.10);
+    background: transparent;
     color: #8be9fd;
 
     font-size: 12px;
