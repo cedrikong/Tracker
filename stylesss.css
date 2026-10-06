@@ -6838,8 +6838,8 @@ button {
     border: none;
     border-radius: 7px;
 
-    background:
-        rgba(255, 255, 255, 0.035);
+    /* Fully transparent */
+    background: transparent;
 
     color: inherit;
 
@@ -6854,6 +6854,7 @@ button {
         color 0.2s ease,
         opacity 0.2s ease;
 }
+
 
 .link-card-action:hover {
     opacity: 1;
