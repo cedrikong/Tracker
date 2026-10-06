@@ -6433,3 +6433,977 @@ button {
         left: 14px !important;
     }
 }
+```css
+/* =========================================================
+   LINK LIBRARY
+   ========================================================= */
+
+.link-library-section {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+
+    /*
+       Creates more space above the links
+       so the cards sit naturally in the middle.
+    */
+    padding: 95px 35px 70px;
+
+    margin-top: 40px;
+
+    min-height: calc(100vh - 100px);
+}
+
+
+/* =========================================================
+   LINK LIBRARY HEADER
+   ========================================================= */
+
+.link-library-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-bottom: 0;
+    padding: 5px;
+}
+
+.link-library-header h2 {
+    margin: 0 0 8px;
+
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.link-library-header h2 i {
+    color: #8be9fd;
+
+    margin-right: 9px;
+
+    font-size: 20px;
+}
+
+.link-library-header p {
+    margin: 0;
+
+    font-size: 13px;
+    line-height: 1.5;
+
+    opacity: 0.6;
+}
+
+
+/* =========================================================
+   ADD LINK BUTTON
+   ========================================================= */
+
+.link-library-header .primary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 10px 16px;
+
+    border: 1px solid rgba(139, 233, 253, 0.20);
+    border-radius: 9px;
+
+    background: rgba(139, 233, 253, 0.10);
+    color: #8be9fd;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.link-library-header .primary-btn:hover {
+    background: rgba(139, 233, 253, 0.17);
+
+    border-color: rgba(139, 233, 253, 0.40);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   TOOLBAR
+   =========================================================
+
+   SEARCH REMOVED.
+   The toolbar is no longer needed visually.
+   */
+
+.link-library-toolbar {
+    display: none;
+}
+
+
+/* =========================================================
+   SEARCH
+   =========================================================
+
+   Search is completely hidden.
+   */
+
+.link-search {
+    display: none;
+}
+
+
+/* =========================================================
+   LINK COUNT
+   ========================================================= */
+
+.link-count {
+    display: none;
+}
+
+
+/* =========================================================
+   LINK GRID
+   =========================================================
+
+   The cards are pushed down and centered.
+
+   They flow:
+   
+   [ LINK ] [ LINK ] [ LINK ] [ LINK ]
+
+   then continue on the next row if needed.
+   ========================================================= */
+
+.link-library-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(230px, 280px)
+        );
+
+    justify-content: center;
+    align-items: stretch;
+
+    gap: 20px;
+
+    width: 100%;
+
+    /*
+       Creates the empty space between
+       the header and the actual links.
+    */
+    margin-top: 130px;
+
+    padding: 5px;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   LINK CARD
+   ========================================================= */
+
+.link-card {
+    position: relative;
+
+    min-height: 145px;
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 20px;
+
+    overflow: hidden;
+
+    border-radius: 14px;
+
+    background:
+        rgba(255, 255, 255, 0.045);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.08);
+
+    transition:
+        transform 0.22s ease,
+        background 0.22s ease,
+        border-color 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+.link-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(139, 233, 253, 0.25),
+            transparent
+        );
+
+    opacity: 0;
+
+    transition: opacity 0.2s ease;
+}
+
+.link-card:hover {
+    transform: translateY(-3px);
+
+    background:
+        rgba(255, 255, 255, 0.065);
+
+    border-color:
+        rgba(139, 233, 253, 0.22);
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.14);
+}
+
+.link-card:hover::before {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   CLICKABLE CARD AREA
+   ========================================================= */
+
+.link-card-main {
+    position: relative;
+
+    height: 100%;
+
+    padding-right: 45px;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   LINK ICON
+   ========================================================= */
+
+.link-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    margin-bottom: 12px;
+
+    border-radius: 9px;
+
+    background:
+        rgba(139, 233, 253, 0.09);
+
+    border:
+        1px solid rgba(139, 233, 253, 0.10);
+
+    color: #8be9fd;
+
+    font-size: 13px;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.link-card:hover .link-card-icon {
+    background:
+        rgba(139, 233, 253, 0.14);
+
+    transform: scale(1.04);
+}
+
+
+/* =========================================================
+   LINK TITLE
+   ========================================================= */
+
+.link-card-title {
+    margin: 0;
+
+    padding: 0;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    line-height: 1.4;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
+
+.link-card-description {
+    margin: 6px 0 0;
+
+    font-size: 11px;
+
+    line-height: 1.55;
+
+    opacity: 0.52;
+
+    display: -webkit-box;
+
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   URL
+   ========================================================= */
+
+.link-card-url {
+    margin-top: 12px;
+
+    max-width: 100%;
+
+    font-size: 10px;
+
+    line-height: 1.4;
+
+    opacity: 0.38;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   CARD ACTIONS
+   ========================================================= */
+
+.link-card-actions {
+    position: absolute;
+
+    top: 12px;
+    right: 12px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 4px;
+
+    z-index: 2;
+}
+
+.link-card-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 27px;
+    height: 27px;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 7px;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+
+    color: inherit;
+
+    font-size: 10px;
+
+    opacity: 0.45;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.link-card-action:hover {
+    opacity: 1;
+
+    background:
+        rgba(255, 255, 255, 0.09);
+}
+
+.link-card-action.delete:hover {
+    color: #ff6b6b;
+
+    background:
+        rgba(255, 107, 107, 0.09);
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.link-library-empty {
+    display: none;
+
+    margin: 10px 5px;
+
+    padding: 70px 25px;
+
+    text-align: center;
+
+    border-radius: 15px;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+
+    border:
+        1px dashed rgba(255, 255, 255, 0.10);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.link-library-empty > i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(139, 233, 253, 0.08);
+
+    color: #8be9fd;
+
+    font-size: 20px;
+
+    opacity: 0.8;
+}
+
+.link-library-empty h3 {
+    margin: 15px 0 6px;
+
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.link-library-empty p {
+    margin: 0 0 20px;
+
+    font-size: 12px;
+
+    opacity: 0.5;
+}
+
+
+/* =========================================================
+   SECONDARY BUTTON
+   ========================================================= */
+
+.link-library-empty .secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 9px 14px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.10);
+
+    border-radius: 8px;
+
+    background:
+        rgba(255, 255, 255, 0.045);
+
+    color: inherit;
+
+    font-family: inherit;
+    font-size: 11px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.link-library-empty .secondary-btn:hover {
+    background:
+        rgba(255, 255, 255, 0.08);
+
+    border-color:
+        rgba(139, 233, 253, 0.20);
+}
+
+
+/* =========================================================
+   LINK MODAL
+   ========================================================= */
+
+.link-modal {
+    position: fixed;
+
+    inset: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+
+    box-sizing: border-box;
+
+    background:
+        rgba(0, 0, 0, 0.58);
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    z-index: 9999;
+}
+
+.link-modal.active {
+    display: flex;
+}
+
+
+/* =========================================================
+   MODAL CONTENT
+   ========================================================= */
+
+.link-modal-content {
+    width: min(440px, 100%);
+
+    max-height: calc(100vh - 50px);
+
+    overflow-y: auto;
+
+    box-sizing: border-box;
+
+    padding: 28px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(18, 23, 35, 0.88);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.10);
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.45);
+
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+}
+
+
+/* =========================================================
+   MODAL HEADER
+   ========================================================= */
+
+.link-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+}
+
+.link-modal-header h3 {
+    display: flex;
+    align-items: center;
+
+    margin: 0;
+
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.link-modal-header h3 i {
+    margin-right: 8px;
+
+    color: #8be9fd;
+}
+
+
+/* =========================================================
+   MODAL CLOSE
+   ========================================================= */
+
+.link-modal-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    flex-shrink: 0;
+
+    border: none;
+    border-radius: 8px;
+
+    background:
+        rgba(255, 255, 255, 0.045);
+
+    color: inherit;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.link-modal-close:hover {
+    background:
+        rgba(255, 255, 255, 0.09);
+
+    color: #8be9fd;
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.link-form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 9px;
+}
+
+.link-form label {
+    margin-top: 8px;
+
+    font-size: 11px;
+    font-weight: 500;
+
+    opacity: 0.65;
+}
+
+.link-form input,
+.link-form textarea {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 10px 12px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 9px;
+
+    background:
+        rgba(255, 255, 255, 0.045);
+
+    color: inherit;
+
+    outline: none;
+
+    font-family: inherit;
+    font-size: 12px;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.link-form input {
+    height: 40px;
+}
+
+.link-form textarea {
+    min-height: 85px;
+
+    resize: vertical;
+}
+
+.link-form input::placeholder,
+.link-form textarea::placeholder {
+    opacity: 0.4;
+}
+
+.link-form input:hover,
+.link-form textarea:hover {
+    background:
+        rgba(255, 255, 255, 0.06);
+}
+
+.link-form input:focus,
+.link-form textarea:focus {
+    background:
+        rgba(255, 255, 255, 0.07);
+
+    border-color:
+        rgba(139, 233, 253, 0.35);
+
+    box-shadow:
+        0 0 0 3px rgba(139, 233, 253, 0.04);
+}
+
+
+/* =========================================================
+   FORM BUTTONS
+   ========================================================= */
+
+.link-form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 9px;
+
+    margin-top: 18px;
+}
+
+.link-form-actions .secondary-btn,
+.link-form-actions .primary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 36px;
+
+    padding: 8px 14px;
+
+    border-radius: 8px;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.link-form-actions .secondary-btn {
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    background:
+        rgba(255, 255, 255, 0.04);
+
+    color: inherit;
+}
+
+.link-form-actions .secondary-btn:hover {
+    background:
+        rgba(255, 255, 255, 0.08);
+}
+
+.link-form-actions .primary-btn {
+    border:
+        1px solid rgba(139, 233, 253, 0.20);
+
+    background:
+        rgba(139, 233, 253, 0.10);
+
+    color: #8be9fd;
+}
+
+.link-form-actions .primary-btn:hover {
+    background:
+        rgba(139, 233, 253, 0.17);
+
+    border-color:
+        rgba(139, 233, 253, 0.35);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+.link-modal-content::-webkit-scrollbar {
+    width: 5px;
+}
+
+.link-modal-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.link-modal-content::-webkit-scrollbar-thumb {
+    background:
+        rgba(255, 255, 255, 0.12);
+
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .link-library-section {
+        padding: 75px 25px 60px;
+    }
+
+    .link-library-grid {
+        grid-template-columns:
+            repeat(
+                auto-fit,
+                minmax(210px, 260px)
+            );
+
+        margin-top: 110px;
+
+        gap: 16px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .link-library-section {
+        padding: 55px 18px 50px;
+
+        margin-top: 20px;
+
+        min-height: auto;
+    }
+
+    .link-library-header {
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 18px;
+    }
+
+    .link-library-header .primary-btn {
+        width: 100%;
+    }
+
+    /*
+       Less empty space on small screens
+       so the links don't get pushed too far down.
+    */
+    .link-library-grid {
+        grid-template-columns: 1fr;
+
+        justify-content: stretch;
+
+        margin-top: 70px;
+
+        gap: 14px;
+
+        padding: 3px;
+    }
+
+    .link-card {
+        min-height: 135px;
+
+        padding: 18px;
+    }
+
+    .link-library-empty {
+        padding: 50px 18px;
+    }
+
+    .link-modal {
+        padding: 15px;
+    }
+
+    .link-modal-content {
+        padding: 22px;
+
+        max-height: calc(100vh - 30px);
+    }
+
+    .link-form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .link-form-actions .secondary-btn,
+    .link-form-actions .primary-btn {
+        width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+    .link-library-section {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .link-library-header h2 {
+        font-size: 20px;
+    }
+
+    .link-library-grid {
+        margin-top: 60px;
+    }
+
+    .link-card {
+        min-height: 130px;
+
+        padding: 16px;
+    }
+
+}
+```
