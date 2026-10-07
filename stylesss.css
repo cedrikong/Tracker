@@ -318,6 +318,13 @@ body.black .bg5{
   background-attachment: fixed; /* ✅ PARALLAX */
   background-image: url(https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?q=80&w=1920&auto=format&fit=crop)!important;
 }
+body.black .bg6{
+    background-position: center;
+  background-size: cover!important;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* ✅ PARALLAX */
+  background-image: url("https://wallpaperbat.com/img/12461713-light-color-background-wallpaper.jpg")!important;
+}
 /* DARK THEME */
 body.black {
   background: #0f1115;
