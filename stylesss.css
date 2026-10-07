@@ -6614,80 +6614,11 @@ button {
    LINK CARD
    ========================================================= */
 
-.link-card {
-    position: relative;
+.link-card { position: relative; min-height: 145px; width: 100%; box-sizing: border-box; padding: 20px; overflow: hidden; border-radius: 14px; /* Darker card */ background: rgba(10, 14, 23, 0.92); border: 1px solid rgba(255, 255, 255, 0.055); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.28); transition: transform 0.22s ease, background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease; }
 
-    min-height: 145px;
+.link-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient( 90deg, transparent, rgba(139, 233, 253, 0.20), transparent ); opacity: 0; transition: opacity 0.2s ease; }
 
-    width: 100%;
-
-    box-sizing: border-box;
-
-    padding: 20px;
-
-    overflow: hidden;
-
-    border-radius: 14px;
-
-    background:
-        rgba(255, 255, 255, 0.045);
-
-    border:
-        1px solid rgba(255, 255, 255, 0.08);
-
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-
-    box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.08);
-
-    transition:
-        transform 0.22s ease,
-        background 0.22s ease,
-        border-color 0.22s ease,
-        box-shadow 0.22s ease;
-}
-
-.link-card::before {
-    content: "";
-
-    position: absolute;
-
-    top: 0;
-    left: 0;
-    right: 0;
-
-    height: 1px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(139, 233, 253, 0.25),
-            transparent
-        );
-
-    opacity: 0;
-
-    transition: opacity 0.2s ease;
-}
-
-.link-card:hover {
-    transform: translateY(-3px);
-
-    background:
-        rgba(255, 255, 255, 0.065);
-
-    border-color:
-        rgba(139, 233, 253, 0.22);
-
-    box-shadow:
-        0 12px 30px rgba(0, 0, 0, 0.14);
-}
-
-.link-card:hover::before {
-    opacity: 1;
-}
+.link-card:hover { transform: translateY(-3px); /* Slightly lighter only on hover */ background: rgba(14, 19, 30, 0.96); border-color: rgba(139, 233, 253, 0.18); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.38); } .link-card:hover::before { opacity: 1; }
 
 
 /* =========================================================
@@ -6811,50 +6742,9 @@ button {
    CARD ACTIONS
    ========================================================= */
 
-.link-card-actions {
-    position: absolute;
+.link-card-actions { position: absolute; top: 12px; right: 12px; display: flex; align-items: center; gap: 3px; z-index: 2; }
 
-    top: 12px;
-    right: 12px;
-
-    display: flex;
-    align-items: center;
-
-    gap: 4px;
-
-    z-index: 2;
-}
-
-.link-card-action {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 27px;
-    height: 27px;
-
-    padding: 0;
-
-    border: none;
-    border-radius: 7px;
-
-    /* Fully transparent */
-    background: transparent;
-
-    color: inherit;
-
-    font-size: 10px;
-
-    opacity: 0.45;
-
-    cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        opacity 0.2s ease;
-}
-
+.link-card-action { display: flex; align-items: center; justify-content: center; width: 27px; height: 27px; padding: 0; border: none; border-radius: 7px; /* Completely transparent */ background: transparent !important; color: inherit; font-size: 10px; opacity: 0.42; cursor: pointer; transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease; }
 
 .link-card-action:hover {
     opacity: 1;
