@@ -3084,7 +3084,6 @@ card.style.setProperty(
 </section>
 
 <!-- ==================== LINK LIBRARY ==================== -->
-```html
 <section id="LinkLibrary" class="section bg6 link-library-section">
 
     <div class="link-library-header">
@@ -3122,67 +3121,83 @@ card.style.setProperty(
         </button>
     </div>
 
-</section>
-```
-
+  </section>
 
 
 <!-- ==================== ADD / EDIT LINK MODAL ==================== -->
-<div id="linkModal" class="link-modal">
 
+<div id="linkModal" class="link-modal">
     <div class="link-modal-content">
 
+        <!-- Modal Header -->
         <div class="link-modal-header">
-            <h3 id="linkModalTitle">
-                <i class="fa-solid fa-link"></i>
-                Add Link
-            </h3>
+            <div class="link-modal-heading">
+                <div class="link-modal-icon">
+                </div>
+
+                <div>
+                    <h3 id="linkModalTitle">Add Link</h3>
+         
+                </div>
+            </div>
 
             <button
                 class="link-modal-close"
                 onclick="closeLinkModal()"
                 type="button"
+                aria-label="Close modal"
             >
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
 
+        <!-- Modal Form -->
         <div class="link-form">
 
-            <label for="linkName">Name</label>
+            <div class="link-form-group">
+                <label for="linkName">Link Name</label>
+                <div class="link-input-wrapper">
+                    <i class="fa-regular fa-bookmark"></i>
+                    <input
+                        type="text"
+                        id="linkName"
+                        placeholder="e.g. Facebook"
+                    >
+                </div>
+            </div>
 
-            <input
-                type="text"
-                id="linkName"
-                placeholder="Example: Facebook"
-            >
+            <div class="link-form-group">
+                <label for="linkUrl">Website URL</label>
+                <div class="link-input-wrapper">
+                    <i class="fa-solid fa-globe"></i>
+                    <input
+                        type="text"
+                        id="linkUrl"
+                        placeholder="https://example.com"
+                    >
+                </div>
+            </div>
 
-            <label for="linkUrl">URL</label>
+            <div class="link-form-group">
+                <label for="linkDescription">
+                    Description
+                    <span class="link-optional">Optional</span>
+                </label>
 
-            <input
-                type="text"
-                id="linkUrl"
-                placeholder="https://example.com"
-            >
+                <textarea
+                    id="linkDescription"
+                    placeholder="What is this link for?"
+                    rows="3"
+                ></textarea>
+            </div>
 
-            <label for="linkDescription">Description</label>
+            <input type="hidden" id="editingLinkId">
 
-            <textarea
-                id="linkDescription"
-                placeholder="Optional description..."
-                rows="3"
-            ></textarea>
-
-            <input
-                type="hidden"
-                id="editingLinkId"
-            >
-
+            <!-- Form Actions -->
             <div class="link-form-actions">
-
                 <button
+                    id="cancelLinkButton"
                     class="secondary-btn"
-                    onclick="closeLinkModal()"
                     type="button"
                 >
                     Cancel
@@ -3196,15 +3211,12 @@ card.style.setProperty(
                     <i class="fa-solid fa-floppy-disk"></i>
                     Save Link
                 </button>
-
             </div>
 
         </div>
-
     </div>
-
 </div>
-```html
+
 <script>
 /* ==================== LINK LIBRARY ==================== */
 
@@ -3363,6 +3375,12 @@ function closeLinkModal() {
     if (modal) {
         modal.classList.remove("active");
     }
+    document
+    .getElementById("cancelLinkButton")
+    ?.addEventListener("click", function (event) {
+        event.preventDefault();
+        closeLinkModal();
+    });
 
     const name = document.getElementById("linkName");
     const url = document.getElementById("linkUrl");
