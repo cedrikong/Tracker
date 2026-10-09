@@ -58,7 +58,7 @@
   <input
     type="text"
     id="globalSearch"
-    placeholder="Search updates, notes, tracker..."
+    placeholder="Search updates, notes, tracker, links..."
     oninput="runGlobalSearch(this.value)"
   >
 </div>
@@ -114,6 +114,9 @@ document.querySelectorAll(".update-item").forEach(item => {
     titleText = titleInput.value.toLowerCase();
     bodyText = textArea.value.toLowerCase();
   } 
+  if (typeof renderLinkLibrary === "function") {
+    renderLinkLibrary();
+}
   // OLD static updates
   else {
     bodyText = item.innerText.toLowerCase();
@@ -3508,17 +3511,7 @@ function renderLinkLibrary() {
 
     if (!grid || !empty) return;
 
-    const search = searchInput
-        ? searchInput.value.trim().toLowerCase()
-        : "";
-
-    const filteredLinks = linkLibraryItems.filter(item => {
-        return (
-            (item.name || "").toLowerCase().includes(search) ||
-            (item.url || "").toLowerCase().includes(search) ||
-            (item.description || "").toLowerCase().includes(search)
-        );
-    });
+ const globalSearchInput = document.getElementById("globalSearch"); if (!grid || !empty) return; const search = globalSearchInput ? globalSearchInput.value.trim().toLowerCase() : ""; const filteredLinks = linkLibraryItems.filter(item => { return ( (item.name || "").toLowerCase().includes(search) || (item.url || "").toLowerCase().includes(search) || (item.description || "").toLowerCase().includes(search) ); });
 
     if (count) {
         count.textContent =
