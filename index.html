@@ -3081,7 +3081,8 @@ card.style.setProperty(
 </section>
 
 <!-- ==================== LINK LIBRARY ==================== -->
-<section id="LinkLibrary" class="section bg5 link-library-section">
+```html
+<section id="LinkLibrary" class="section bg6 link-library-section">
 
     <div class="link-library-header">
         <div>
@@ -3099,25 +3100,16 @@ card.style.setProperty(
     </div>
 
     <div class="link-library-toolbar">
-
-        <div class="link-search">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input
-                type="text"
-                id="linkSearch"
-                placeholder="Search links..."
-                oninput="renderLinkLibrary()"
-            >
         </div>
 
         <span id="linkCount" class="link-count">0 Links</span>
-
     </div>
 
     <div id="linkLibraryGrid" class="link-library-grid"></div>
 
     <div id="linkLibraryEmpty" class="link-library-empty">
-        <i class="fa-solid fa-link"></i>
+        <i class="fa-solid fa-folder-plus"></i>
+
         <h3>No links yet</h3>
         <p>Add your first link to start building your library.</p>
 
@@ -3128,6 +3120,8 @@ card.style.setProperty(
     </div>
 
 </section>
+```
+
 
 
 <!-- ==================== ADD / EDIT LINK MODAL ==================== -->
@@ -3207,21 +3201,78 @@ card.style.setProperty(
     </div>
 
 </div>
+```html
 <script>
 /* ==================== LINK LIBRARY ==================== */
 
 const LINK_LIBRARY_STORAGE_KEY = "chargeblastLinkLibrary";
 
-let linkLibraryItems = JSON.parse(
-    localStorage.getItem(LINK_LIBRARY_STORAGE_KEY) || "[]"
-);
+let linkLibraryItems = [];
 
-if (!Array.isArray(linkLibraryItems)) {
+try {
+    const savedLinks = JSON.parse(
+        localStorage.getItem(LINK_LIBRARY_STORAGE_KEY) || "[]"
+    );
+
+    linkLibraryItems = Array.isArray(savedLinks) ? savedLinks : [];
+} catch (error) {
     linkLibraryItems = [];
 }
 
+/* ==================== RANDOM CARD STYLES ==================== */
 
-/* Save to Local Storage */
+const linkCardStyles = [
+    { color: "#38bdf8", icon: "fa-link" },
+    { color: "#a78bfa", icon: "fa-globe" },
+    { color: "#34d399", icon: "fa-code" },
+    { color: "#fbbf24", icon: "fa-star" },
+    { color: "#fb7185", icon: "fa-heart" },
+    { color: "#818cf8", icon: "fa-folder-open" },
+    { color: "#2dd4bf", icon: "fa-bolt" },
+    { color: "#f97316", icon: "fa-bookmark" },
+    { color: "#e879f9", icon: "fa-rocket" },
+    { color: "#a3e635", icon: "fa-compass" },
+    { color: "#60a5fa", icon: "fa-cloud" },
+    { color: "#f472b6", icon: "fa-lightbulb" },
+    { color: "#f87171", icon: "fa-shield-halved" },
+    { color: "#4ade80", icon: "fa-chart-line" },
+    { color: "#c084fc", icon: "fa-wand-magic-sparkles" },
+    { color: "#facc15", icon: "fa-bell" },
+    { color: "#22d3ee", icon: "fa-database" },
+    { color: "#fb923c", icon: "fa-envelope" }
+];
+
+/* Assign a random style to a link */
+function getRandomLinkStyle() {
+    return linkCardStyles[
+        Math.floor(Math.random() * linkCardStyles.length)
+    ];
+}
+
+/* Give existing and new links a permanent style */
+let stylesUpdated = false;
+
+linkLibraryItems = linkLibraryItems.map(item => {
+    if (
+        !item.cardColor ||
+        !item.cardIcon ||
+        !linkCardStyles.some(style =>
+            style.color === item.cardColor &&
+            style.icon === item.cardIcon
+        )
+    ) {
+        const style = getRandomLinkStyle();
+
+        item.cardColor = style.color;
+        item.cardIcon = style.icon;
+
+        stylesUpdated = true;
+    }
+
+    return item;
+});
+
+/* ==================== SAVE TO LOCAL STORAGE ==================== */
 
 function saveLinkLibrary() {
     localStorage.setItem(
@@ -3230,17 +3281,20 @@ function saveLinkLibrary() {
     );
 }
 
+/* Save styles assigned to existing links */
+if (stylesUpdated) {
+    saveLinkLibrary();
+}
 
-/* Escape HTML */
+/* ==================== ESCAPE HTML ==================== */
 
 function escapeLinkLibraryHtml(value) {
     const div = document.createElement("div");
-    div.textContent = value || "";
+    div.textContent = value == null ? "" : String(value);
     return div.innerHTML;
 }
 
-
-/* Normalize URL */
+/* ==================== NORMALIZE URL ==================== */
 
 function normalizeLinkUrl(url) {
     url = url.trim();
@@ -3252,21 +3306,21 @@ function normalizeLinkUrl(url) {
     return url;
 }
 
-
-/* Open Add/Edit Modal */
+/* ==================== OPEN ADD/EDIT MODAL ==================== */
 
 function openLinkModal(id = null) {
-
     const modal = document.getElementById("linkModal");
     const title = document.getElementById("linkModalTitle");
-
     const name = document.getElementById("linkName");
     const url = document.getElementById("linkUrl");
     const description = document.getElementById("linkDescription");
     const editingId = document.getElementById("editingLinkId");
 
-    if (id) {
+    if (!modal || !title || !name || !url || !description || !editingId) {
+        return;
+    }
 
+    if (id) {
         const item = linkLibraryItems.find(
             link => link.id === id
         );
@@ -3279,18 +3333,15 @@ function openLinkModal(id = null) {
         name.value = item.name;
         url.value = item.url;
         description.value = item.description || "";
-
         editingId.value = id;
 
     } else {
-
         title.innerHTML =
             '<i class="fa-solid fa-link"></i> Add Link';
 
         name.value = "";
         url.value = "";
         description.value = "";
-
         editingId.value = "";
     }
 
@@ -3301,26 +3352,29 @@ function openLinkModal(id = null) {
     }, 100);
 }
 
-
-/* Close Modal */
+/* ==================== CLOSE MODAL ==================== */
 
 function closeLinkModal() {
-
     const modal = document.getElementById("linkModal");
 
-    modal.classList.remove("active");
+    if (modal) {
+        modal.classList.remove("active");
+    }
 
-    document.getElementById("linkName").value = "";
-    document.getElementById("linkUrl").value = "";
-    document.getElementById("linkDescription").value = "";
-    document.getElementById("editingLinkId").value = "";
+    const name = document.getElementById("linkName");
+    const url = document.getElementById("linkUrl");
+    const description = document.getElementById("linkDescription");
+    const editingId = document.getElementById("editingLinkId");
+
+    if (name) name.value = "";
+    if (url) url.value = "";
+    if (description) description.value = "";
+    if (editingId) editingId.value = "";
 }
 
-
-/* Save Link */
+/* ==================== SAVE LINK ==================== */
 
 function saveLinkLibraryItem() {
-
     const name = document
         .getElementById("linkName")
         .value
@@ -3340,7 +3394,6 @@ function saveLinkLibraryItem() {
         .getElementById("editingLinkId")
         .value;
 
-
     if (!name) {
         alert("Please enter a link name.");
         return;
@@ -3351,31 +3404,27 @@ function saveLinkLibraryItem() {
         return;
     }
 
-
     const finalUrl = normalizeLinkUrl(url);
 
-
     if (editingId) {
-
         const index = linkLibraryItems.findIndex(
             link => link.id === editingId
         );
 
         if (index !== -1) {
-
+            /* Preserve the existing icon and color when editing */
             linkLibraryItems[index] = {
                 ...linkLibraryItems[index],
                 name,
                 url: finalUrl,
                 description
             };
-
         }
 
     } else {
+        const style = getRandomLinkStyle();
 
         linkLibraryItems.push({
-
             id:
                 Date.now().toString() +
                 Math.random().toString(36).substring(2),
@@ -3384,71 +3433,63 @@ function saveLinkLibraryItem() {
             url: finalUrl,
             description,
 
+            /* Random permanent card style */
+            cardColor: style.color,
+            cardIcon: style.icon,
+
             createdAt: new Date().toISOString()
-
         });
-
     }
 
-
     saveLinkLibrary();
-
     renderLinkLibrary();
-
     closeLinkModal();
-
 }
 
-
-/* Delete Link */
+/* ==================== DELETE LINK ==================== */
 
 function deleteLinkLibraryItem(id) {
-
     const item = linkLibraryItems.find(
         link => link.id === id
     );
 
     if (!item) return;
-
 
     if (!confirm(`Delete "${item.name}"?`)) {
         return;
     }
 
-
     linkLibraryItems = linkLibraryItems.filter(
         link => link.id !== id
     );
 
-
     saveLinkLibrary();
-
     renderLinkLibrary();
 }
 
-
-/* Open Link */
+/* ==================== OPEN LINK ==================== */
 
 function openLinkLibraryItem(id) {
-
     const item = linkLibraryItems.find(
         link => link.id === id
     );
 
     if (!item) return;
 
-    window.open(
+    const newWindow = window.open(
         item.url,
         "_blank",
         "noopener,noreferrer"
     );
+
+    if (newWindow) {
+        newWindow.opener = null;
+    }
 }
 
-
-/* Render Library */
+/* ==================== RENDER LIBRARY ==================== */
 
 function renderLinkLibrary() {
-
     const grid = document.getElementById(
         "linkLibraryGrid"
     );
@@ -3465,68 +3506,79 @@ function renderLinkLibrary() {
         "linkSearch"
     );
 
-
     if (!grid || !empty) return;
-
 
     const search = searchInput
         ? searchInput.value.trim().toLowerCase()
         : "";
 
-
     const filteredLinks = linkLibraryItems.filter(item => {
-
         return (
-            item.name.toLowerCase().includes(search) ||
-            item.url.toLowerCase().includes(search) ||
-            (item.description || "")
-                .toLowerCase()
-                .includes(search)
+            (item.name || "").toLowerCase().includes(search) ||
+            (item.url || "").toLowerCase().includes(search) ||
+            (item.description || "").toLowerCase().includes(search)
         );
-
     });
 
-
-    count.textContent =
-        `${filteredLinks.length} ${
-            filteredLinks.length === 1
-                ? "Link"
-                : "Links"
-        }`;
-
+    if (count) {
+        count.textContent =
+            `${filteredLinks.length} ${
+                filteredLinks.length === 1 ? "Link" : "Links"
+            }`;
+    }
 
     grid.innerHTML = "";
 
-
     if (filteredLinks.length === 0) {
-
         grid.style.display = "none";
         empty.style.display = "block";
+
+        /* Show the empty state only when no links match */
+        const emptyTitle = empty.querySelector("h3");
+        const emptyText = empty.querySelector("p");
+
+        if (emptyTitle && emptyText && search) {
+            emptyTitle.textContent = "No matching links";
+            emptyText.textContent =
+                "Try a different search term.";
+        } else if (emptyTitle && emptyText) {
+            emptyTitle.textContent = "No links yet";
+            emptyText.textContent =
+                "Add your first link to start building your library.";
+        }
 
         return;
     }
 
-
     grid.style.display = "grid";
     empty.style.display = "none";
 
-
     filteredLinks.forEach(item => {
-
         const card = document.createElement("div");
-
         card.className = "link-card";
 
+        /* Use saved colors and icons for consistent rendering */
+        const style = linkCardStyles.some(s =>
+            s.color === item.cardColor &&
+            s.icon === item.cardIcon
+        )
+            ? {
+                color: item.cardColor,
+                icon: item.cardIcon
+            }
+            : linkCardStyles[0];
+
+        card.style.setProperty("--card-accent", style.color);
 
         card.innerHTML = `
-
             <div
                 class="link-card-main"
-                onclick="openLinkLibraryItem('${item.id}')"
+                role="link"
+                tabindex="0"
+                aria-label="Open ${escapeLinkLibraryHtml(item.name)}"
             >
-
                 <div class="link-card-icon">
-                    <i class="fa-solid fa-link"></i>
+                    <i class="fa-solid ${style.icon}"></i>
                 </div>
 
                 <h3 class="link-card-title">
@@ -3546,73 +3598,105 @@ function renderLinkLibrary() {
                 <div class="link-card-url">
                     ${escapeLinkLibraryHtml(item.url)}
                 </div>
-
             </div>
 
-
             <div class="link-card-actions">
-
                 <button
+                    type="button"
                     class="link-card-action"
                     title="Edit"
-                    onclick="event.stopPropagation(); openLinkModal('${item.id}')"
+                    aria-label="Edit ${escapeLinkLibraryHtml(item.name)}"
                 >
                     <i class="fa-solid fa-pen"></i>
                 </button>
 
                 <button
+                    type="button"
                     class="link-card-action delete"
                     title="Delete"
-                    onclick="event.stopPropagation(); deleteLinkLibraryItem('${item.id}')"
+                    aria-label="Delete ${escapeLinkLibraryHtml(item.name)}"
                 >
                     <i class="fa-solid fa-trash"></i>
                 </button>
-
             </div>
-
         `;
 
+        /* Open link when clicking the card content */
+        const main = card.querySelector(".link-card-main");
+
+        main.addEventListener("click", () => {
+            openLinkLibraryItem(item.id);
+        });
+
+        main.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                openLinkLibraryItem(item.id);
+            }
+        });
+
+        /* Edit button */
+        const editButton = card.querySelector(
+            ".link-card-action:not(.delete)"
+        );
+
+        editButton.addEventListener("click", () => {
+            openLinkModal(item.id);
+        });
+
+        /* Delete button */
+        const deleteButton = card.querySelector(
+            ".link-card-action.delete"
+        );
+
+        deleteButton.addEventListener("click", () => {
+            deleteLinkLibraryItem(item.id);
+        });
 
         grid.appendChild(card);
-
     });
-
 }
 
-
-/* Close modal when clicking outside */
+/* ==================== CLOSE MODAL ON OUTSIDE CLICK ==================== */
 
 document.addEventListener("click", function(event) {
-
     const modal = document.getElementById("linkModal");
 
     if (
+        modal &&
         event.target === modal &&
         modal.classList.contains("active")
     ) {
         closeLinkModal();
     }
-
 });
 
-
-/* ESC closes modal */
+/* ==================== ESC CLOSES MODAL ==================== */
 
 document.addEventListener("keydown", function(event) {
-
-    if (event.key === "Escape") {
+    if (
+        event.key === "Escape" &&
+        document.getElementById("linkModal")?.classList.contains("active")
+    ) {
         closeLinkModal();
     }
-
 });
 
+/* ==================== LOAD LIBRARY ==================== */
 
-/* Load Library */
-
-document.addEventListener("DOMContentLoaded", function() {
+function initializeLinkLibrary() {
     renderLinkLibrary();
-});
+}
 
+if (document.readyState === "loading") {
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeLinkLibrary,
+        { once: true }
+    );
+} else {
+    initializeLinkLibrary();
+}
 </script>
 
 <footer>
