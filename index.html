@@ -1247,42 +1247,59 @@ Ethoca and CDRN together provides up to 70% coverage for the alerts market. By k
             <b id="doneCount">0</b>
         </div>
         <!-- ALERT MATCH INTERNAL TOOL -->
+
+<!-- MERCHANT ACCOUNT DETAILS TOOL -->
 <div class="alert-tool-box">
 
   <div class="alert-tool-header">
-    <i class="fa-solid fa-bell"></i>
-    <span>Alert Match</span>
+    <i class="fa-solid fa-building"></i>
+    <span>Merchant Account Details</span>
   </div>
 
   <div class="alert-tool-body">
 
-    <input id="alertIdInput" type="text" placeholder="Enter Alert ID">
+    <!-- Merchant Account Name -->
+    <input
+      id="merchantAccountName"
+      type="text"
+      placeholder="Merchant Account Name"
+    >
 
-    <input id="orderIdInput" type="text" placeholder="Enter Order Number">
+    <!-- Merchant Email Address -->
+    <input
+      id="merchantEmailAddress"
+      type="email"
+      placeholder="Merchant Email Address"
+    >
 
-    <button onclick="generateAlertMatch()">Match</button>
+    <!-- Onboarding Sheet Link -->
+    <input
+      id="onboardingSheetLink"
+      type="url"
+      placeholder="Onboarding Sheet Link"
+    >
 
-    <div class="alert-output" id="alertOutput"></div>
+    <!-- Result Preview -->
+    <div class="alert-output" id="merchantDetailsOutput"></div>
 
-<div class="alert-actions">
-  
-  <!-- COPY (text + icon) -->
-  <button onclick="copyAlertMatch()" class="copy-btn">
-    Copy Result 
-    <i class="fa-solid fa-copy"></i>
-  </button>
+    <!-- Actions -->
+    <div class="alert-actions">
 
-  <!-- REFRESH (icon only) -->
-  <button onclick="refreshAlerts()" class="icon-btn">
-    <i class="fa-solid fa-rotate-right"></i>
-  </button>
+      <button onclick="copyMerchantDetails()" class="copy-btn">
+        Copy Result
+        <i class="fa-solid fa-copy"></i>
+      </button>
 
-</div>
+      <button onclick="refreshMerchantDetails()" class="icon-btn">
+        <i class="fa-solid fa-rotate-right"></i>
+      </button>
+
+    </div>
 
   </div>
 
 </div>
-    </div>
+</div>
 
     <div class="tracker-container">
       <div class="tracker-filters">
@@ -1329,32 +1346,92 @@ Ethoca and CDRN together provides up to 70% coverage for the alerts market. By k
 
 </section>
 
+
+<!-- MERCHANT ACCOUNT DETAILS TOOL -->
+<div class="alert-tool-box">
+
+  <div class="alert-tool-header">
+    <i class="fa-solid fa-building"></i>
+    <span>Merchant Account Details</span>
+  </div>
+
+  <div class="alert-tool-body">
+
+    <input
+      id="merchantAccountName"
+      type="text"
+      placeholder="Merchant Account Name"
+    >
+
+    <input
+      id="merchantEmailAddress"
+      type="email"
+      placeholder="Merchant Email Address"
+    >
+
+    <input
+      id="onboardingSheetLink"
+      type="url"
+      placeholder="Onboarding Sheet Link"
+    >
+
+    <div class="alert-output" id="merchantDetailsOutput"></div>
+
+    <div class="alert-actions">
+
+      <button onclick="copyMerchantDetails()" class="copy-btn">
+        Copy Result
+        <i class="fa-solid fa-copy"></i>
+      </button>
+
+      <button onclick="refreshMerchantDetails()" class="icon-btn">
+        <i class="fa-solid fa-rotate-right"></i>
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
 <script>
-function generateAlertMatch() {
+function generateMerchantDetails() {
+  const accountName =
+    document.getElementById("merchantAccountName").value.trim();
 
-  const alertId = document.getElementById("alertIdInput").value.trim();
-  const orderId = document.getElementById("orderIdInput").value.trim();
+  const email =
+    document.getElementById("merchantEmailAddress").value.trim();
 
-  const output = document.getElementById("alertOutput");
+  const sheetLink =
+    document.getElementById("onboardingSheetLink").value.trim();
 
-  if (!alertId || !orderId) {
-    output.innerHTML = "Please enter both Alert ID and Order Number.";
+  return `Merchant Account Name: ${accountName}
+Merchant Email Address: ${email}
+Onboarding Sheet Link: ${sheetLink}`;
+}
+
+function copyMerchantDetails() {
+  const result = generateMerchantDetails();
+
+  if (
+    !document.getElementById("merchantAccountName").value.trim() &&
+    !document.getElementById("merchantEmailAddress").value.trim() &&
+    !document.getElementById("onboardingSheetLink").value.trim()
+  ) {
     return;
   }
 
-  output.innerHTML =
-    `The matching order for alert: <b>${alertId}</b> is <b>#${orderId}</b>.`;
-
+  navigator.clipboard.writeText(result);
 }
 
-function copyAlertMatch() {
-
-  const text = document.getElementById("alertOutput").innerText;
-
-  navigator.clipboard.writeText(text);
-
+function refreshMerchantDetails() {
+  document.getElementById("merchantAccountName").value = "";
+  document.getElementById("merchantEmailAddress").value = "";
+  document.getElementById("onboardingSheetLink").value = "";
+  document.getElementById("merchantDetailsOutput").innerText = "";
 }
 </script>
+
 <script>
 function copyAlert() {
   const html = `
